@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saktum — the trust layer for the agentic economy</title>
+<meta name="description" content="Saktum verifies AI agents and the tools they use, enforces the rules on every call, and leaves proof both sides trust. Start free with Trust Check.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F7FA; --surface:#FFFFFF; --ink:#1D2A44; --ink-2:#4A5872; --line:#D7DCE4; --line-2:#E8ECF1; --accent:#0F7B6C; --accent-bg:#E3F3EF; --focus:#2F6FEB;
+  --p-platform:#2F5DA8; --p-provider:#0F7B6C; --p-invoker:#8A4FB0; --p-tester:#B5651D; --p-dev:#3B4252;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --paper:#11161F; --surface:#18202C; --ink:#E5EAF2; --ink-2:#A8B3C5; --line:#2C3747; --line-2:#222B39; --accent:#45C2AE; --accent-bg:#123A35; --focus:#7AA7FF; --p-platform:#7FA7EE; --p-provider:#45C2AE; --p-invoker:#C79AE8; --p-tester:#E7A35E; --p-dev:#A8B3C5; } }
+:root[data-theme="dark"]{ --paper:#11161F; --surface:#18202C; --ink:#E5EAF2; --ink-2:#A8B3C5; --line:#2C3747; --line-2:#222B39; --accent:#45C2AE; --accent-bg:#123A35; --focus:#7AA7FF; --p-platform:#7FA7EE; --p-provider:#45C2AE; --p-invoker:#C79AE8; --p-tester:#E7A35E; --p-dev:#A8B3C5; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
+a{color:inherit} :focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:12px;flex-wrap:wrap}
+.logo{font-weight:600;font-size:20px;text-decoration:none} .logo small{font-weight:400;color:var(--ink-2);font-size:14px;margin-left:8px}
+nav .links{display:flex;gap:18px;font-size:15px;flex-wrap:wrap} nav .links a{text-decoration:none;color:var(--ink-2)} nav .links a:hover{color:var(--ink)}
+.hero{padding:40px 0 56px;max-width:820px}
+.hero h1{font-size:clamp(34px,5.4vw,56px);line-height:1.07;letter-spacing:-0.02em;margin:0 0 18px;font-weight:600}
+.hero p{font-size:19px;color:var(--ink-2);margin:0 0 26px;max-width:38em}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-size:16px;font-weight:500;padding:11px 18px;border-radius:9px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-family:inherit;color:inherit}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+section.block{padding:56px 0;border-top:1px solid var(--line)}
+section.block h2{font-size:30px;letter-spacing:-0.01em;margin:0 0 10px;font-weight:600}
+.sub{color:var(--ink-2);max-width:42em;margin:0 0 28px}
+.seats{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:820px){.seats{grid-template-columns:repeat(4,1fr)}}
+.seat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:16px}
+.seat h3{margin:0 0 6px;font-size:18px} .seat p{margin:0 0 10px;color:var(--ink-2);font-size:15.5px} .seat a{font-size:14.5px}
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:1fr;counter-reset:f}
+@media (min-width:820px){.flow{grid-template-columns:repeat(4,1fr)}}
+.flow li{counter-increment:f;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.flow li::before{content:counter(f);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:13px;font-weight:600;margin-bottom:6px}
+.flow strong{display:block;font-size:16px} .flow span{color:var(--ink-2);font-size:15px}
+.road{list-style:none;margin:0;padding:0;position:relative}
+.road li{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-2)}
+@media (max-width:640px){.road li{grid-template-columns:1fr;gap:4px}}
+.road .when{font-weight:600} .road .when small{display:block;font-weight:400;color:var(--ink-2);font-size:14px}
+.road h3{margin:0 0 4px;font-size:18px} .road p{margin:0;color:var(--ink-2);font-size:15.5px}
+.tag{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid currentColor;margin-right:6px}
+.grid2{display:grid;gap:22px 36px;grid-template-columns:1fr} @media (min-width:820px){.grid2{grid-template-columns:1fr 1fr}}
+.grid2 h3{margin:0 0 4px;font-size:18px} .grid2 p{margin:0;color:var(--ink-2);font-size:15.5px}
+.star{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:10px;padding:16px 18px;margin:0 0 26px}
+.star strong{font-size:18px}
+form.signup{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:12px;max-width:560px}
+form.signup label{display:grid;gap:4px;font-size:14.5px;font-weight:500}
+form.signup input,form.signup select,form.signup textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.status{font-size:15px;margin:0} .formnote{font-size:13.5px;color:var(--ink-2);margin:0}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--ink-2);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top" aria-label="Main">
+    <a class="logo" href="#top">Saktum<small>sakshi + factum: a witnessed deed</small></a>
+    <div class="links"><a href="#seats">Who it's for</a><a href="#how">How it works</a><a href="#connect">Integrations</a><a href="#download">Download</a><a href="#plans">Plans</a><a href="#roadmap">Roadmap</a><a href="#trust">Trust</a><a href="/demo">Demo</a></div>
+  </nav>
+  <header class="hero" id="top">
+    <h1>Trust for every call between AI agents and the services they use.</h1>
+    <p>Saktum verifies who an agent is and who answers for it, tests and certifies the tools agents call, enforces each side's rules on every call, and leaves a signed receipt both sides can prove. Start free with Trust Check.</p>
+    <div class="ctas"><a class="btn primary" href="/demo">See the story in 5 minutes</a><a class="btn" href="#join">Get early access</a></div>
+  </header>
+</div>
+
+<section class="block" id="seats">
+  <div class="wrap">
+    <h2>One trust layer, four seats</h2>
+    <p class="sub">Every party gets something it can't easily get alone. The demo lets you sign in as each one.</p>
+    <div class="seats">
+      <div class="seat" style="--c:var(--p-dev)"><h3>Developers</h3><p>Free, open-source Trust Check: test any MCP server or agent for conformance, sign-in, security and prompt injection. Get a score, fixes and a badge.</p><a href="/demo#provider">See Trust Check</a></div>
+      <div class="seat" style="--c:var(--p-provider)"><h3>Providers</h3><p>Publish a server with one manifest. Secure defaults, sign-in, limits, analytics and receipts in minutes. Get found, get paid, get certified.</p><a href="/demo#provider">Sign in as a provider</a></div>
+      <div class="seat" style="--c:var(--p-invoker)"><h3>Invokers</h3><p>Give agents a verifiable identity. Find tools by intent, set what agents may do, get consent, and show security reviewers proof of every action.</p><a href="/demo#invoker">Sign in as an invoker</a></div>
+      <div class="seat" style="--c:var(--p-tester)"><h3>Testers</h3><p>Find real flaws in agents and tools, prove them with test packs, and get paid fairly through commit-reveal priority and independent review panels.</p><a href="/demo#tester">Sign in as a tester</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">The whole cycle runs on verifiable identities, signed agreements and receipts, with every configuration change on an immutable trail.</p>
+    <ol class="flow">
+      <li><strong>Verify</strong><span>Organisations, servers, agents and testers get decentralised identities with an accountability chain.</span></li>
+      <li><strong>Test and certify</strong><span>Trust Check scores servers and agents; hosted runs and independent certifiers issue Tested and Certified.</span></li>
+      <li><strong>Publish with defaults</strong><span>Standard metadata (MCP Registry server.json, A2A Agent Cards); risk classes and ready-made policy profiles; change only what you need.</span></li>
+      <li><strong>Find by intent</strong><span>Agents state what they need; eligibility rules first, then ranking; every choice recorded.</span></li>
+      <li><strong>Agree and consent</strong><span>Both sides sign the terms; the person behind the agent sets a mandate and can revoke it anytime.</span></li>
+      <li><strong>Call through the gateway</strong><span>Identity, consent and both sides' rules checked on every call; data masked; receipts signed by both sides.</span></li>
+      <li><strong>Settle in tokens</strong><span>Usage settles from receipts; payouts go through existing payment partners. Saktum never holds customer money.</span></li>
+      <li><strong>Prove and improve</strong><span>Disputes settled by evidence; bounties find flaws; everything sealed on a shared, tamper-evident record.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="connect">
+  <div class="wrap">
+    <h2>Works with what you already have</h2>
+    <p class="sub">No rewrites, no re-describing. Bring your servers, APIs and agents as they are.</p>
+    <div class="grid2">
+      <div><h3>Bulk import for providers</h3><p>Import every server at once from the official MCP Registry, a GitHub organisation, OpenAPI files or a bulk manifest upload. Already listed as unclaimed? Prove ownership and claim it in minutes.</p></div>
+      <div><h3>Two lines for agent builders</h3><p>SDK middleware for LangGraph, the OpenAI Agents SDK, the Claude Agent SDK and CrewAI gives your existing agent a verifiable identity and receipts without changing its code.</p></div>
+      <div><h3>Your gateway and your host</h3><p>Plugins for API gateways like Kong and Zuplo, and deploy hooks for hosts like Cloudflare and Vercel, bring existing APIs and new servers in automatically.</p></div>
+      <div><h3>Your tools for the rest</h3><p>GitHub Actions for Trust Check, OpenTelemetry and SIEM exports for evidence, OAuth and SSO for sign-in, Stripe for credits and payouts.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="download">
+  <div class="wrap">
+    <h2>Download Trust Check (free, open source)</h2>
+    <p class="sub">Test any MCP server or agent in a minute. Runs on your laptop, in CI, or fully offline.</p>
+    <div class="grid2">
+      <div><h3>Install</h3><p><code style="font-family:var(--mono);font-size:14px">npx saktum check https://your-server/mcp</code><br>Also Homebrew, winget, Docker, and signed binaries for macOS, Linux and Windows.</p></div>
+      <div><h3>What it checks</h3><p>Protocol conformance, sign-in, security, prompt-injection resistance, agent experience and performance. You get a score, fixes, a badge and a signed report.</p></div>
+      <div><h3>Fits your workflow</h3><p>VS Code extension, GitHub Action and CI templates, SARIF and JUnit output, pull-request comments, and an interactive inspector to browse and call tools.</p></div>
+      <div><h3>Write your own tests</h3><p>A pack SDK for team and community test packs, private packs for your organisation, and red-team mode with adversarial servers for agents.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="deploy">
+  <div class="wrap">
+    <h2>Deploy your way, see it in your tools</h2>
+    <p class="sub">From a free account to your own data centre, on one codebase with the same guarantees.</p>
+    <div class="grid2">
+      <div><h3>Cloud, dedicated or hybrid</h3><p>Start in the multi-tenant cloud; choose a dedicated cell in your region; or run the gateway in your own network so payloads never leave it.</p></div>
+      <div><h3>Self-managed for regulated organisations</h3><p>An add-on edition (2028) runs everything on-premises or air-gapped, with FIPS cryptography, your own HSM, and optional federation with the public trust network.</p></div>
+      <div><h3>Your observability stack</h3><p>Logs, metrics and traces in OpenTelemetry; dashboards for Grafana and templates for Zabbix; Splunk and OCSF events for your SIEM; exports to your own storage, all isolated per tenant.</p></div>
+      <div><h3>Made for your people</h3><p>A personal home for each role, English and French at launch, WCAG 2.2 AA accessibility, your branding on consent screens, and approvals from your phone.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="plans">
+  <div class="wrap">
+    <h2>Free to start. Pay as you grow.</h2>
+    <p class="sub">What builds the community is free forever: Trust Check, agent identities, receipts and listings. You pay when your team, your traffic or your compliance needs grow.</p>
+    <div class="seats">
+      <div class="seat" style="--c:var(--p-dev)"><h3>Free</h3><p>One server behind the gateway, a generous monthly allowance of verified calls, Agent ID, Trust Check, and Tested certification free in the first year.</p></div>
+      <div class="seat" style="--c:var(--p-provider)"><h3>Team</h3><p>More servers and calls, longer history, teammates and private test packs.</p></div>
+      <div class="seat" style="--c:var(--p-invoker)"><h3>Business</h3><p>SSO and SCIM, evidence exports for your customers' security reviews, regional data planes, governance basics, an SLA, and exports to your own tools.</p></div>
+      <div class="seat" style="--c:var(--p-platform)"><h3>Enterprise and self-managed</h3><p>Dedicated or hybrid deployment, the governance workspace, your own keys, premium support, and an on-premises edition (2028).</p></div>
+    </div>
+    <p class="sub" style="margin-top:16px">Prices will be published at launch; early-access teams get founding terms.</p>
+  </div>
+</section>
+
+<section class="block" id="roadmap">
+  <div class="wrap">
+    <h2>Roadmap</h2>
+    <p class="sub">We start where adoption is easiest (developers) and add each seat on the same foundations.</p>
+    <div class="star"><strong>North star: verified agent calls per week.</strong> Calls where the agent's identity was verified, the provider is certified, and both sides signed the receipt. It grows only when every seat adopts.</div>
+    <ol class="road">
+      <li><div class="when">1. Developers<small>November 2026</small></div><div><h3><span class="tag" style="color:var(--p-dev)">Free</span>Trust Check</h3><p>Open-source tool and GitHub Action: conformance, sign-in, security and adversarial tests for MCP servers and agents; scores, fixes, badges and signed reports.</p></div></li>
+      <li><div class="when">2. Providers<small>January 2027, design partners</small></div><div><h3><span class="tag" style="color:var(--p-provider)">Gateway</span>Publish safely</h3><p>Gateway with OAuth for MCP, keys, limits, risk-class defaults and policy profiles, Agent ID verification, signed receipts, standard manifest.</p></div></li>
+      <li><div class="when">3. Invokers<small>Spring 2027, public launch</small></div><div><h3><span class="tag" style="color:var(--p-invoker)">Controls</span>Agents you can trust</h3><p>Agent-side rules, approvals, consent and mandates, token vault, self-serve sign-up, credits and billing, audit trail, self-hosted gateway.</p></div></li>
+      <li><div class="when">4. Trust at scale<small>Mid-2027</small></div><div><h3><span class="tag" style="color:var(--p-platform)">Evidence</span>Measured and certified</h3><p>Metrics and reports, hosted Trust Check issuing the Tested credential, alarms and SLOs, SOC 2 Type I report.</p></div></li>
+      <li><div class="when">5. Testers and marketplace<small>Late 2027</small></div><div><h3><span class="tag" style="color:var(--p-tester)">Marketplace</span>The trusted agent economy</h3><p>Bounties with fair consensus and reputation, independent Certified levels, intent-based discovery and routing, wallets with payouts through partners, disputes from evidence.</p></div></li>
+      <li><div class="when">6. Beyond<small>2028 onward</small></div><div><h3>Global and regulated</h3><p>SOC 2 Type II and ISO/IEC 27001, regional control planes, federation between platforms, regulated sectors, and agents acting in the physical world.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="trust">
+  <div class="wrap">
+    <h2>Why you can trust the trust layer</h2>
+    <p class="sub">Trust is the product, so the rules for earning it are public.</p>
+    <div class="grid2">
+      <div><h3>Public criteria, independent certifiers</h3><p>Certification requirements and test packs are published and versioned. Higher levels need an independent accredited certifier, and we publish transparency reports.</p></div>
+      <div><h3>Fair bounty decisions</h3><p>Commit-reveal priority, objective reruns, random reviewer panels with commit-reveal votes, one independent appeal, and reputation with rewards, suspension and removal.</p></div>
+      <div><h3>Your data stays where you choose</h3><p>Gateways run in regional points of presence, your cloud or on-premises. Payloads stay in-region and aren't stored. Personal data is minimised, encrypted and deletable.</p></div>
+      <div><h3>We don't hold your money</h3><p>Tokens are prepaid credits bought through Stripe; payouts go through Stripe Connect, which handles currency, identity and tax checks.</p></div>
+      <div><h3>Audited, step by step</h3><p>Hardware-protected keys from day one, external penetration testing before launch, SOC 2 Type I then Type II, then ISO/IEC 27001.</p></div>
+      <div><h3>Built on open standards</h3><p>MCP and the MCP Registry format, A2A Agent Cards, OAuth and OpenID, W3C decentralised identifiers and credentials, ODRL agreements, Cedar policies, SCITT-style receipts, CVSS for findings, CloudEvents and OpenTelemetry. No lock-in: export everything.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="join">
+  <div class="wrap">
+    <h2>Get early access</h2>
+    <p class="sub">Be among the first to try Trust Check, put a server behind the gateway, or join the first bounty programmes.</p>
+    <form class="signup" id="signup" novalidate>
+      <label>Name<input name="name" autocomplete="name" required></label>
+      <label>Work email<input name="email" type="email" autocomplete="email" required></label>
+      <label>I'm interested as a<select name="role"><option>Developer (Trust Check)</option><option>Provider (MCP server publisher)</option><option>Invoker (team running agents)</option><option>Tester or security researcher</option></select></label>
+      <label>Anything we should know?<textarea name="note" rows="3" placeholder="For example: we publish a CRM MCP server used by 40 customers"></textarea></label>
+      <button class="btn primary" type="submit">Request access</button>
+      <p class="status" id="status" role="status"></p>
+      <p class="formnote" id="formnote"></p>
+    </form>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap" style="max-width:820px">
+    <h2>Why we're building this</h2>
+    <p style="color:var(--ink-2)">Nitin Sood, co-founder and CTO, has spent 20 years building systems that decide who may do what and prove it afterwards: identity at national scale, consent, and large API platforms. AI agents are a new kind of actor calling services, and they need the same foundations, open and neutral, from day one.</p>
+    <p style="color:var(--ink-2)"><strong style="color:var(--ink)">We're looking for a CEO co-founder</strong> with go-to-market and fundraising experience in developer tools, APIs or security. If that's you, <a href="#join">get in touch</a>.</p>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>Saktum. In private beta.</span><span><a id="mailLink" href="#">Contact</a></span></div></footer>
+
+<script>
+(() => {
+  const CONTACT_EMAIL = "jigyasacanada@gmail.com";
+  const FORM_ENDPOINT = ""; // paste a form service URL (for example a Formspree endpoint) when self-hosting
+  const $ = (id) => document.getElementById(id);
+  $("mailLink").href = "mailto:" + CONTACT_EMAIL; $("mailLink").textContent = CONTACT_EMAIL;
+  $("formnote").textContent = FORM_ENDPOINT ? "We'll reply within two working days." : "This opens an email to " + CONTACT_EMAIL + " with your details filled in.";
+  $("signup").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const f = e.target, st = $("status"), data = Object.fromEntries(new FormData(f).entries());
+    if (!data.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email || "")){ st.textContent = "Add your name and a valid work email."; return; }
+    if (FORM_ENDPOINT){
+      try { const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(data) }); if (!r.ok) throw new Error(); st.textContent = "Request sent. We'll be in touch soon."; f.reset(); }
+      catch (err) { st.textContent = "Couldn't send. Email " + CONTACT_EMAIL + " instead."; }
+    } else {
+      const body = "Name: " + data.name + "\nEmail: " + data.email + "\nRole: " + data.role + "\nNote: " + (data.note || "");
+      window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Saktum early access: " + data.role) + "&body=" + encodeURIComponent(body);
+      st.textContent = "Your email app should open with the details filled in.";
+    }
+  });
+})();
+</script>
+</body>
+</html>

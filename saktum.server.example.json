@@ -1,0 +1,101 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/<version>/server.schema.json",
+  "name": "com.acme-payments/refundpro",
+  "description": "Refund tools for agents",
+  "version": "2.3.1",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://refundpro.acme-payments.example/mcp"
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/acme-payments/refundpro",
+    "source": "github"
+  },
+  "_meta": {
+    "dev.saktum/publisher": {
+      "publisherDid": "did:web:acme-payments.example",
+      "category": "payments",
+      "regions": [
+        "CA"
+      ],
+      "sandbox": "https://sandbox.refundpro.acme-payments.example/mcp",
+      "auth": {
+        "type": "oauth2",
+        "scopes": [
+          "orders:read",
+          "payments:refund"
+        ]
+      },
+      "tools": [
+        {
+          "name": "search_orders",
+          "capability": "data.orders.search",
+          "risk": "read",
+          "dataClasses": [
+            "personal"
+          ]
+        },
+        {
+          "name": "issue_refund",
+          "capability": "money.refund",
+          "risk": "money",
+          "dataClasses": [
+            "personal",
+            "payment"
+          ],
+          "idempotent": true
+        }
+      ],
+      "pricing": {
+        "model": "per-call",
+        "rates": {
+          "search_orders": "0.5 TKN",
+          "issue_refund": "3 TKN"
+        },
+        "plans": [
+          "free-100",
+          "builder-2900"
+        ]
+      },
+      "policy": {
+        "profile": "payments-strict",
+        "overrides": [
+          {
+            "rule": "limits.perAgentPerMinute",
+            "value": 60
+          }
+        ]
+      },
+      "trustCheck": {
+        "packs": [
+          "conformance",
+          "auth",
+          "security",
+          "agent-experience"
+        ],
+        "activeTestsAllowedOn": "sandbox"
+      },
+      "bounty": {
+        "enabled": true,
+        "scope": [
+          "issue_refund",
+          "search_orders"
+        ],
+        "environment": "sandbox",
+        "severity": "CVSS v4.0",
+        "rewards": {
+          "critical": "1500 TKN",
+          "high": "600 TKN",
+          "medium": "200 TKN"
+        },
+        "disclosureDays": 90
+      },
+      "security": {
+        "contact": "security@acme-payments.example",
+        "securityTxt": "https://acme-payments.example/.well-known/security.txt"
+      }
+    }
+  }
+}
