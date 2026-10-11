@@ -35,7 +35,7 @@ section.block{padding:56px 0;border-top:1px solid var(--line)}
 section.block h2{font-size:30px;letter-spacing:-0.01em;margin:0 0 10px;font-weight:600}
 .sub{color:var(--ink-2);max-width:42em;margin:0 0 28px}
 .seats{display:grid;gap:14px;grid-template-columns:1fr}
-@media (min-width:820px){.seats{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:820px){.seats{grid-template-columns:repeat(4,1fr)}} @media (min-width:1080px){#seats .seats{grid-template-columns:repeat(5,1fr)}}
 .seat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:16px}
 .seat h3{margin:0 0 6px;font-size:18px} .seat p{margin:0 0 10px;color:var(--ink-2);font-size:15.5px} .seat a{font-size:14.5px}
 .flow{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:1fr;counter-reset:f}
@@ -76,13 +76,14 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
 <section class="block" id="seats">
   <div class="wrap">
-    <h2>One trust layer, four seats</h2>
-    <p class="sub">Every party gets something it can't easily get alone. The demo lets you sign in as each one.</p>
+    <h2>One trust layer, five kinds of organisation</h2>
+    <p class="sub">Five kinds of organisations (providers, invokers, research institutes, audit organisations and the platform), each with fine-grained roles. The demo lets you sign in as each one.</p>
     <div class="seats">
       <div class="seat" style="--c:var(--p-dev)"><h3>Developers</h3><p>Free, open-source Trust Check: test any MCP server or agent for conformance, sign-in, security and prompt injection. Get a score, fixes and a badge.</p><a href="/demo#provider">See Trust Check</a></div>
       <div class="seat" style="--c:var(--p-provider)"><h3>Providers</h3><p>Publish a server with one manifest. Secure defaults, sign-in, limits, analytics and receipts in minutes. Get found, get paid, get certified.</p><a href="/demo#provider">Sign in as a provider</a></div>
       <div class="seat" style="--c:var(--p-invoker)"><h3>Invokers</h3><p>Give agents a verifiable identity. Find tools by intent, set what agents may do, get consent, and show security reviewers proof of every action.</p><a href="/demo#invoker">Sign in as an invoker</a></div>
       <div class="seat" style="--c:var(--p-tester)"><h3>Testers</h3><p>Find real flaws in agents and tools, prove them with test packs, and get paid fairly through commit-reveal priority and independent review panels.</p><a href="/demo#tester">Sign in as a tester</a></div>
+      <div class="seat" style="--c:#5B6B7F"><h3>Auditors</h3><p>Get time-bound, read-only access from the organisations you audit, and verify receipts, ledgers, contracts and governance evidence yourself, without trusting anyone.</p><a href="/demo#auditor">Sign in as an auditor</a></div>
     </div>
   </div>
 </section>
@@ -98,7 +99,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <li><strong>Find by intent</strong><span>Agents state what they need; eligibility rules first, then ranking; every choice recorded.</span></li>
       <li><strong>Agree and consent</strong><span>Both sides sign the terms; the person behind the agent sets a mandate and can revoke it anytime.</span></li>
       <li><strong>Call through the gateway</strong><span>Identity, consent and both sides' rules checked on every call; data masked; receipts signed by both sides.</span></li>
-      <li><strong>Settle in tokens</strong><span>Usage settles from receipts; payouts go through existing payment partners. Saktum never holds customer money.</span></li>
+      <li><strong>Settle in tokens</strong><span>Usage settles from receipts, in tokens. Organisations redeem tokens outside the platform through token partners. Saktum does no billing and never handles fiat.</span></li>
       <li><strong>Prove and improve</strong><span>Disputes settled by evidence; bounties find flaws; everything sealed on a shared, tamper-evident record.</span></li>
     </ol>
   </div>
@@ -112,7 +113,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <div><h3>Bulk import for providers</h3><p>Import every server at once from the official MCP Registry, a GitHub organisation, OpenAPI files or a bulk manifest upload. Already listed as unclaimed? Prove ownership and claim it in minutes.</p></div>
       <div><h3>Two lines for agent builders</h3><p>SDK middleware for LangGraph, the OpenAI Agents SDK, the Claude Agent SDK and CrewAI gives your existing agent a verifiable identity and receipts without changing its code.</p></div>
       <div><h3>Your gateway and your host</h3><p>Plugins for API gateways like Kong and Zuplo, and deploy hooks for hosts like Cloudflare and Vercel, bring existing APIs and new servers in automatically.</p></div>
-      <div><h3>Your tools for the rest</h3><p>GitHub Actions for Trust Check, OpenTelemetry and SIEM exports for evidence, OAuth and SSO for sign-in, Stripe for credits and payouts.</p></div>
+      <div><h3>Your tools for the rest</h3><p>GitHub Actions for Trust Check, OpenTelemetry and SIEM exports for evidence, OAuth and SSO for sign-in, token partners for settlement outside the platform.</p></div>
     </div>
   </div>
 </section>
@@ -167,7 +168,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <li><div class="when">2. Providers<small>January 2027, design partners</small></div><div><h3><span class="tag" style="color:var(--p-provider)">Gateway</span>Publish safely</h3><p>Gateway with OAuth for MCP, keys, limits, risk-class defaults and policy profiles, Agent ID verification, signed receipts, standard manifest.</p></div></li>
       <li><div class="when">3. Invokers<small>Spring 2027, public launch</small></div><div><h3><span class="tag" style="color:var(--p-invoker)">Controls</span>Agents you can trust</h3><p>Agent-side rules, approvals, consent and mandates, token vault, self-serve sign-up, credits and billing, audit trail, self-hosted gateway.</p></div></li>
       <li><div class="when">4. Trust at scale<small>Mid-2027</small></div><div><h3><span class="tag" style="color:var(--p-platform)">Evidence</span>Measured and certified</h3><p>Metrics and reports, hosted Trust Check issuing the Tested credential, alarms and SLOs, SOC 2 Type I report.</p></div></li>
-      <li><div class="when">5. Testers and marketplace<small>Late 2027</small></div><div><h3><span class="tag" style="color:var(--p-tester)">Marketplace</span>The trusted agent economy</h3><p>Bounties with fair consensus and reputation, independent Certified levels, intent-based discovery and routing, wallets with payouts through partners, disputes from evidence.</p></div></li>
+      <li><div class="when">5. Testers and marketplace<small>Late 2027</small></div><div><h3><span class="tag" style="color:var(--p-tester)">Marketplace</span>The trusted agent economy</h3><p>Bounties with fair consensus and reputation, independent Certified levels, intent-based discovery and routing, token wallets with settlement outside the platform, disputes from evidence.</p></div></li>
       <li><div class="when">6. Beyond<small>2028 onward</small></div><div><h3>Global and regulated</h3><p>SOC 2 Type II and ISO/IEC 27001, regional control planes, federation between platforms, regulated sectors, and agents acting in the physical world.</p></div></li>
     </ol>
   </div>
@@ -181,7 +182,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <div><h3>Public criteria, independent certifiers</h3><p>Certification requirements and test packs are published and versioned. Higher levels need an independent accredited certifier, and we publish transparency reports.</p></div>
       <div><h3>Fair bounty decisions</h3><p>Commit-reveal priority, objective reruns, random reviewer panels with commit-reveal votes, one independent appeal, and reputation with rewards, suspension and removal.</p></div>
       <div><h3>Your data stays where you choose</h3><p>Gateways run in regional points of presence, your cloud or on-premises. Payloads stay in-region and aren't stored. Personal data is minimised, encrypted and deletable.</p></div>
-      <div><h3>We don't hold your money</h3><p>Tokens are prepaid credits bought through Stripe; payouts go through Stripe Connect, which handles currency, identity and tax checks.</p></div>
+      <div><h3>Tokens only, no fiat</h3><p>Everything on the platform runs in tokens held in wallets. Saktum does no billing and never handles money; organisations settle outside the platform through token partners or their own finance systems, using our signed ledger statements.</p></div>
       <div><h3>Audited, step by step</h3><p>Hardware-protected keys from day one, external penetration testing before launch, SOC 2 Type I then Type II, then ISO/IEC 27001.</p></div>
       <div><h3>Built on open standards</h3><p>MCP and the MCP Registry format, A2A Agent Cards, OAuth and OpenID, W3C decentralised identifiers and credentials, ODRL agreements, Cedar policies, SCITT-style receipts, CVSS for findings, CloudEvents and OpenTelemetry. No lock-in: export everything.</p></div>
     </div>

@@ -261,7 +261,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:880px}
 </header>
 
 <p class="intro v-e2e"><strong>The whole lifecycle in ten steps.</strong> A publisher and two invokers onboard securely and get identities with trust chains; the publisher registers capabilities, policies and token rates; an invoker discovers the catalogue, signs a smart contract, gets user consent and calls through the enforcement point, with pass and fail decisions, receipts on both sides, a shared ledger and settlement in tokens. Each company is an isolated tenant. Other views go deeper into each part.</p>
-<p class="intro v-mkt"><strong>Where this is heading: a trusted marketplace for agents.</strong> Browse certified listings, state an intent instead of naming a tool, see how the platform routes it within every rule, and how limits, certification, bounties, wallets and disputes work. Signatures and proofs are real; providers, tokens and payouts are simulated.</p>
+<p class="intro v-mkt"><strong>Where this is heading: a trusted marketplace for agents.</strong> Browse certified listings, state an intent instead of naming a tool, see how the platform routes it within every rule, and how limits, certification, bounties, wallets and disputes work. Signatures and proofs are real; providers and tokens are simulated; there is no fiat on the platform.</p>
 <p class="intro v-kpi"><strong>Metrics and KPIs.</strong> Aggregated across tenants for the platform operator, or scoped to one tenant to show isolation. Filter by publisher, invoker, category, outcome and time, and group by any dimension. Data is illustrative, plus the calls you make in this demo.</p>
 <p class="intro v-pub"><strong>You publish an MCP server.</strong> Walk through the six steps to put Saktum in front of it: connect, let agents sign in properly, hand out keys, enforce limits, see who calls what, and verify a signed receipt for every call.</p>
 <p class="intro v-id"><strong>Agent ID: who stands behind an agent.</strong> Register an agent, link it to the organisation that owns it and the person who manages it, prove its identity on every call, build reputation from its receipts, and anchor its history so nobody can rewrite it. Credentials and proofs here are really signed and checked in your browser.</p>
@@ -269,6 +269,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:880px}
 <p class="intro v-studio"><strong>Consent, rules and money.</strong> How people stay in control of their agents, how rules are written and changed safely, how one call is checked on both sides, and how publishers and the platform earn. Consent receipts, policy bundles and cross-signed receipts are really signed; operator events and revenue figures are illustrative.</p>
 <p class="intro v-agent"><strong>Coming next: controls for teams running agents.</strong> Pick something for the support-ops agent to do. Every tool call goes through the mediator, which decides, explains its decision, and writes a receipt signed in your browser. Change one character in a receipt and verification fails.</p>
 
+<div style="background:#FBF0DD;color:#4A3300;border-bottom:1px solid #E8D3A5;padding:8px 24px;font:14px system-ui,sans-serif">Earlier feature-by-feature demo, kept for its deeper views (policy studio, network signals, routing profiles, selective disclosure, KPIs). The current end-to-end story is at <a href="/demo">/demo</a>; it is the reference for the product.</div>
 <main>
   <section class="col v-e2e" aria-labelledby="hE2e">
     <h2 id="hE2e">End to end <span>Acme CRM, Acme Ltd, Northwind</span></h2>
@@ -1744,7 +1745,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:880px}
     { id: "consent", title: "Get the user's consent", hint: "Purpose, scope, signed receipt" },
     { id: "invoke", title: "Invoke through the enforcement point", hint: "Pass and fail, receipts on both sides" },
     { id: "ledger", title: "Ledger and audit", hint: "Endorsed blocks, tenant-scoped audit" },
-    { id: "settle", title: "Settle in tokens", hint: "Usage, rates, take, payouts" },
+    { id: "settle", title: "Settle in tokens", hint: "Usage, rates, take rate, settlement" },
     { id: "kpis", title: "See the KPIs", hint: "Open the metrics for this publisher" }
   ];
   const E = { done: new Set(), busy: false, keys: {}, creds: {}, records: [], agents: {}, contract: null, consent: null, calls: [], wallets: null, catalogPick: null, blocks: [] };
@@ -2149,8 +2150,8 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:880px}
     { id: "route", title: "See the routing decision", hint: "Eligibility first, then ranking, with failover" },
     { id: "limits", title: "Hit limits and overage", hint: "Throttling and overage policies" },
     { id: "certify", title: "Earn a certification", hint: "Automated tests issue a credential" },
-    { id: "bounty", title: "Run a bounty", hint: "Escrow, finding, automatic payout" },
-    { id: "cashout", title: "Wallets and cash-out", hint: "Tokens to a bank account via a partner" },
+    { id: "bounty", title: "Run a bounty", hint: "Escrow, finding, automatic reward" },
+    { id: "cashout", title: "Wallets and token redemption", hint: "Tokens redeemed with a token partner, outside Saktum" },
     { id: "dispute", title: "Resolve disputes from evidence", hint: "Receipts decide" }
   ];
   const MK = { done: new Set(), busy: false, intent: null, profile: "balanced", lastRoute: null, wallets: { "Acme Ltd": 5000, "RefundPro (Acme Payments)": 0, "QuickRefunds (Quick Co)": 0, "Researcher: Ana Silva": 0, "Escrow": 0, "Platform": 0 }, keys: {} };
@@ -2322,17 +2323,17 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:880px}
   async function mCashout(){
     MK.wallets["RefundPro (Acme Payments)"] += 4200;
     const rows = Object.entries(MK.wallets);
-    mSet("<h3>Wallets for every party, with cash-out</h3><p class=\"lead\">Everyone holds tokens in a wallet on the platform's double-entry ledger. Providers, researchers and certifiers can convert earnings to their local currency and withdraw to a bank account through a licensed payout partner. The platform never holds customer money itself.</p>" +
+    mSet("<h3>Wallets for every party, with token redemption</h3><p class=\"lead\">Everyone holds tokens in a wallet on the platform's double-entry ledger. Providers, researchers and certifiers can redeem earned tokens with a token partner outside the platform. Saktum does no billing and never handles fiat or customer money.</p>" +
       "<table class=\"blocks\"><thead><tr><th>Wallet</th><th>Balance</th></tr></thead><tbody>" + rows.map(([k, v]) => "<tr><td>" + esc(k) + "</td><td>" + tok(v) + "</td></tr>").join("") + "</tbody></table>" +
-      "<div class=\"consent\"><p><strong>Ana Silva: withdraw earnings</strong></p><div class=\"filters\" style=\"padding:0\"><label>Amount<input type=\"search\" id=\"coAmt\" value=\"" + Math.floor(MK.wallets["Researcher: Ana Silva"]) + "\"></label><label>Destination<select id=\"coDest\"><option>Bank account in local currency</option><option>Stablecoin wallet (US only, licensed partner)</option></select></label></div>" +
-      "<p class=\"hint\">The partner's conversion rate and fee are shown before you confirm.</p><div class=\"actions\"><button type=\"button\" class=\"btn primary\" id=\"bCash\">Confirm withdrawal</button></div><div id=\"coOut\"></div></div>");
+      "<div class=\"consent\"><p><strong>Ana Silva: withdraw earnings</strong></p><div class=\"filters\" style=\"padding:0\"><label>Amount<input type=\"search\" id=\"coAmt\" value=\"" + Math.floor(MK.wallets["Researcher: Ana Silva"]) + "\"></label><label>Destination<select id=\"coDest\"><option>Token partner (fiat paid outside Saktum)</option><option>Own finance system (statement export)</option></select></label></div>" +
+      "<p class=\"hint\">Any conversion happens outside Saktum, at the partner's rate.</p><div class=\"actions\"><button type=\"button\" class=\"btn primary\" id=\"bCash\">Confirm withdrawal</button></div><div id=\"coOut\"></div></div>");
     $("bCash").addEventListener("click", async () => {
       const amt = Math.max(0, Math.min(+$("coAmt").value || 0, MK.wallets["Researcher: Ana Silva"]));
-      const steps = [["Identity verified (level 2) by the payout partner", true], ["Anti-money-laundering screening passed", true], ["Journal: debit Ana's wallet " + tok(amt) + ", credit payout clearing", true], ["Partner payout reference po_" + (await sha256Hex("po" + amt)).slice(0, 10), true], ["Funds arrive in 1 to 2 business days in local currency", true]];
+      const steps = [["Identity verified (level 2) by the payout partner", true], ["Anti-money-laundering screening passed", true], ["Journal: debit Ana's wallet " + tok(amt) + ", credit payout clearing", true], ["Partner payout reference po_" + (await sha256Hex("po" + amt)).slice(0, 10), true], ["The partner pays outside Saktum; Saktum records only the token redemption and a signed statement", true]];
       MK.wallets["Researcher: Ana Silva"] -= amt;
       $("coOut").innerHTML = "<ul class=\"chainv\">" + steps.map(s => chainLine(s[1], s[0])).join("") + "</ul>";
       $("bCash").disabled = true;
-      mlog("Ana withdrew " + tok(amt) + " to her bank through the payout partner.");
+      mlog("Ana redeemed " + tok(amt) + " with her token partner (outside Saktum).");
     });
     mlog("Opened wallets for all parties.");
   }
