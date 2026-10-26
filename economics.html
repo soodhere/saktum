@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saktum economics: a model you can check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F4F7FB; --surface: #FFFFFF; --ink: #1B2A4A; --ink-2: #4A5878; --line: #D5DDEA; --stamp: #5A3FC0; --focus: #5A3FC0;
+  --c1: #5A3FC0; --c2: #1F6FB5; --c3: #1E7A4C; --c4: #9A5B00; --c5: #B3261E; --c6: #6B7A99; --c7: #0E8A8A;
+  --good: #1E7A4C; --bad: #B3261E;
+  color-scheme: light; box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0E1526; --surface: #16213B; --ink: #E8EDF6; --ink-2: #A9B5CB; --line: #2B3858; --stamp: #AE9CFF; --focus: #AE9CFF;
+    --c1: #AE9CFF; --c2: #6CB4F2; --c3: #67D69E; --c4: #F2B35E; --c5: #FF8D84; --c6: #A9B5CB; --c7: #5ED6D6;
+    --good: #67D69E; --bad: #FF8D84; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0E1526; --surface: #16213B; --ink: #E8EDF6; --ink-2: #A9B5CB; --line: #2B3858; --stamp: #AE9CFF; --focus: #AE9CFF;
+  --c1: #AE9CFF; --c2: #6CB4F2; --c3: #67D69E; --c4: #F2B35E; --c5: #FF8D84; --c6: #A9B5CB; --c7: #5ED6D6;
+  --good: #67D69E; --bad: #FF8D84; color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.55 "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 24px 22px 48px; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand b { font-family: "Bricolage Grotesque", sans-serif; font-size: 20px; }
+.brand span { color: var(--ink-2); font-size: 15px; }
+h1, h2 { font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", sans-serif; letter-spacing: -0.015em; }
+h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; margin: 26px 0 10px; max-width: 22ch; }
+h2 { font-size: 26px; margin: 44px 0 6px; }
+.lead { color: var(--ink-2); max-width: 64ch; margin: 0 0 8px; }
+.note { color: var(--ink-2); font-size: 15px; }
+a { color: var(--ink); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+/* Measured data */
+.measured { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; margin-top: 18px; border-top: 2px solid var(--ink); }
+.m { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); }
+.m .v { font-family: "Bricolage Grotesque", sans-serif; font-size: 34px; font-weight: 700; line-height: 1.1; }
+.m .l { margin: 4px 0; }
+.m .s { font-size: 14px; color: var(--ink-2); }
+.badge-measured { display: inline-block; font-size: 13px; font-weight: 700; color: var(--good); }
+.badge-assumed { display: inline-block; font-size: 13px; font-weight: 700; color: var(--stamp); }
+
+/* Assumptions */
+.presets { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 6px; }
+.presets button { font: inherit; font-weight: 700; padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--ink); background: var(--surface); color: var(--ink); cursor: pointer; }
+.presets button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 8px 36px; }
+fieldset { border: 0; padding: 0; margin: 18px 0 0; min-width: 0; }
+legend { font-weight: 700; padding: 0; margin-bottom: 4px; }
+.slider { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.slider label { font-size: 15px; }
+.slider output { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.slider input { grid-column: 1 / -1; width: 100%; accent-color: var(--stamp); }
+.slider .why { grid-column: 1 / -1; font-size: 13px; color: var(--ink-2); }
+
+/* Results */
+.headline { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0; margin: 18px 0; border-top: 2px solid var(--ink); }
+.headline div { padding: 14px 14px 14px 0; border-bottom: 1px solid var(--line); }
+.headline b { display: block; font-family: "Bricolage Grotesque", sans-serif; font-size: 30px; font-variant-numeric: tabular-nums; }
+.headline span { font-size: 14px; color: var(--ink-2); }
+.chart { width: 100%; overflow-x: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; margin: 6px 0 0; padding: 0; list-style: none; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.table-wrap { overflow-x: auto; margin-top: 14px; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 15px; min-width: 620px; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { text-align: left; }
+thead th { font-weight: 700; border-bottom: 2px solid var(--ink); }
+tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
+.pos { color: var(--good); } .neg { color: var(--bad); }
+.sources li { margin: 6px 0; }
+.foot { margin-top: 40px; font-size: 14px; color: var(--ink-2); max-width: 70ch; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 15.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <b>Saktum</b><span>Economics you can check</span>
+  </header>
+
+  <h1>A business model built on numbers you can verify.</h1>
+  <p class="lead">The measured figures come from public sources, with links. Every assumption is a slider: change it and the projection updates. Nothing is hidden behind a slide.</p>
+
+  <h2>The ecosystem, measured</h2>
+  <p class="lead" id="asOf">Public data snapshot.</p>
+  <div class="measured" id="measured"></div>
+
+  <h2>Your assumptions</h2>
+  <p class="lead">Start from a preset, then move anything you disagree with. <span class="badge-assumed">Assumption</span> marks every input that is a judgement, not a measurement.</p>
+  <div class="presets" role="group" aria-label="Scenario presets">
+    <button type="button" data-preset="conservative" aria-pressed="false">Conservative</button>
+    <button type="button" data-preset="base" aria-pressed="true">Base</button>
+    <button type="button" data-preset="ambitious" aria-pressed="false">Ambitious</button>
+  </div>
+  <div class="groups" id="groups"></div>
+
+  <h2>What the model says</h2>
+  <p class="lead">Annual recurring revenue by product line, 2027 to 2031. Amounts are company finance in US dollars; on the platform itself every price is in prepaid tokens.</p>
+  <div class="headline" id="headline"></div>
+  <div class="chart" id="chart" role="img" aria-label="Revenue by product line, 2027 to 2031"></div>
+  <ul class="legend" id="legend"></ul>
+  <div class="table-wrap"><table id="table"></table></div>
+
+  <h2>How the model works</h2>
+  <ol class="note" style="max-width:70ch">
+    <li>Public MCP servers grow each year from today's measured count.</li>
+    <li>A share of them is checked with Saktum Check (free), rising from year one to year five.</li>
+    <li>Some teams upgrade to the Team tier; some of those publish behind Saktum Gateway; companies running agents adopt Saktum Guard in proportion.</li>
+    <li>Gateway, Guard and Verified start after Trust Check 1.0 (from April 2027), so 2027 revenue is mostly the Team tier. Enterprise contracts ramp from 2028. Saktum Verified certifies a share of Gateway publishers. Saktum Exchange (take rate) and Saktum Bounty (programme fees) start in 2028.</li>
+    <li>Costs are headcount at a fully loaded cost, plus other operating costs and cost of revenue. Runway uses the 2027 burn.</li>
+  </ol>
+  <h2>Sources</h2>
+  <ul class="sources note" id="sources"></ul>
+  <p class="foot">An illustrative model for discussion, not a forecast or financial advice. Measured figures are counts of public repositories and packages, which approximate, rather than equal, the number of active servers. The keyword search on npm can include unrelated packages that share the term. On Saktum's own site the measured figures refresh daily; this copy uses the snapshot dated above.</p>
+</div>
+
+<script>
+(() => {
+  // Snapshot of public data. On saktum's own site, /market-data.json (refreshed daily) replaces it.
+  let DATA = {
+    asOf: "2026-10-25",
+    metrics: [
+      { key: "githubRepos", value: 39420, label: "GitHub repositories tagged mcp-server", source: "GitHub search: topic:mcp-server", url: "https://github.com/topics/mcp-server" },
+      { key: "githubReposPrev", value: 34700, label: "The same count two weeks earlier (11 Oct 2026, approximate)", source: "GitHub search, earlier snapshot", url: "https://github.com/topics/mcp-server" },
+      { key: "npmMcp", value: 82984, label: "npm packages with the keyword mcp", source: "npm registry search: keywords:mcp", url: "https://www.npmjs.com/search?q=keywords%3Amcp" },
+      { key: "npmMcpServer", value: 10498, label: "npm packages with the keyword mcp-server", source: "npm registry search: keywords:mcp-server", url: "https://www.npmjs.com/search?q=keywords%3Amcp-server" },
+      { key: "sdkReleases", value: 84, label: "Releases of the official TypeScript SDK since 11 Nov 2024", source: "npm registry: @modelcontextprotocol/sdk", url: "https://www.npmjs.com/package/@modelcontextprotocol/sdk" },
+      { key: "fieldTest", value: "6 of 14", label: "Popular servers declaring no danger hints in our field test", source: "Saktum field test of 19 public servers, October 2026", url: "" }
+    ]
+  };
+
+  const YEARS = [2027, 2028, 2029, 2030, 2031];
+  const LINES = [
+    { key: "check", name: "Saktum Check (Team tier)", c: "--c1" },
+    { key: "gateway", name: "Saktum Gateway", c: "--c2" },
+    { key: "guard", name: "Saktum Guard", c: "--c3" },
+    { key: "enterprise", name: "Enterprise contracts", c: "--c4" },
+    { key: "verified", name: "Saktum Verified", c: "--c5" },
+    { key: "exchange", name: "Saktum Exchange", c: "--c7" },
+    { key: "bounty", name: "Saktum Bounty", c: "--c6" }
+  ];
+
+  const INPUTS = [
+    { g: "Ecosystem", id: "growth", label: "Annual growth in public MCP servers", unit: "%", min: 0, max: 150, step: 5, why: "Measured: about 14% in the last two weeks. Short windows are noisy, so the presets use far lower yearly rates." },
+    { g: "Reach and conversion", id: "reach1", label: "Share of servers checked with Saktum Check, 2027", unit: "%", min: 0, max: 20, step: 0.5 },
+    { g: "Reach and conversion", id: "reach5", label: "Share of servers checked, 2031", unit: "%", min: 0, max: 60, step: 1 },
+    { g: "Reach and conversion", id: "conv", label: "Checked servers whose teams pay for Team", unit: "%", min: 0, max: 15, step: 0.5, why: "Typical free-to-paid conversion for developer tools is in the low single digits." },
+    { g: "Reach and conversion", id: "upgrade", label: "Team customers who publish behind Gateway", unit: "%", min: 0, max: 50, step: 1 },
+    { g: "Reach and conversion", id: "guardRatio", label: "Guard customers per Gateway customer", unit: "x", min: 0, max: 4, step: 0.1, why: "Companies running agents outnumber companies publishing tools." },
+    { g: "Prices (per month unless stated)", id: "pTeam", label: "Team", unit: "$", min: 19, max: 199, step: 10 },
+    { g: "Prices (per month unless stated)", id: "pGateway", label: "Gateway (Business)", unit: "$", min: 199, max: 2999, step: 50 },
+    { g: "Prices (per month unless stated)", id: "pGuard", label: "Guard", unit: "$", min: 299, max: 4999, step: 100 },
+    { g: "Enterprise and marketplace", id: "ent5", label: "Enterprise contracts by 2031", unit: "", min: 0, max: 300, step: 5 },
+    { g: "Enterprise and marketplace", id: "acv", label: "Average enterprise contract per year", unit: "$k", min: 30, max: 300, step: 10 },
+    { g: "Enterprise and marketplace", id: "certShare", label: "Gateway publishers certified", unit: "%", min: 0, max: 80, step: 5 },
+    { g: "Enterprise and marketplace", id: "certFee", label: "Certification fee per year", unit: "$k", min: 1, max: 20, step: 0.5 },
+    { g: "Enterprise and marketplace", id: "gmv", label: "Paid tool sales per Gateway publisher per year", unit: "$k", min: 0, max: 100, step: 5 },
+    { g: "Enterprise and marketplace", id: "take", label: "Exchange take rate", unit: "%", min: 0, max: 15, step: 0.5 },
+    { g: "Costs and funding", id: "team5", label: "Team size by 2031", unit: "", min: 10, max: 150, step: 5, why: "Grows from 3 people in 2027 in even steps." },
+    { g: "Costs and funding", id: "loaded", label: "Fully loaded cost per person per year", unit: "$k", min: 80, max: 250, step: 10 },
+    { g: "Costs and funding", id: "raise", label: "Pre-seed raise", unit: "$k", min: 250, max: 3000, step: 50 }
+  ];
+
+  const PRESETS = {
+    conservative: { growth: 30, reach1: 1, reach5: 8, conv: 2, upgrade: 10, guardRatio: 1, pTeam: 59, pGateway: 599, pGuard: 990, ent5: 25, acv: 60, certShare: 25, certFee: 4, gmv: 10, take: 5, team5: 35, loaded: 160, raise: 750 },
+    base:         { growth: 60, reach1: 3, reach5: 20, conv: 3, upgrade: 15, guardRatio: 1.5, pTeam: 79, pGateway: 799, pGuard: 1500, ent5: 60, acv: 90, certShare: 40, certFee: 6, gmv: 20, take: 8, team5: 60, loaded: 160, raise: 1000 },
+    ambitious:    { growth: 80, reach1: 4, reach5: 30, conv: 4, upgrade: 18, guardRatio: 1.5, pTeam: 99, pGateway: 999, pGuard: 1500, ent5: 100, acv: 120, certShare: 50, certFee: 8, gmv: 30, take: 10, team5: 90, loaded: 170, raise: 1500 }
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const val = {};
+  const fmtMoney = (n) => { const a = Math.abs(n); const s = a >= 1e6 ? "$" + (a / 1e6).toFixed(a >= 1e7 ? 0 : 1) + "M" : a >= 1e3 ? "$" + Math.round(a / 1e3) + "k" : "$" + Math.round(a); return n < 0 ? "\u2212" + s : s; };
+  const fmtNum = (n) => Math.round(n).toLocaleString("en-US");
+  const showVal = (inp, v) => inp.unit === "$" ? "$" + v : inp.unit === "$k" ? "$" + v + "k" : inp.unit === "%" ? v + "%" : inp.unit === "x" ? v + "\u00d7" : String(v);
+  const metric = (k) => DATA.metrics.find((m) => m.key === k)?.value;
+
+  function renderMeasured() {
+    $("asOf").textContent = "Public data snapshot, " + new Date(DATA.asOf + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) + ". Each figure links to its source.";
+    $("measured").innerHTML = DATA.metrics.map((m) => {
+      const v = typeof m.value === "number" ? fmtNum(m.value) : m.value;
+      const src = m.url ? '<a href="' + m.url + '" target="_blank" rel="noopener">' + m.source + "</a>" : m.source;
+      return '<div class="m"><span class="badge-measured">Measured</span><div class="v">' + v + '</div><div class="l">' + m.label + '</div><div class="s">' + src + "</div></div>";
+    }).join("");
+    $("sources").innerHTML = DATA.metrics.map((m) => "<li>" + m.label + ": " + (m.url ? '<a href="' + m.url + '" target="_blank" rel="noopener">' + m.source + "</a>" : m.source) + "</li>").join("");
+  }
+
+  function renderInputs() {
+    const groups = [...new Set(INPUTS.map((i) => i.g))];
+    $("groups").innerHTML = groups.map((g) => "<fieldset><legend>" + g + "</legend>" + INPUTS.filter((i) => i.g === g).map((i) =>
+      '<div class="slider"><label for="in-' + i.id + '">' + i.label + ' <span class="badge-assumed">Assumption</span></label><output id="out-' + i.id + '" for="in-' + i.id + '"></output>' +
+      '<input type="range" id="in-' + i.id + '" min="' + i.min + '" max="' + i.max + '" step="' + i.step + '">' + (i.why ? '<span class="why">' + i.why + "</span>" : "") + "</div>").join("") + "</fieldset>").join("");
+    INPUTS.forEach((i) => $("in-" + i.id).addEventListener("input", (e) => {
+      val[i.id] = Number(e.target.value); $("out-" + i.id).textContent = showVal(i, val[i.id]);
+      document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      compute();
+    }));
+  }
+
+  function applyPreset(name) {
+    Object.assign(val, PRESETS[name]);
+    INPUTS.forEach((i) => { $("in-" + i.id).value = val[i.id]; $("out-" + i.id).textContent = showVal(i, val[i.id]); });
+    document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.preset === name)));
+    compute();
+  }
+
+  function compute() {
+    const S0 = metric("githubRepos");
+    const ramp = { 2027: 0, 2028: 0.15, 2029: 0.35, 2030: 0.65, 2031: 1 };
+    const rows = YEARS.map((y, k) => {
+      const t = k + 1;
+      const servers = S0 * Math.pow(1 + val.growth / 100, t);
+      const reach = (val.reach1 + (val.reach5 - val.reach1) * (k / 4)) / 100;
+      const checked = servers * reach;
+      const team = checked * val.conv / 100;
+      const firstYear = y === 2027 ? 0.15 : 1;         // Gateway, Guard and Verified start after Trust Check 1.0 (from April 2027), so 2027 carries little
+      const gateway = team * val.upgrade / 100 * firstYear;
+      const guard = gateway * val.guardRatio;
+      const ent = val.ent5 * ramp[y];
+      const fromNext = y === 2027 ? 0 : y === 2028 ? 0.3 : 1;   // Exchange and Bounty start in 2028
+      const rev = {
+        check: team * val.pTeam * 12,
+        gateway: gateway * val.pGateway * 12,
+        guard: guard * val.pGuard * 12,
+        enterprise: ent * val.acv * 1000,
+        verified: gateway * val.certShare / 100 * val.certFee * 1000,
+        exchange: gateway * val.gmv * 1000 * val.take / 100 * fromNext,
+        bounty: gateway * 0.1 * 20000 * 0.1 * fromNext
+      };
+      const revenue = Object.values(rev).reduce((a, b) => a + b, 0);
+      const people = Math.round(3 + (val.team5 - 3) * (k / 4));
+      const payroll = people * val.loaded * 1000;
+      const costs = payroll * 1.25 + revenue * 0.2;
+      return { y, servers, checked, team, gateway, guard, ent, rev, revenue, people, costs, net: revenue - costs };
+    });
+
+    // Cash and runway from the raise, using the 2027 burn.
+    let cash = val.raise * 1000; let breakEven = null;
+    rows.forEach((r) => { cash += r.net; r.cash = cash; if (breakEven === null && r.net >= 0) breakEven = r.y; });
+    const burn2027 = Math.max(0, -rows[0].net) / 12;
+    const runway = burn2027 > 0 ? (val.raise * 1000) / burn2027 : Infinity;
+
+    const last = rows[rows.length - 1];
+    $("headline").innerHTML =
+      "<div><b>" + fmtMoney(last.revenue) + "</b><span>Recurring revenue in 2031</span></div>" +
+      "<div><b>" + fmtNum(last.checked) + "</b><span>Servers checked in 2031</span></div>" +
+      "<div><b>" + fmtNum(last.team + last.gateway + last.guard + last.ent) + "</b><span>Paying customers in 2031</span></div>" +
+      "<div><b>" + (breakEven ?? "After 2031") + "</b><span>First year revenue covers costs</span></div>" +
+      "<div><b>" + (runway === Infinity ? "No burn" : Math.round(runway) + " months") + "</b><span>Runway from the pre-seed at the 2027 burn</span></div>";
+
+    renderChart(rows);
+    $("table").innerHTML =
+      "<thead><tr><th>Year</th>" + YEARS.map((y) => "<th>" + y + "</th>").join("") + "</tr></thead><tbody>" +
+      "<tr><td>Public MCP servers (projected)</td>" + rows.map((r) => "<td>" + fmtNum(r.servers) + "</td>").join("") + "</tr>" +
+      "<tr><td>Servers checked</td>" + rows.map((r) => "<td>" + fmtNum(r.checked) + "</td>").join("") + "</tr>" +
+      LINES.map((l) => "<tr><td>" + l.name + "</td>" + rows.map((r) => "<td>" + fmtMoney(r.rev[l.key]) + "</td>").join("") + "</tr>").join("") +
+      '<tr class="total"><td>Revenue</td>' + rows.map((r) => "<td>" + fmtMoney(r.revenue) + "</td>").join("") + "</tr>" +
+      "<tr><td>People</td>" + rows.map((r) => "<td>" + r.people + "</td>").join("") + "</tr>" +
+      "<tr><td>Costs</td>" + rows.map((r) => "<td>" + fmtMoney(r.costs) + "</td>").join("") + "</tr>" +
+      "<tr><td>Net</td>" + rows.map((r) => '<td class="' + (r.net >= 0 ? "pos" : "neg") + '">' + fmtMoney(r.net) + "</td>").join("") + "</tr>" +
+      "<tr><td>Cash after the pre-seed (before further rounds)</td>" + rows.map((r) => '<td class="' + (r.cash >= 0 ? "pos" : "neg") + '">' + fmtMoney(r.cash) + "</td>").join("") + "</tr></tbody>";
+  }
+
+  function renderChart(rows) {
+    const css = getComputedStyle(document.documentElement);
+    const W = 760, H = 300, L = 64, B = 34, T = 14, R = 12;
+    const max = Math.max(...rows.map((r) => r.revenue)) || 1;
+    const nice = Math.pow(10, Math.floor(Math.log10(max)));
+    const top = Math.ceil(max / nice) * nice;
+    const bw = (W - L - R) / rows.length * 0.56;
+    const x = (k) => L + (W - L - R) / rows.length * (k + 0.5) - bw / 2;
+    const y = (v) => T + (H - T - B) * (1 - v / top);
+    let svg = '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" style="min-width:560px" aria-hidden="true">';
+    for (let i = 0; i <= 4; i++) { const v = top * i / 4; svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="' + css.getPropertyValue("--line") + '"/><text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="12" fill="' + css.getPropertyValue("--ink-2") + '">' + fmtMoney(v) + "</text>"; }
+    rows.forEach((r, k) => {
+      let acc = 0;
+      LINES.forEach((l) => { const v = r.rev[l.key]; if (v <= 0) return; svg += '<rect x="' + x(k) + '" y="' + y(acc + v) + '" width="' + bw + '" height="' + Math.max(0, y(acc) - y(acc + v)) + '" fill="' + css.getPropertyValue(l.c) + '"><title>' + l.name + " " + r.y + ": " + fmtMoney(v) + "</title></rect>"; acc += v; });
+      svg += '<text x="' + (x(k) + bw / 2) + '" y="' + (y(acc) - 6) + '" text-anchor="middle" font-size="13" font-weight="700" fill="' + css.getPropertyValue("--ink") + '">' + fmtMoney(r.revenue) + "</text>";
+      svg += '<text x="' + (x(k) + bw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="13" fill="' + css.getPropertyValue("--ink-2") + '">' + r.y + "</text>";
+    });
+    $("chart").innerHTML = svg + "</svg>";
+    $("legend").innerHTML = LINES.map((l) => '<li><i style="background:var(' + l.c + ')"></i>' + l.name + "</li>").join("");
+  }
+
+  document.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("click", () => applyPreset(b.dataset.preset)));
+  if (window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => compute());
+
+  renderInputs();
+  renderMeasured();
+  applyPreset("base");
+
+  // On Saktum's own site, a daily job publishes fresh measurements here. Anywhere else, the snapshot above is used.
+  fetch("market-data.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => { if (d && Array.isArray(d.metrics) && d.asOf) { DATA = d; renderMeasured(); compute(); } })
+    .catch(() => {});
+})();
+</script>
+</body>
+</html>

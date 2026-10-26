@@ -1,0 +1,11 @@
+{
+  "asOf": "2026-10-25",
+  "metrics": [
+    { "key": "githubRepos", "value": 39420, "label": "GitHub repositories tagged mcp-server", "source": "GitHub search: topic:mcp-server", "url": "https://github.com/topics/mcp-server" },
+    { "key": "githubReposPrev", "value": 34700, "label": "The same count two weeks earlier (11 Oct 2026, approximate)", "source": "GitHub search, earlier snapshot", "url": "https://github.com/topics/mcp-server" },
+    { "key": "npmMcp", "value": 82984, "label": "npm packages with the keyword mcp", "source": "npm registry search: keywords:mcp", "url": "https://www.npmjs.com/search?q=keywords%3Amcp" },
+    { "key": "npmMcpServer", "value": 10498, "label": "npm packages with the keyword mcp-server", "source": "npm registry search: keywords:mcp-server", "url": "https://www.npmjs.com/search?q=keywords%3Amcp-server" },
+    { "key": "sdkReleases", "value": 84, "label": "Releases of the official TypeScript SDK since 11 Nov 2024", "source": "npm registry: @modelcontextprotocol/sdk", "url": "https://www.npmjs.com/package/@modelcontextprotocol/sdk" },
+    { "key": "fieldTest", "value": "6 of 14", "label": "Popular servers declaring no danger hints in our field test", "source": "Saktum field test of 19 public servers, October 2026", "url": "" }
+  ]
+}

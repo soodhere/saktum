@@ -150,6 +150,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
   <div class="dialog">
     <h2 id="loginTitle">Sign in to the Saktum demo</h2>
     <p>Pick a demo account. Every account sees the same story from its own side, and you can switch at any time from the top bar.</p>
+    <p style="margin:0 0 12px">New here? <a href="/story">Watch the 2-minute story</a> first. Investors: <a href="/economics">see the business model</a>, built on public data you can check.</p>
     <button type="button" class="acct" data-login="provider"><i style="background:var(--p-provider)"></i><span><strong>Provider:</strong> Priya, Acme Payments<small>Publishes RefundPro, a refund tool for agents. Tests it, sets rules and prices, earns, funds a bounty.</small></span></button>
     <button type="button" class="acct" data-login="invoker"><i style="background:var(--p-invoker)"></i><span><strong>Invoker:</strong> Sam, Northwind Retail<small>Runs a support agent that issues refunds. Finds providers by intent, gives consent, pays per call.</small></span></button>
     <button type="button" class="acct" data-login="tester"><i style="background:var(--p-tester)"></i><span><strong>Tester:</strong> Ana Silva, Northern Security Research Institute<small>Finds flaws in agents and tools, proves them with test packs, earns rewards and reputation.</small></span></button>
@@ -356,15 +357,15 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
   // ---------- chapters ----------
   const CH = [
     { title: "Everyone gets a verified identity and a wallet", who: ["platform", "provider", "invoker", "tester"], run: ch1 },
-    { title: "Provider checks its server with Trust Check", who: ["provider", "platform"], run: ch2 },
-    { title: "Provider publishes its manifest and listing", who: ["provider", "platform"], run: ch3 },
+    { title: "Saktum Check: the provider tests its server", who: ["provider", "platform"], run: ch2 },
+    { title: "Saktum Gateway: the provider publishes its listing", who: ["provider", "platform"], run: ch3 },
     { title: "Invoker finds it by intent", who: ["invoker", "platform"], run: ch4 },
     { title: "Agreement, funding and consent", who: ["invoker", "provider"], run: ch5 },
-    { title: "Calls through the gateway", who: ["invoker", "provider", "platform"], run: ch6 },
+    { title: "Saktum Guard: calls, approvals and receipts", who: ["invoker", "provider", "platform"], run: ch6 },
     { title: "Daily settlement in tokens", who: ["platform", "provider"], run: ch7 },
-    { title: "Bounty: testers, consensus and reputation", who: ["provider", "tester", "platform"], run: ch8 },
+    { title: "Saktum Bounty: testers, consensus and reputation", who: ["provider", "tester", "platform"], run: ch8 },
     { title: "Settlement outside the platform", who: ["tester", "provider"], run: ch9 },
-    { title: "Security events, disputes and audit", who: ["invoker", "platform", "provider"], run: ch10 }
+    { title: "Saktum Receipts: disputes, the stop button and audit", who: ["invoker", "platform", "provider"], run: ch10 }
   ];
   const whoChips = (arr) => arr.map(w => "<span class=\"who " + w + "\">" + w[0].toUpperCase() + w.slice(1) + "</span>").join(" ");
   const line = (ok, html) => "<div class=\"step\"><span class=\"" + (ok ? "ok" : "bad") + "\">" + (ok ? "✓" : "✗") + "</span><span>" + html + "</span></div>";
@@ -416,6 +417,8 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
 
   async function ch2(){
     const before = score("before"), after = score("after");
+    const grade = (x, capped) => capped ? "F" : x >= 90 ? "A" : x >= 80 ? "B" : x >= 70 ? "C" : x >= 50 ? "D" : "F";
+    const gBefore = grade(before.score, before.raw !== before.score), gAfter = grade(after.score, false);
     const rep = async (which, signer, kind) => { const s = score(which); const body = { target: "RefundPro MCP server", version: which === "before" ? "2.3.0" : "2.3.1", packs: PACKS.map(p => ({ id: p.id, pass: p[which] })), score: s.score, run: kind, at: new Date().toISOString() }; return { body, sig: await sign(signer, body), signer: kind === "self-run" ? PARTIES.provider.did : PARTIES.platform.did }; };
     const r1 = await rep("before", S.keys.provider, "self-run");
     const r2 = await rep("after", S.keys.provider, "self-run");
@@ -429,6 +432,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const rows = PACKS.map(p => "<tr><td>" + esc(p.name) + "<br><span class=\"mono\">" + p.id + "</span></td><td>" + esc(p.cat) + "</td><td><span class=\"chip " + (p.sev === "critical" ? "deny" : p.sev === "high" ? "hold" : "") + "\">" + p.sev + "</span></td><td>" + (p.before ? "<span class=\"ok\">pass</span>" : "<span class=\"bad\">fail</span>") + "</td><td>" + (p.after ? "<span class=\"ok\">pass</span>" : "<span class=\"bad\">fail</span>") + "</td></tr>").join("");
     return { lead: "Acme Payments runs the free Trust Check tool against its server, fixes what it finds, and a hosted run issues an independent credential.",
       html: actor("provider", "Ravi, an Acme developer, has used Trust Check with a personal account for months, getting notifications about new tests and advisories. When Acme joined, his history moved into Acme's organisation. Today he runs <code>npx saktum check https://refundpro.acme-payments.example/mcp</code> on his laptop, offline-capable.") +
+        "<div class=\"box\" style=\"font-size:15px\"><strong>Grade " + gBefore + " \u2192 Grade " + gAfter + ".</strong> In plain words: on the first run, one tool told agents to do something its users never asked for, so the grade was " + gBefore + " however good the rest was. After the fixes in version 2.3.1 it is Grade " + gAfter + ". Every finding says why it matters to users; the detail is below.</div>" +
         "<div class=\"kpis\"><div class=\"kpi\"><b>" + before.score + "</b><span>First run (capped from " + before.raw + ": one critical failure)</span></div><div class=\"kpi\"><b>" + after.score + "</b><span>After fixes (v2.3.1)</span></div><div class=\"kpi\"><b>" + badge(after.score) + "</b><span>README badge</span></div></div>" +
         "<div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Check</th><th>Category</th><th>Severity</th><th>v2.3.0</th><th>v2.3.1</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
         "<h4>Fixes applied</h4><ul>" + PACKS.filter(p => p.fix).map(p => "<li>" + esc(p.fix) + "</li>").join("") + "</ul>" +
@@ -1152,9 +1156,20 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
       await showChain("agent");
     }
   }
+  function receiptSentence(b){
+    const raw = (b.agent || "an agent").split(":").pop().replace(/-/g, " ");
+    const who = raw.replace(/\b\w/g, (c) => c.toUpperCase());
+    const ACT = { issue_refund: "issue a refund", search_orders: "look up an order", create_shipping_label: "create a shipping label" };
+    const what = ACT[b.tool] || "use the tool " + String(b.tool || "");
+    const forWhom = b.onBehalfOf ? " for a Northwind customer (name kept private)" : "";
+    const when = b.issuedAt ? new Date(b.issuedAt).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "";
+    const reason = b.reason ? String(b.reason).replace(/_/g, " ") : "";
+    return (when ? "On " + when + ", " : "") + who + (b.outcome === "ALLOW" ? " was allowed to " + what + forWhom + "." : " tried to " + what + forWhom + " and was blocked" + (reason ? " (" + reason + ")" : "") + ".") + (b.fee && b.fee !== "0 TKN" ? " It cost " + b.fee + "." : "") + " Both sides signed this receipt, so either can prove what happened.";
+  }
+
   async function openReceipt(i){
     const r = S.receipts[i];
-    $("rview").innerHTML = "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Receipt #" + r.body.seq + "</h4><textarea id=\"rtext\" style=\"width:100%;min-height:200px;font-family:var(--mono);font-size:12px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px\" spellcheck=\"false\" aria-label=\"Receipt JSON, editable\">" + esc(r.text) + "</textarea><div style=\"display:flex;gap:8px;flex-wrap:wrap;margin-top:6px\"><button type=\"button\" class=\"btn primary\" id=\"rv\">Verify</button><button type=\"button\" class=\"btn danger\" id=\"rt\">Change the outcome</button><button type=\"button\" class=\"btn\" id=\"rr\">Restore</button></div><div id=\"rchecks\"></div>";
+    $("rview").innerHTML = "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Receipt #" + r.body.seq + "</h4><p class=\"box\" style=\"font-size:15px;margin:0 0 8px\">" + esc(receiptSentence(r.body)) + "</p><textarea id=\"rtext\" style=\"width:100%;min-height:200px;font-family:var(--mono);font-size:12px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px\" spellcheck=\"false\" aria-label=\"Receipt JSON, editable\">" + esc(r.text) + "</textarea><div style=\"display:flex;gap:8px;flex-wrap:wrap;margin-top:6px\"><button type=\"button\" class=\"btn primary\" id=\"rv\">Verify</button><button type=\"button\" class=\"btn danger\" id=\"rt\">Change the outcome</button><button type=\"button\" class=\"btn\" id=\"rr\">Restore</button></div><div id=\"rchecks\"></div>";
     const show = async () => { const c = await verifyReceipt(i); $("rchecks").innerHTML = "<p><strong>" + (c.every(x => x[0]) ? "<span class=\"ok\">Verified</span>" : "<span class=\"bad\">Verification failed</span>") + "</strong></p>" + c.map(x => line(x[0], esc(x[1]))).join(""); };
     $("rtext").addEventListener("input", e => { r.text = e.target.value; });
     $("rv").addEventListener("click", show);
