@@ -12,3 +12,8 @@ Saktum = Sanskrit sakshi (witness) + Latin factum (a deed or fact): a witnessed 
 
 Tokens (TKN) and token settlement are simulated (no fiat on the platform); signatures, hashes and proofs are real and run in the browser.
 Settings near the bottom of index.html: CONTACT_EMAIL (set) and FORM_ENDPOINT (paste a Formspree endpoint).
+
+
+## Baseline 8.0 (from control to ecosystem)
+- demo.html: new Ecosystem tab (trust passport, unmet-demand board, governed blueprint, builder network, test drive); Governance tab renamed Saktum Govern with EU AI Act roles and agent data lineage; product naming Saktum Check throughout; chapter 2 findings mapped to OWASP agentic Top 10 and MITRE ATLAS.
+- economics.html: new ecosystem revenue line and slider (bounties, blueprints, builder services, insights).

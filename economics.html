@@ -119,7 +119,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
     <li>Public MCP servers grow each year from today's measured count.</li>
     <li>A share of them is checked with Saktum Check (free), rising from year one to year five.</li>
     <li>Some teams upgrade to the Team tier; some of those publish behind Saktum Gateway; companies running agents adopt Saktum Guard in proportion.</li>
-    <li>Gateway, Guard and Verified start after Trust Check 1.0 (from April 2027), so 2027 revenue is mostly the Team tier. Enterprise contracts ramp from 2028. Saktum Verified certifies a share of Gateway publishers. Saktum Exchange (take rate) and Saktum Bounty (programme fees) start in 2028.</li>
+    <li>Gateway, Guard and Verified start after Trust Check 1.0 (from April 2027), so 2027 revenue is mostly the Team tier. Enterprise contracts ramp from 2028. Saktum Verified certifies a share of Gateway publishers. Saktum Exchange (take rate) and the wider ecosystem (bounties, blueprints, builder services, insights) start in 2028.</li>
     <li>Costs are headcount at a fully loaded cost, plus other operating costs and cost of revenue. Runway uses the 2027 burn.</li>
   </ol>
   <h2>Sources</h2>
@@ -150,7 +150,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
     { key: "enterprise", name: "Enterprise contracts (Govern, Regulated)", c: "--c4" },
     { key: "verified", name: "Saktum Verified", c: "--c5" },
     { key: "exchange", name: "Saktum Exchange", c: "--c7" },
-    { key: "bounty", name: "Saktum Bounty", c: "--c6" }
+    { key: "ecosystem", name: "Ecosystem (bounties, blueprints, builder services, insights)", c: "--c6" }
   ];
 
   const INPUTS = [
@@ -169,15 +169,16 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
     { g: "Enterprise and marketplace", id: "certFee", label: "Certification fee per year", unit: "$k", min: 1, max: 20, step: 0.5 },
     { g: "Enterprise and marketplace", id: "gmv", label: "Paid tool sales per Gateway publisher per year", unit: "$k", min: 0, max: 100, step: 5 },
     { g: "Enterprise and marketplace", id: "take", label: "Exchange take rate", unit: "%", min: 0, max: 15, step: 0.5 },
+    { g: "Enterprise and marketplace", id: "eco", label: "Ecosystem revenue per Gateway publisher per year", unit: "$k", min: 0, max: 30, step: 0.5, why: "Take rates on blueprints and builder services, build-bounty fees and paid insights, from 2028." },
     { g: "Costs and funding", id: "team5", label: "Team size by 2031", unit: "", min: 10, max: 150, step: 5, why: "Grows from 3 people in 2027 in even steps." },
     { g: "Costs and funding", id: "loaded", label: "Fully loaded cost per person per year", unit: "$k", min: 80, max: 250, step: 10 },
     { g: "Costs and funding", id: "raise", label: "Pre-seed raise", unit: "$k", min: 250, max: 3000, step: 50 }
   ];
 
   const PRESETS = {
-    conservative: { growth: 30, reach1: 1, reach5: 8, conv: 2, upgrade: 10, guardRatio: 1, pTeam: 59, pGateway: 599, pGuard: 990, ent5: 25, acv: 60, certShare: 25, certFee: 4, gmv: 10, take: 5, team5: 35, loaded: 160, raise: 750 },
-    base:         { growth: 60, reach1: 3, reach5: 20, conv: 3, upgrade: 15, guardRatio: 1.5, pTeam: 79, pGateway: 799, pGuard: 1500, ent5: 60, acv: 90, certShare: 40, certFee: 6, gmv: 20, take: 8, team5: 60, loaded: 160, raise: 1000 },
-    ambitious:    { growth: 80, reach1: 4, reach5: 30, conv: 4, upgrade: 18, guardRatio: 1.5, pTeam: 99, pGateway: 999, pGuard: 1500, ent5: 100, acv: 120, certShare: 50, certFee: 8, gmv: 30, take: 10, team5: 90, loaded: 170, raise: 1500 }
+    conservative: { growth: 30, reach1: 1, reach5: 8, conv: 2, upgrade: 10, guardRatio: 1, pTeam: 59, pGateway: 599, pGuard: 990, ent5: 25, acv: 60, certShare: 25, certFee: 4, gmv: 10, take: 5, eco: 2, team5: 35, loaded: 160, raise: 750 },
+    base:         { growth: 60, reach1: 3, reach5: 20, conv: 3, upgrade: 15, guardRatio: 1.5, pTeam: 79, pGateway: 799, pGuard: 1500, ent5: 60, acv: 90, certShare: 40, certFee: 6, gmv: 20, take: 8, eco: 5, team5: 60, loaded: 160, raise: 1000 },
+    ambitious:    { growth: 80, reach1: 4, reach5: 30, conv: 4, upgrade: 18, guardRatio: 1.5, pTeam: 99, pGateway: 999, pGuard: 1500, ent5: 100, acv: 120, certShare: 50, certFee: 8, gmv: 30, take: 10, eco: 10, team5: 90, loaded: 170, raise: 1500 }
   };
 
   const $ = (id) => document.getElementById(id);
@@ -237,7 +238,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); }
         enterprise: ent * val.acv * 1000,
         verified: gateway * val.certShare / 100 * val.certFee * 1000,
         exchange: gateway * val.gmv * 1000 * val.take / 100 * fromNext,
-        bounty: gateway * 0.1 * 20000 * 0.1 * fromNext
+        ecosystem: gateway * val.eco * 1000 * fromNext
       };
       const revenue = Object.values(rev).reduce((a, b) => a + b, 0);
       const people = Math.round(3 + (val.team5 - 3) * (k / 4));

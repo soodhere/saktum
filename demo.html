@@ -145,7 +145,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     <button type="button" class="seat" data-seat="auditor" aria-pressed="false"><i style="background:var(--p-auditor)"></i>Auditor</button>
   </div>
 </header>
-<div class="ns" role="status" aria-live="polite"><span class="star">North star</span><span>Verified agent calls this week: <b id="nsCalls">0</b></span><span class="q">Calls where the agent's identity was verified, the provider is certified Tested or higher, and both sides signed the receipt.</span><span>Trust Check scores of 80+ this week: <b id="nsProxy">0</b></span></div>
+<div class="ns" role="status" aria-live="polite"><span class="star">North star</span><span>Verified agent calls this week: <b id="nsCalls">0</b></span><span class="q">Calls where the agent's identity was verified, the provider is certified Tested or higher, and both sides signed the receipt.</span><span>Saktum Check scores of 80+ this week: <b id="nsProxy">0</b></span></div>
 <div class="overlay" id="login" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
   <div class="dialog">
     <h2 id="loginTitle">Sign in to the Saktum demo</h2>
@@ -191,7 +191,8 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     <button type="button" class="btn" role="tab" data-tab="consent" aria-selected="false">Consent</button>
     <button type="button" class="btn" role="tab" data-tab="roles" aria-selected="false">Roles and access</button>
     <button type="button" class="btn" role="tab" data-tab="debug" aria-selected="false">Debug session</button>
-    <button type="button" class="btn" role="tab" data-tab="governance" aria-selected="false">Governance</button>
+    <button type="button" class="btn" role="tab" data-tab="governance" aria-selected="false">Saktum Govern</button>
+    <button type="button" class="btn" role="tab" data-tab="ecosystem" aria-selected="false">Ecosystem</button>
     <button type="button" class="btn" role="tab" data-tab="stack" aria-selected="false">Your stack</button>
     <button type="button" class="btn" role="tab" data-tab="metrics" aria-selected="false">Metrics and KPIs</button>
     <button type="button" class="btn" role="tab" data-tab="plans" aria-selected="false">Plans and growth</button>
@@ -330,7 +331,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
   }
   async function verifyContract(c){ for (const x of c.sigs){ if (!(await verify(S.keyByDid[x.did], c.body, x.sig))) return false; } return (await sha(canon(c.body))) === c.hash; }
 
-  // ---------- Trust Check ----------
+  // ---------- Saktum Check ----------
   const PACKS = [
     { id: "conformance.lifecycle", name: "Initialise, list tools, call tools", cat: "Conformance", sev: "high", before: true, after: true },
     { id: "conformance.errors", name: "Errors follow the protocol format", cat: "Conformance", sev: "medium", before: false, after: true, fix: "Return protocol-standard errors with a reason code." },
@@ -352,7 +353,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const criticalFail = PACKS.some(p => p.sev === "critical" && !p[which]);
     return { raw: Math.round(total), score: criticalFail ? Math.min(49, Math.round(total)) : Math.round(total), capped: criticalFail };
   }
-  const badge = (n) => "<span class=\"badge\" aria-label=\"Trust Check score " + n + "\"><span>Trust Check</span><span style=\"background:" + (n >= 80 ? "#0F7B6C" : n >= 50 ? "#A76A10" : "#B23A3A") + "\">" + n + "</span></span>";
+  const badge = (n) => "<span class=\"badge\" aria-label=\"Saktum Check score " + n + "\"><span>Saktum Check</span><span style=\"background:" + (n >= 80 ? "#0F7B6C" : n >= 50 ? "#A76A10" : "#B23A3A") + "\">" + n + "</span></span>";
 
   // ---------- chapters ----------
   const CH = [
@@ -427,16 +428,16 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const tested = await issue(PARTIES.platform.did, SERVER_DID, "Certification", { level: "Tested", scope: "refundpro@2.3.1", report: (await sha(canon(r3.body))).slice(0, 16) });
     S.server.cert = "Tested";
     await trail("provider", "trustcheck.recorded", "refundpro@2.3.1", { score: after.score, run: "self-run" });
-    await trail("platform", "certification.issued", SERVER_DID, { level: "Tested", basis: "hosted Trust Check run" });
+    await trail("platform", "certification.issued", SERVER_DID, { level: "Tested", basis: "hosted Saktum Check run" });
     const okHosted = await verify(S.keys.platform, r3.body, r3.sig);
     const rows = PACKS.map(p => "<tr><td>" + esc(p.name) + "<br><span class=\"mono\">" + p.id + "</span></td><td>" + esc(p.cat) + "</td><td><span class=\"chip " + (p.sev === "critical" ? "deny" : p.sev === "high" ? "hold" : "") + "\">" + p.sev + "</span></td><td>" + (p.before ? "<span class=\"ok\">pass</span>" : "<span class=\"bad\">fail</span>") + "</td><td>" + (p.after ? "<span class=\"ok\">pass</span>" : "<span class=\"bad\">fail</span>") + "</td></tr>").join("");
-    return { lead: "Acme Payments runs the free Trust Check tool against its server, fixes what it finds, and a hosted run issues an independent credential.",
-      html: actor("provider", "Ravi, an Acme developer, has used Trust Check with a personal account for months, getting notifications about new tests and advisories. When Acme joined, his history moved into Acme's organisation. Today he runs <code>npx saktum check https://refundpro.acme-payments.example/mcp</code> on his laptop, offline-capable.") +
-        "<div class=\"box\" style=\"font-size:15px\"><strong>Grade " + gBefore + " \u2192 Grade " + gAfter + ".</strong> In plain words: on the first run, one tool told agents to do something its users never asked for, so the grade was " + gBefore + " however good the rest was. After the fixes in version 2.3.1 it is Grade " + gAfter + ". Every finding says why it matters to users; the detail is below.</div>" +
+    return { lead: "Acme Payments runs the free Saktum Check tool against its server, fixes what it finds, and a hosted run issues an independent credential.",
+      html: actor("provider", "Ravi, an Acme developer, has used Saktum Check with a personal account for months, getting notifications about new tests and advisories. When Acme joined, his history moved into Acme's organisation. Today he runs <code>npx saktum check https://refundpro.acme-payments.example/mcp</code> on his laptop, offline-capable.") +
+        "<div class=\"box\" style=\"font-size:15px\"><strong>Grade " + gBefore + " \u2192 Grade " + gAfter + ".</strong> In plain words: on the first run, one tool told agents to do something its users never asked for, so the grade was " + gBefore + " however good the rest was. After the fixes in version 2.3.1 it is Grade " + gAfter + ". Every finding says why it matters to users and maps to the OWASP Top 10 for agentic applications and MITRE ATLAS; the detail is below.</div>" +
         "<div class=\"kpis\"><div class=\"kpi\"><b>" + before.score + "</b><span>First run (capped from " + before.raw + ": one critical failure)</span></div><div class=\"kpi\"><b>" + after.score + "</b><span>After fixes (v2.3.1)</span></div><div class=\"kpi\"><b>" + badge(after.score) + "</b><span>README badge</span></div></div>" +
         "<div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Check</th><th>Category</th><th>Severity</th><th>v2.3.0</th><th>v2.3.1</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
         "<h4>Fixes applied</h4><ul>" + PACKS.filter(p => p.fix).map(p => "<li>" + esc(p.fix) + "</li>").join("") + "</ul>" +
-        actor("platform", "A hosted Trust Check run repeats the tests independently and signs the result, which issues the <strong>Tested</strong> credential.") +
+        actor("platform", "A hosted Saktum Check run repeats the tests independently and signs the result, which issues the <strong>Tested</strong> credential.") +
         line(okHosted, "Hosted report signed by Saktum; the Tested credential now appears on the server's identity") };
   }
 
@@ -456,9 +457,9 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     await trail("platform", "listing.approved", "com.acme-payments/refundpro", { checks: ["verified owner", "valid credential", "rates set"] });
     const risk = [["search_orders", "read", "Any authenticated caller; personal data masked; 120 a minute verified, 20 unverified"], ["issue_refund", "money", "Verified agents with scope; value cap; idempotency; mandate when acting for a person; 20 a minute"]];
     return { lead: "Acme Payments publishes one standard file: its MCP Registry server.json, with Saktum settings in a namespaced extension. The platform builds the listing, rates, pinned tools and policies from it. Secure defaults apply automatically; Acme changes only what it needs, with approval, and every change is recorded.",
-      html: actor("provider", "Imports all 6 of its servers in one step from its GitHub organisation. Three were already in the catalogue as <strong>unclaimed</strong> listings (public data and passive Trust Check scores only); Acme claims them by proving GitHub organisation membership.") +
+      html: actor("provider", "Imports all 6 of its servers in one step from its GitHub organisation. Three were already in the catalogue as <strong>unclaimed</strong> listings (public data and passive Saktum Check scores only); Acme claims them by proving GitHub organisation membership.") +
         "<div class=\"box\">Other ways in: the official MCP Registry, OpenAPI files, a bulk upload of manifests, or a live server URL. Imports become drafts with proposed risk classes and a profile; nothing is applied until Acme publishes.</div>" +
-        "<div class=\"box\"><strong>Upgrade moment:</strong> the free plan covers one server; Acme now has six. Saktum offers a one-click Team trial (five servers included, extra servers as add-ons, 90-day history, teammates). Acme accepts. Publishing and Trust Check stay free.</div>" +
+        "<div class=\"box\"><strong>Upgrade moment:</strong> the free plan covers one server; Acme now has six. Saktum offers a one-click Team trial (five servers included, extra servers as add-ons, 90-day history, teammates). Acme accepts. Publishing and Saktum Check stay free.</div>" +
         actor("provider", "Reviews RefundPro's draft manifest, a standard MCP Registry <code>server.json</code> with Saktum settings (risk classes, profile, pricing, tests, bounty) under <code>_meta</code>, and publishes it (or pushes it with <code>saktum publish</code>).") + "<div class=\"json\">" + esc(MANIFEST) + "</div>" +
         "<h4>Tools sorted into risk classes, with secure defaults</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Tool</th><th>Risk class</th><th>Default rules</th></tr></thead><tbody>" + risk.map(r => "<tr><td><code>" + r[0] + "</code></td><td><span class=\"chip " + (r[1] === "money" ? "deny" : "") + "\">" + r[1] + "</span></td><td>" + esc(r[2]) + "</td></tr>").join("") + "</tbody></table></div>" +
         "<h4>Profile: payments-strict (one of five ready-made profiles)</h4><ul>" + rules.map(r => "<li>" + esc(r) + "</li>").join("") + "</ul>" +
@@ -674,7 +675,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const rh = await receipt({ agent: AGENT_DID, onBehalfOf: "pseudonym:usr_91bc", server: SERVER_DID, tool: "issue_refund", outcome: "DENY", reason: "tool_changed_pending_review", agreement: S.agreement.hash.slice(0, 16), providerRules: "bundle v" + S.policyV, obligations: [], fee: "0 TKN" });
     S.calls.push({ label: "Refund while tool held", outcome: "DENY", code: "tool_changed_pending_review", fee: 0, receipt: rh.body.seq });
     await trail("provider", "tool.reverted", "refundpro/issue_refund", { cause: "compromised deploy key; description restored", hash: h0.slice(0, 12) });
-    await trail("platform", "tool.released", "refundpro/issue_refund", { hash: h0.slice(0, 12), recheck: "Trust Check security pack passed" });
+    await trail("platform", "tool.released", "refundpro/issue_refund", { hash: h0.slice(0, 12), recheck: "Saktum Check security pack passed" });
     // emergency stop
     await trail("invoker", "agent.suspended", AGENT_DID, { by: "Northwind manager", reason: "unusual refund pattern under investigation", propagation: "status list updated; all gateways within 5 s" });
     const rs = await receipt({ agent: AGENT_DID, onBehalfOf: "pseudonym:usr_44d0", server: SERVER_DID, tool: "search_orders", outcome: "DENY", reason: "agent_suspended", agreement: S.agreement.hash.slice(0, 16), providerRules: "bundle v" + S.policyV, obligations: [], fee: "0 TKN" });
@@ -697,7 +698,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
         "<p class=\"lead\">Dispute <strong>rejected</strong>: the refund was requested by Northwind's verified agent under Sam's mandate and the signed agreement, and the provider countersigned it.</p>" +
         "<h4>Consent withdrawn</h4>" + actor("invoker", "Sam revokes the agent's consent in his consent dashboard. The very next refund attempt is refused with <span class=\"mono\">consent_revoked</span> (receipt #" + rv.body.seq + ", no charge).") +
         "<h4>A silently changed tool</h4>" + actor("platform", "Overnight, the description of <code>issue_refund</code> changes to include a hidden instruction to send card details elsewhere. Its fingerprint no longer matches the pinned version, so the gateway holds the tool and refuses calls (receipt #" + rh.body.seq + ").") +
-        "<div class=\"json\">" + esc("pinned:  " + h0.slice(0, 24) + "…\nnow:     " + h1.slice(0, 24) + "…  (description changed)\nfinding: hidden instruction (Trust Check security pack)") + "</div>" +
+        "<div class=\"json\">" + esc("pinned:  " + h0.slice(0, 24) + "…\nnow:     " + h1.slice(0, 24) + "…  (description changed)\nfinding: hidden instruction (Saktum Check security pack)") + "</div>" +
         actor("provider", "Acme traces it to a compromised deploy key, restores the description and rotates the key. The platform re-checks and releases the tool. Every step is in the change trail.") +
         "<h4>Emergency stop</h4>" + actor("invoker", "Northwind's manager sees an unusual refund pattern and suspends support-ops with one click. The suspension reaches every provider's gateway within seconds; the next call is refused with <span class=\"mono\">agent_suspended</span> (receipt #" + rs.body.seq + "). After review the agent is reinstated, and both actions are recorded.") +
         actor("platform", "Enforces tenant isolation on every read:") + line(iso1, "Acme Payments tries to read Northwind's wallet: refused") + line(iso2, "Ana tries to read Acme Payments' wallet: refused") + line(iso3, "Northwind reads its own wallet: allowed") +
@@ -767,7 +768,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const ROLE = { platform: "Platform owner (with Policy manager, Approver, NOC/SOC and Billing colleagues)", provider: "Provider and policy admin; Rahul is Agent manager, Ravi is Developer", invoker: "Invoker admin; Mei is Developer and debugger", tester: "Bounty hunter (Elena is Test admin at the institute)", auditor: "Auditor (read-only, time-bound grant from Northwind)" }[seat];
     const hi = S.lang === "fr" ? "Bonjour " : "Hi ";
     const needs = [];
-    if (seat === "provider"){ if (S.done < 2) needs.push("Run Trust Check on RefundPro"); else if (S.done < 3) needs.push("Publish RefundPro's manifest"); if (S.done >= 3 && !S.approvalAbove) needs.push("Optional: add an approval rule in the policy studio"); if (S.done >= 8 && S.done < 9) needs.push("Redeem leftover bounty funds with your token partner, or keep them in escrow"); }
+    if (seat === "provider"){ if (S.done < 2) needs.push("Run Saktum Check on RefundPro"); else if (S.done < 3) needs.push("Publish RefundPro's manifest"); if (S.done >= 3 && !S.approvalAbove) needs.push("Optional: add an approval rule in the policy studio"); if (S.done >= 8 && S.done < 9) needs.push("Redeem leftover bounty funds with your token partner, or keep them in escrow"); }
     if (seat === "invoker"){ if (S.done >= 4 && S.done < 5) needs.push("Sign the RefundPro agreement and set Sam's mandate"); if (S.done >= 6 && !S.grcReviewed) needs.push("Quarterly access review for support-ops is due (Governance tab)"); }
     if (seat === "tester"){ if (S.done >= 7 && S.done < 8) needs.push("New programme: RefundPro bounty (sandbox)"); if (S.done >= 8 && S.done < 9) needs.push("Redeem your 1,350 TKN reward with your token partner"); }
     if (seat === "auditor"){ if (S.done >= 6) needs.push("Northwind granted read-only access until 31 Dec 2026: verify its evidence"); }
@@ -832,7 +833,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const showPick = () => {
       const e = CAT().find(x => x.server === S.catPick); if (!e){ $("cpick").innerHTML = ""; return; }
       $("cpick").innerHTML = "<div class=\"box\"><strong>" + esc(e.server) + "</strong> by " + esc(e.publisher) + " \u00b7 " + esc(e.cert) + (e.claimed ? "" : " <span class=\"chip hold\">unclaimed: public data and passive checks only; the owner can claim or remove it</span>") +
-        (e.server === "RefundPro MCP server" && S.listing ? "<br>Trust Check " + S.server.score + " \u00b7 profile payments-strict \u00b7 sandbox available<div style=\"margin-top:6px\"><button type=\"button\" class=\"btn\" id=\"bMan\">View public manifest (server.json)</button></div><div id=\"manOut\"></div>" : "") + "</div>";
+        (e.server === "RefundPro MCP server" && S.listing ? "<br>Saktum Check " + S.server.score + " \u00b7 profile payments-strict \u00b7 sandbox available<div style=\"margin-top:6px\"><button type=\"button\" class=\"btn\" id=\"bMan\">View public manifest (server.json)</button></div><div id=\"manOut\"></div>" : "") + "</div>";
       if (e.server === "RefundPro MCP server" && S.done >= 6){
         $("cpick").innerHTML += "<div class=\"box\">Rate after use (proven by your receipts): " + [1,2,3,4,5].map(n => "<button type=\"button\" class=\"btn\" data-rate=\"" + n + "\" style=\"padding:2px 8px\">" + n + "\u2605</button>").join(" ") + (S.rating ? " <strong>You rated " + S.rating + "\u2605</strong>" : "") + "</div>";
         document.querySelectorAll("[data-rate]").forEach(x => x.addEventListener("click", async () => { S.rating = +x.dataset.rate; await trail("invoker", "review.posted", "com.acme-payments/refundpro", { stars: S.rating, receipt: "rcp_1" }); showPick(); }));
@@ -913,16 +914,16 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const nCert = S.creds.filter(c => c.body.type === "Certification").length, nRev = S.trail.filter(t => t.body.action === "grc.review").length;
     const risk = S.server.cert === "Certified" ? "Low" : S.server.cert === "Tested" ? "Medium" : "High";
     const inv = [
-      ["Agent: support-ops (Northwind)", "Northwind Retail; manager: verified member (role only)", "Customer refunds", "personal, payment", "Verified agent", "Medium", S.grcReviewed ? "Today" : "Due now"],
-      ["Server: RefundPro (Acme Payments)", "Acme Payments", "Refund tools", "personal, payment", S.server.cert, risk, S.done >= 3 ? "At publish" : "-"],
-      ["Server: Northwind order tools", "Northwind Retail", "Internal lookups", "personal", "Internal", "Low", "Last quarter"]
+      ["Agent: support-ops (Northwind)", "Northwind Retail; manager: verified member (role only)", "Customer refunds", "personal, payment", "Verified agent", "Medium", S.grcReviewed ? "Today" : "Due now", "Deployer"],
+      ["Server: RefundPro (Acme Payments)", "Acme Payments", "Refund tools", "personal, payment", S.server.cert, risk, S.done >= 3 ? "At publish" : "-", "Provider"],
+      ["Server: Northwind order tools", "Northwind Retail", "Internal lookups", "personal", "Internal", "Low", "Last quarter", "Provider and deployer (internal)"]
     ];
     const controls = [
       ["SOC 2 CC6.1", "Logical access is restricted", "Receipts with identity and policy checks", nRec],
       ["SOC 2 CC8.1", "Changes are authorised and recorded", "Change-trail entries with approvals", nTrail],
       ["ISO/IEC 27001 A.5.15", "Access control rules", "Signed policy bundles and overrides", S.done >= 3 ? 1 + nPol : 0],
       ["ISO/IEC 27001 A.8.15", "Logging", "Hash-chained receipts and trail", nRec + nTrail],
-      ["ISO/IEC 42001 6.1.2", "AI risk assessment", "Risk register entries and Trust Check reports", S.done >= 2 ? inv.length : 0],
+      ["ISO/IEC 42001 6.1.2", "AI risk assessment", "Risk register entries and Saktum Check reports", S.done >= 2 ? inv.length : 0],
       ["NIST AI RMF GOVERN 1.1", "Legal and regulatory requirements understood", "Regulatory classifications", S.done >= 1 ? 2 : 0],
       ["NIST AI RMF MANAGE 4.1", "Post-deployment monitoring and incidents", "Incidents, findings, disputes", S.findings.length + S.disputes.length + (S.done >= 10 ? 1 : 0)],
       ["EU AI Act Art. 50", "Transparency for AI interacting with people", "Agent Card disclosure; consent records", nCons],
@@ -932,7 +933,8 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     if (S.findings.length) incidents.push(["High", "Critical flaw in RefundPro (CWE-367) found by bounty; fixed in v2.3.2", "Closed", "Finding pack, panel decision, certification update"]);
     if (S.done >= 10) incidents.push(["Low", "Disputed refund charge (receipt #1)", "Closed: dispute rejected by evidence", "Cross-signed receipt"]);
     tp.innerHTML = "<p class=\"lead\" style=\"margin:0 0 6px;color:var(--ink-2)\">Northwind's Governance workspace. Everything here is built from evidence the platform already produces (receipts, the change trail, certifications, consent records), so small teams get it for free and enterprises get audit-ready governance. Every review, exception and decision is itself a signed change-trail entry.</p>" +
-      "<h4 style=\"margin:10px 0 6px;font-size:13.5px\">Inventory and risk register</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Subject</th><th>Owner</th><th>Purpose</th><th>Data</th><th>Certification</th><th>Risk</th><th>Review</th></tr></thead><tbody>" + inv.map(r => "<tr>" + r.map((c, i) => "<td>" + (i === 5 ? "<span class=\"chip " + (c === "Low" ? "allow" : c === "Medium" ? "hold" : "deny") + "\">" + c + "</span>" : esc(c)) + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>" +
+      "<h4 style=\"margin:10px 0 6px;font-size:13.5px\">Inventory and risk register</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Subject</th><th>Owner</th><th>Purpose</th><th>Data</th><th>Certification</th><th>Risk</th><th>Review</th><th>EU AI Act role</th></tr></thead><tbody>" + inv.map(r => "<tr>" + r.map((c, i) => "<td>" + (i === 5 ? "<span class=\"chip " + (c === "Low" ? "allow" : c === "Medium" ? "hold" : "deny") + "\">" + c + "</span>" : esc(c)) + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>" +
+      "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Agent data lineage</h4><p style=\"margin:0 0 6px;color:var(--ink-2)\">Built from receipts: which data went where, for whom, under which consent. A data protection officer, an auditor or a customer gets the answer in seconds, and no conversation is ever stored.</p>" + lineageTable() +
       "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Regulatory classification</h4><div class=\"box\"><strong>support-ops:</strong> EU AI Act <em>limited risk</em> (transparency obligations: people are told they are dealing with an AI agent). Basis: customer-service refunds under a person's mandate; no biometric, credit-scoring or employment decisions. <strong>RefundPro:</strong> a tool, not an AI system; covered as third-party risk.</div>" +
       "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Control coverage (from live evidence)</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Control</th><th>Requirement</th><th>Evidence</th><th>Items</th><th>Status</th></tr></thead><tbody>" + controls.map(c => "<tr><td><strong>" + c[0] + "</strong></td><td>" + esc(c[1]) + "</td><td>" + esc(c[2]) + "</td><td>" + c[3] + "</td><td>" + (c[3] > 0 ? "<span class=\"ok\">covered</span>" : "<span class=\"bad\">gap</span>") + "</td></tr>").join("") + "</tbody></table></div>" +
       "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Access review and exceptions</h4><div class=\"box\">Quarterly review: Northwind's manager re-approves support-ops' permissions and Sam's mandate; unreviewed access drops to read-only after 14 days.<div style=\"display:flex;gap:8px;flex-wrap:wrap;margin-top:8px\"><button type=\"button\" class=\"btn primary\" id=\"gRev\"" + (S.grcReviewed ? " disabled" : "") + ">" + (S.grcReviewed ? "Reviewed today" : "Manager re-approves support-ops") + "</button><button type=\"button\" class=\"btn\" id=\"gExc\"" + (S.grcException ? " disabled" : "") + ">" + (S.grcException ? "Exception recorded" : "Record an exception") + "</button></div>" +
@@ -972,9 +974,9 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     const take = S.journal.filter(e => e.to === "platform:revenue" && /take/i.test(e.memo)).reduce((a, e) => a + e.amount, 0);
     const bfee = S.journal.filter(e => e.to === "platform:revenue" && /bounty/i.test(e.memo)).reduce((a, e) => a + e.amount, 0);
     const subs = (S.plans.provider.startsWith("Team") ? 990 : 0) + (S.plans.invoker.startsWith("Business") ? 9900 : 0) + (S.plans.invoker.startsWith("Enterprise") ? 41000 : 0);
-    const plans = [["Free", "0", "1 server, 100,000 verified calls a month, 7-day history, Agent ID, Trust Check, Tested in year one"], ["Team", "990 TKN a month", "5 servers, 90-day history, teammates, private test packs"], ["Business", "9,900 TKN a month", "SSO and SCIM, evidence exports, regional data planes, GRC basics, SLA, exports to your tools"], ["Enterprise", "Contract (from about 41,000 TKN a month)", "Dedicated or hybrid, GRC workspace, customer-managed keys, premium support"], ["Self-managed add-on", "Contract (2028)", "On-premises or air-gapped, FIPS, HSM, federation"]];
-    const loops = [["Badge", S.done >= 2 ? "1 badge added (RefundPro README)" : "not yet", "Every README badge brings new Trust Check runs"], ["Scorecard", S.done >= 3 ? "3 unclaimed listings claimed by Acme" : "not yet", "Public scores make owners claim and improve"], ["Two-sided pull", S.done >= 4 ? "Northwind required a Tested provider; Acme had one" : "not yet", "Invokers pull providers in, and vice versa"], ["Bounty", S.done >= 8 ? "1 finding fixed; 1 public regression pack added" : "not yet", "Every finding improves Trust Check for everyone"], ["Receipt", S.done >= 10 ? "Receipt settled a dispute in seconds" : "not yet", "Shared receipts introduce Saktum to new organisations"]];
-    tp.innerHTML = "<p class=\"lead\" style=\"margin:0 0 6px;color:var(--ink-2)\">How Saktum earns. What spreads the network is free forever (Trust Check, Agent ID, receipts, listings); teams pay when they grow; companies pay when customers ask for evidence; enterprises pay for governance and deployment choice; the marketplace earns once money flows. Prices are illustrative and shown in tokens.</p>" +
+    const plans = [["Free", "0", "1 server, 100,000 verified calls a month, 7-day history, Agent ID, Saktum Check, Tested in year one"], ["Team", "990 TKN a month", "5 servers, 90-day history, teammates, private test packs"], ["Business", "9,900 TKN a month", "SSO and SCIM, evidence exports, regional data planes, GRC basics, SLA, exports to your tools"], ["Enterprise", "Contract (from about 41,000 TKN a month)", "Dedicated or hybrid, GRC workspace, customer-managed keys, premium support"], ["Self-managed add-on", "Contract (2028)", "On-premises or air-gapped, FIPS, HSM, federation"]];
+    const loops = [["Badge", S.done >= 2 ? "1 badge added (RefundPro README)" : "not yet", "Every README badge brings new Saktum Check runs"], ["Scorecard", S.done >= 3 ? "3 unclaimed listings claimed by Acme" : "not yet", "Public scores make owners claim and improve"], ["Two-sided pull", S.done >= 4 ? "Northwind required a Tested provider; Acme had one" : "not yet", "Invokers pull providers in, and vice versa"], ["Bounty", S.done >= 8 ? "1 finding fixed; 1 public regression pack added" : "not yet", "Every finding improves Saktum Check for everyone"], ["Receipt", S.done >= 10 ? "Receipt settled a dispute in seconds" : "not yet", "Shared receipts introduce Saktum to new organisations"]];
+    tp.innerHTML = "<p class=\"lead\" style=\"margin:0 0 6px;color:var(--ink-2)\">How Saktum earns. What spreads the network is free forever (Saktum Check, Agent ID, receipts, listings); teams pay when they grow; companies pay when customers ask for evidence; enterprises pay for governance and deployment choice; the marketplace earns once money flows. Prices are illustrative and shown in tokens.</p>" +
       "<h4 style=\"margin:10px 0 6px;font-size:13.5px\">Plans</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Plan</th><th>Price</th><th>Includes</th></tr></thead><tbody>" + plans.map(r => "<tr><td><strong>" + r[0] + "</strong></td><td>" + r[1] + "</td><td>" + esc(r[2]) + "</td></tr>").join("") + "</tbody></table></div><p class=\"muted\">Plus usage above allowances, a 5\u201315% marketplace take rate, certification fees and about 10% on bounty rewards.</p>" +
       "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Upgrade moments in this story</h4>" + (S.triggers.length ? "<div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Where</th><th>Who</th><th>Trigger</th><th>Offer</th></tr></thead><tbody>" + S.triggers.map(t => "<tr><td>" + t.at + "</td><td>" + esc(t.org) + "</td><td>" + esc(t.cond) + "</td><td>" + esc(t.offer) + " trial</td></tr>").join("") + "</tbody></table></div>" : "<p class=\"empty\">Upgrade moments appear as the story runs (chapters 3 and 6, and when the Governance tab is opened).</p>") +
       "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Growth loops (usage that grows without sales)</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Loop</th><th>In this story</th><th>Why it compounds</th></tr></thead><tbody>" + loops.map(r => "<tr><td><strong>" + r[0] + "</strong></td><td>" + esc(r[1]) + "</td><td>" + esc(r[2]) + "</td></tr>").join("") + "</tbody></table></div>" +
@@ -1004,7 +1006,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
       "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Try it</h4><div class=\"box\"><div style=\"display:flex;gap:8px;flex-wrap:wrap\"><button type=\"button\" class=\"btn\" id=\"rq1\">Acme's billing user edits a policy</button><button type=\"button\" class=\"btn\" id=\"rq2\">Rahul (agent manager) publishes v2.3.3</button><button type=\"button\" class=\"btn\" id=\"rq3\">Leila (auditor) exports Northwind evidence</button><button type=\"button\" class=\"btn primary\" id=\"rq4\"" + (S.customRole ? " disabled" : "") + ">" + (S.customRole ? "Custom role created" : "Northwind creates a custom role") + "</button></div><div id=\"rqOut\"></div></div>";
     const out = (html) => { $("rqOut").innerHTML = html; };
     $("rq1").addEventListener("click", () => out(line(false, "Denied: <span class=\"mono\">policy.override.write</span> is not granted to Billing / settlement. Decision recorded.")));
-    $("rq2").addEventListener("click", () => out(line(true, "Allowed with an obligation: the version is staged and waits for approval by the agent owner (approval policy). Trust Check runs automatically before release.")));
+    $("rq2").addEventListener("click", () => out(line(true, "Allowed with an obligation: the version is staged and waits for approval by the agent owner (approval policy). Saktum Check runs automatically before release.")));
     $("rq3").addEventListener("click", () => out(S.done >= 6 ? line(true, "Allowed read-only under Northwind's grant to ClearAudit (until 31 Dec 2026); the access itself is recorded.") : line(false, "Denied: no grant from Northwind yet (it is given in chapter 6).")));
     $("rq4").addEventListener("click", async () => { S.customRole = true; await trail("invoker", "role.created", "Refund reviewer (Canada)", { permissions: ["receipts.read", "dispute.open"], condition: "resource.region == \"CA\" && resource.category == \"payments\"" }); renderTab(); setTimeout(() => out("<div class=\"json\">" + esc("permit(principal in Role::\"refund-reviewer\", action in [Action::\"receipts.read\", Action::\"dispute.open\"], resource)\n  when { resource.region == \"CA\" && resource.category == \"payments\" };") + "</div>" + line(true, "Custom role created from two existing permissions plus an attribute condition; recorded in the change trail")), 0); });
   }
@@ -1081,12 +1083,44 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
     on("mw", "mWin", true); on("mc", "mCat"); on("mr", "mReg"); on("mo", "mOut"); on("mg", "mGroup");
   }
 
+  function lineageTable(){
+    const allowed = S.receipts.filter(r => r.body.outcome === "ALLOW");
+    if (!allowed.length) return "<p class=\"empty\">No calls yet. Lineage appears once the agent makes its first call.</p>";
+    const byTool = {}; allowed.forEach(r => { byTool[r.body.tool] = (byTool[r.body.tool] || 0) + 1; });
+    return "<div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Data</th><th>Agent</th><th>Went to</th><th>Calls</th><th>Under</th></tr></thead><tbody>" +
+      Object.entries(byTool).map(([tool, n]) => "<tr><td>" + (tool === "issue_refund" ? "Personal (masked), payment" : "Personal (masked)") + "</td><td>support-ops (Northwind)</td><td>" + esc(tool) + " at RefundPro, Acme Payments (Canada)</td><td>" + n + "</td><td>Sam's consent: customer refunds, 30 days</td></tr>").join("") + "</tbody></table></div>";
+  }
+
+  function renderEcosystem(tp){
+    if (!S.done){ tp.innerHTML = "<p class=\"empty\">The Ecosystem view fills in as the story runs. Saktum doesn't build agents; it helps the world find, trust and use them faster.</p>"; return; }
+    const cert = S.server.cert || "Submitted", listed = S.done >= 3;
+    const until = new Date(Date.now() + 90 * 864e5).toLocaleDateString([], { dateStyle: "medium" });
+    const passport = listed ? "<div class=\"wrapx\"><table class=\"t\"><tbody>" +
+      [["Rating", cert], ["Latest signed result", "Saktum Check " + S.server.score + ", verifiable by anyone"], ["Provenance", "Source commit pinned, signed build"], ["Data terms", "Purpose: customer refunds; data: personal (masked), payment; retention 30 days; residency Canada"], ["Valid until", until + " (suspended automatically if tools change or the rating drops)"]]
+        .map(r => "<tr><th style=\"text-align:left\">" + r[0] + "</th><td>" + esc(r[1]) + "</td></tr>").join("") + "</tbody></table></div>" +
+      "<div class=\"box\"><strong>Pre-approved for Northwind.</strong> Northwind's policy accepts passports rated Tested or above, for payment data, with residency in Canada. RefundPro matches, so no separate security questionnaire was needed. Every other Saktum customer with a matching policy gets the same answer instantly.</div>"
+      : "<p class=\"empty\">RefundPro's passport appears once it is published and rated.</p>";
+    const demand = [["money.refund", "Canada", "Met by RefundPro (" + cert + ")", "allow"], ["kyc.verify_business", "India", "4,120 searches; no tool rated Tested or above", "deny"], ["shipping.customs_declaration", "Global", "2,870 searches; best rating Submitted", "hold"], ["invoice.reconcile", "Canada, UK", "1,940 searches; no listing yet", "deny"]];
+    tp.innerHTML = "<p class=\"lead\" style=\"margin:0 0 6px;color:var(--ink-2)\">Saktum doesn't build agents. It helps the world find, trust and use them faster: it sees supply (every tool checked, rated and listed) and demand (what agents search for and can't find).</p>" +
+      "<h4 style=\"margin:10px 0 6px;font-size:13.5px\">Trust passport: RefundPro 2.3.x</h4>" + passport +
+      "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Unmet-demand board (Saktum Index)</h4><p style=\"margin:0 0 6px;color:var(--ink-2)\">Aggregated from agents' intent searches; a category appears only when at least 20 organisations contributed, and nobody is identifiable. Figures beyond this story are illustrative.</p><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Capability</th><th>Region</th><th>Supply</th></tr></thead><tbody>" +
+      demand.map(d => "<tr><td><code>" + d[0] + "</code></td><td>" + d[1] + "</td><td><span class=\"chip " + d[3] + "\">" + esc(d[2]) + "</span></td></tr>").join("") + "</tbody></table></div>" +
+      "<div class=\"box\"><strong>For builders:</strong> the board shows exactly what to build. A sponsor can fund a bounty for a missing tool; the winning tool must pass Verified.</div>" +
+      "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Governed blueprint: customer refunds v1</h4><div class=\"box\">Tools: RefundPro <code>issue_refund</code> and <code>search_orders</code> (pinned versions). Rules: refunds up to 300, approval above 200, no refunds outside the order's country. Oversight: on the loop, with a daily write-action digest. Evidence: receipts and a monthly audit pack. <strong>Approved once by Northwind's governance board;</strong> any team can deploy it within those bounds.</div>" +
+      "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Builder and integrator network</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Builder</th><th>Skills</th><th>Rated on</th></tr></thead><tbody>" +
+      "<tr><td>Maple Integrations (Toronto)</td><td>Payments, OSFI E-23 evidence</td><td>12 deployments, median 4 days to first governed call</td></tr><tr><td>Setu Agents (Bengaluru)</td><td>KYC, CERT-In audit packs</td><td>8 deployments, no incidents</td></tr></tbody></table></div>" +
+      "<h4 style=\"margin:12px 0 6px;font-size:13.5px\">Test drive</h4><p style=\"margin:0 0 6px;color:var(--ink-2)\">Try a listed tool against mocks and sandbox data before buying. Nothing real happens.</p><button type=\"button\" class=\"btn\" id=\"tdrive\">Test-drive RefundPro</button><div id=\"tdriveOut\" aria-live=\"polite\"></div>";
+    const td = $("tdrive");
+    if (td) td.addEventListener("click", () => { $("tdriveOut").innerHTML = "<div class=\"box\"><strong>Sandbox call:</strong> <code>issue_refund</code> for test order TEST-4417, amount 128, returned \"refunded (mock)\" in 41 ms. No money moved; a test-drive summary was added to the sandbox ledger. Annotations: writes data, not destructive, idempotent.</div>"; });
+  }
+
   async function renderTab(){
     document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === S.tab)));
     const tp = $("tabpanel");
     if (S.tab === "catalogue"){ renderCatalogue(tp); return; }
     if (S.tab === "policies"){ renderPolicies(tp); return; }
     if (S.tab === "governance"){ renderGovernance(tp); return; }
+    if (S.tab === "ecosystem"){ renderEcosystem(tp); return; }
     if (S.tab === "consent"){ renderConsent(tp); return; }
     if (S.tab === "stack"){ renderStack(tp); return; }
     if (S.tab === "plans"){ renderPlans(tp); return; }
@@ -1115,7 +1149,7 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:900px}
       openReceipt(S.receipts.length - 1);
     } else if (S.tab === "trust"){
       tp.innerHTML = "<p class=\"lead\" style=\"margin:0 0 8px;color:var(--ink-2)\">What Saktum promises, how it is checked, and how the platform itself earns trust.</p>" +
-        "<h4>Rating ladder (public criteria)</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Level</th><th>How it is earned</th><th>Signed by</th></tr></thead><tbody><tr><td>Submitted</td><td>Identity verified (organisation and business verification; accountability chain), then listed</td><td>Saktum registry</td></tr><tr><td>Tested</td><td>Hosted Trust Check run of the published packs for this exact version</td><td>Saktum certification</td></tr><tr><td>Certified</td><td>Tested, plus an independent accredited certifier's review and a bounty window with no open critical findings</td><td>Independent certifier, countersigned by Saktum</td></tr><tr><td>Certified plus</td><td>Continuous monitoring from receipts: behaviour, SLAs, disputes</td><td>Saktum, from evidence</td></tr></tbody></table></div>" +
+        "<h4>Rating ladder (public criteria)</h4><div class=\"wrapx\"><table class=\"t\"><thead><tr><th>Level</th><th>How it is earned</th><th>Signed by</th></tr></thead><tbody><tr><td>Submitted</td><td>Identity verified (organisation and business verification; accountability chain), then listed</td><td>Saktum registry</td></tr><tr><td>Tested</td><td>Hosted Saktum Check run of the published packs for this exact version</td><td>Saktum certification</td></tr><tr><td>Certified</td><td>Tested, plus an independent accredited certifier's review and a bounty window with no open critical findings</td><td>Independent certifier, countersigned by Saktum</td></tr><tr><td>Certified plus</td><td>Continuous monitoring from receipts: behaviour, SLAs, disputes</td><td>Saktum, from evidence</td></tr></tbody></table></div>" +
         "<h4>Fair bounty decisions</h4><p>Commit-reveal priority; objective reruns in a clean sandbox; random panels of five reviewers with commit-reveal votes and a four-of-five supermajority; one appeal to an independent advisory panel; tester reputation tiers with rewards, suspension below a published threshold, and removal for abuse.</p>" +
         "<h4>Adoption without rewrites</h4><p>Providers import servers in bulk from the MCP Registry, GitHub, OpenAPI files or bulk manifests, and claim unclaimed listings by proving ownership. Agents connect through two-line SDK middleware for LangGraph, the OpenAI Agents SDK, the Claude Agent SDK and CrewAI. Existing API gateways (Kong, Zuplo) and hosts (Cloudflare, Vercel) connect through plugins and deploy hooks.</p>" +
         "<h4>Cold start, disclosed</h4><p>Until enough Trusted testers exist, review panels mix community testers with invited external experts, and a founding certifier partner issues Certified; every decision states its panel mode, and the transparency report shows it.</p>" +
