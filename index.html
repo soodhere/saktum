@@ -74,12 +74,24 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   </header>
 </div>
 
+<section class="block" id="live" style="padding-top:8px">
+  <div class="wrap">
+    <div style="border:1px solid var(--line,#ddd);border-radius:14px;padding:18px 20px;display:grid;gap:10px">
+      <div style="font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.8">Live now</div>
+      <div><strong>Saktum Check is public and free.</strong> Test any MCP server in a minute: trust (conformance, sign-in, security mapped to the OWASP MCP Top 10), functional behaviour and your own test cases, performance under load, and agent readiness, with a trust card that says exactly what was tested.
+      <br><code style="font-family:var(--mono);font-size:14px">npx saktum check -- npx -y your-mcp-server</code> &middot; <a href="https://github.com/soodhere/saktum-check">GitHub</a> &middot; <a href="https://www.npmjs.com/package/saktum">npm</a></div>
+      <div><strong>For providers:</strong> <code style="font-family:var(--mono);font-size:14px">saktum fix</code> writes the annotation code your tools are missing, <code style="font-family:var(--mono);font-size:14px">saktum diff</code> blocks breaking and silent tool changes in CI, <code style="font-family:var(--mono);font-size:14px">saktum docs</code> writes your tools table and client set-up, and <code style="font-family:var(--mono);font-size:14px">saktum packet</code> turns a signed result into a security packet for your customers&rsquo; reviews.</div>
+      <div><strong>State of MCP Trust, November 2026.</strong> We ran Saktum Check across the ecosystem: 2,808 MCP server packages (about 60 million weekly downloads) and the 103 most-used servers assessed on a five-level maturity model. Only 42 are agent-ready, 48% declare no danger annotations, and 40% of packages can&rsquo;t prove where their code came from. Maintainers can <a href="https://github.com/soodhere/saktum-index">request their server&rsquo;s report</a>.</div>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="seats">
   <div class="wrap">
     <h2>One trust layer, five kinds of organisation</h2>
     <p class="sub">Five kinds of organisations (providers, invokers, research institutes, audit organisations and the platform), each with fine-grained roles. The demo lets you sign in as each one.</p>
     <div class="seats">
-      <div class="seat" style="--c:var(--p-dev)"><h3>Developers</h3><p>Free, open-source Saktum Check: test any MCP server or agent for conformance, sign-in, security and prompt injection. Get a score, fixes and a badge.</p><a href="/demo#provider">See Saktum Check</a></div>
+      <div class="seat" style="--c:var(--p-dev)"><h3>Developers</h3><p>Free, open-source Saktum Check, live now: test any MCP server for conformance, sign-in, security, functional behaviour, load and agent readiness. Get two grades, a trust card, fixes and a badge.</p><a href="/demo#provider">See Saktum Check</a></div>
       <div class="seat" style="--c:var(--p-provider)"><h3>Providers</h3><p>Publish a server with one manifest. Secure defaults, sign-in, limits, analytics and receipts in minutes. Get found, get paid, get certified.</p><a href="/demo#provider">Sign in as a provider</a></div>
       <div class="seat" style="--c:var(--p-invoker)"><h3>Invokers</h3><p>Give agents a verifiable identity. Find tools by intent, set what agents may do, get consent, and show security reviewers proof of every action.</p><a href="/demo#invoker">Sign in as an invoker</a></div>
       <div class="seat" style="--c:var(--p-tester)"><h3>Testers</h3><p>Find real flaws in agents and tools, prove them with test packs, and get paid fairly through commit-reveal priority and independent review panels.</p><a href="/demo#tester">Sign in as a tester</a></div>
@@ -123,7 +135,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     <h2>Download Saktum Check (free, open source)</h2>
     <p class="sub">Test any MCP server or agent in a minute. Runs on your laptop, in CI, or fully offline.</p>
     <div class="grid2">
-      <div><h3>Install</h3><p><code style="font-family:var(--mono);font-size:14px">npx saktum check https://your-server/mcp</code><br>Also Homebrew, winget, Docker, and signed binaries for macOS, Linux and Windows.</p></div>
+      <div><h3>Install</h3><p><code style="font-family:var(--mono);font-size:14px">npx saktum check -- npx -y your-mcp-server</code><br><code style="font-family:var(--mono);font-size:14px">npx saktum check https://your-server/mcp</code><br>Needs Node.js 20 or later on Windows, macOS or Linux. Also available as a single file from <a href="https://github.com/soodhere/saktum-check/releases">GitHub Releases</a>, published to npm with provenance.</p></div>
       <div><h3>What it checks</h3><p>Protocol conformance, sign-in, security, prompt-injection resistance, agent experience and performance. You get a score, fixes, a badge and a signed report.</p></div>
       <div><h3>Fits your workflow</h3><p>VS Code extension, GitHub Action and CI templates, SARIF and JUnit output, pull-request comments, and an interactive inspector to browse and call tools.</p></div>
       <div><h3>Write your own tests</h3><p>A pack SDK for team and community test packs, private packs for your organisation, and red-team mode with adversarial servers for agents.</p></div>
@@ -164,7 +176,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     <p class="sub">We start where adoption is easiest (developers) and add each seat on the same foundations.</p>
     <div class="star"><strong>North star: verified agent calls per week.</strong> Calls where the agent's identity was verified, the provider is certified, and both sides signed the receipt. It grows only when every seat adopts.</div>
     <ol class="road">
-      <li><div class="when">1. Developers<small>Beta November 2026, launch January 2027</small></div><div><h3><span class="tag" style="color:var(--p-dev)">Free</span>Saktum Check</h3><p>Open-source tool and GitHub Action: conformance, sign-in, security and adversarial tests for MCP servers and agents; scores, fixes, badges and signed reports.</p></div></li>
+      <li><div class="when">1. Developers<small>Live since November 2026; CI Action December 2026; 1.0 in May 2027</small></div><div><h3><span class="tag" style="color:var(--p-dev)">Free</span>Saktum Check</h3><p>Open-source tool and GitHub Action: conformance, sign-in, security, functional tests and your own test cases, load, and agent readiness for MCP servers; grades, fixes, badges and signed reports. Adversarial and supply-chain depth follow before 1.0.</p></div></li>
       <li><div class="when">2. Providers<small>Mid-2027, design partners</small></div><div><h3><span class="tag" style="color:var(--p-provider)">Gateway</span>Publish safely</h3><p>Gateway with OAuth for MCP, keys, limits, risk-class defaults and policy profiles, Agent ID verification, signed receipts, standard manifest.</p></div></li>
       <li><div class="when">3. Invokers<small>Mid-2027 design partners, public early 2028</small></div><div><h3><span class="tag" style="color:var(--p-invoker)">Controls</span>Agents you can trust</h3><p>Agent-side rules, approvals, consent and mandates, token vault, self-serve sign-up, credits and billing, audit trail, self-hosted gateway.</p></div></li>
       <li><div class="when">4. Trust at scale<small>Late 2027</small></div><div><h3><span class="tag" style="color:var(--p-platform)">Evidence</span>Measured and certified</h3><p>Metrics and reports, hosted Saktum Check issuing the Tested credential, alarms and SLOs, SOC 2 Type I report.</p></div></li>
@@ -192,7 +204,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 <section class="block" id="join">
   <div class="wrap">
     <h2>Get early access</h2>
-    <p class="sub">Be among the first to try Saktum Check, put a server behind the gateway, or join the first bounty programmes.</p>
+    <p class="sub">Try Saktum Check today, request your server&rsquo;s census report, or join the first gateway design partners.</p>
     <form class="signup" id="signup" novalidate>
       <label>Name<input name="name" autocomplete="name" required></label>
       <label>Work email<input name="email" type="email" autocomplete="email" required></label>
@@ -213,7 +225,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   </div>
 </section>
 
-<footer><div class="wrap"><span>Saktum. In private beta.</span><span><a id="mailLink" href="#">Contact</a></span></div></footer>
+<footer><div class="wrap"><span>Saktum. Saktum Check is public; the gateway is in design with partners.</span><span><a id="mailLink" href="#">Contact</a></span></div></footer>
 
 <script>
 (() => {
