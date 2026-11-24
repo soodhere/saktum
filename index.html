@@ -3,228 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Saktum — the trust layer for the agentic economy</title>
-<meta name="description" content="Saktum verifies AI agents and the tools they use, enforces the rules on every call, and leaves proof both sides trust. Start free with Saktum Check.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Saktum: trust you can verify, for AI agents and their tools</title>
+<meta name="description" content="Test MCP servers, give AI agents an identity and a mandate, and keep signed proof of every call. Open source, free to start.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --paper:#F5F7FA; --surface:#FFFFFF; --ink:#1D2A44; --ink-2:#4A5872; --line:#D7DCE4; --line-2:#E8ECF1; --accent:#0F7B6C; --accent-bg:#E3F3EF; --focus:#2F6FEB;
-  --p-platform:#2F5DA8; --p-provider:#0F7B6C; --p-invoker:#8A4FB0; --p-tester:#B5651D; --p-dev:#3B4252;
-  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
-  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --paper:#11161F; --surface:#18202C; --ink:#E5EAF2; --ink-2:#A8B3C5; --line:#2C3747; --line-2:#222B39; --accent:#45C2AE; --accent-bg:#123A35; --focus:#7AA7FF; --p-platform:#7FA7EE; --p-provider:#45C2AE; --p-invoker:#C79AE8; --p-tester:#E7A35E; --p-dev:#A8B3C5; } }
-:root[data-theme="dark"]{ --paper:#11161F; --surface:#18202C; --ink:#E5EAF2; --ink-2:#A8B3C5; --line:#2C3747; --line-2:#222B39; --accent:#45C2AE; --accent-bg:#123A35; --focus:#7AA7FF; --p-platform:#7FA7EE; --p-provider:#45C2AE; --p-invoker:#C79AE8; --p-tester:#E7A35E; --p-dev:#A8B3C5; }
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55}
-a{color:inherit} :focus-visible{outline:2px solid var(--focus);outline-offset:3px}
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-nav.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:12px;flex-wrap:wrap}
-.logo{font-weight:600;font-size:20px;text-decoration:none} .logo small{font-weight:400;color:var(--ink-2);font-size:14px;margin-left:8px}
-nav .links{display:flex;gap:18px;font-size:15px;flex-wrap:wrap} nav .links a{text-decoration:none;color:var(--ink-2)} nav .links a:hover{color:var(--ink)}
-.hero{padding:40px 0 56px;max-width:820px}
-.hero h1{font-size:clamp(34px,5.4vw,56px);line-height:1.07;letter-spacing:-0.02em;margin:0 0 18px;font-weight:600}
-.hero p{font-size:19px;color:var(--ink-2);margin:0 0 26px;max-width:38em}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-block;text-decoration:none;font-size:16px;font-weight:500;padding:11px 18px;border-radius:9px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-family:inherit;color:inherit}
-.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-section.block{padding:56px 0;border-top:1px solid var(--line)}
-section.block h2{font-size:30px;letter-spacing:-0.01em;margin:0 0 10px;font-weight:600}
-.sub{color:var(--ink-2);max-width:42em;margin:0 0 28px}
-.seats{display:grid;gap:14px;grid-template-columns:1fr}
-@media (min-width:820px){.seats{grid-template-columns:repeat(4,1fr)}} @media (min-width:1080px){#seats .seats{grid-template-columns:repeat(5,1fr)}}
-.seat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:16px}
-.seat h3{margin:0 0 6px;font-size:18px} .seat p{margin:0 0 10px;color:var(--ink-2);font-size:15.5px} .seat a{font-size:14.5px}
-.flow{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:1fr;counter-reset:f}
-@media (min-width:820px){.flow{grid-template-columns:repeat(4,1fr)}}
-.flow li{counter-increment:f;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
-.flow li::before{content:counter(f);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:13px;font-weight:600;margin-bottom:6px}
-.flow strong{display:block;font-size:16px} .flow span{color:var(--ink-2);font-size:15px}
-.road{list-style:none;margin:0;padding:0;position:relative}
-.road li{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-2)}
-@media (max-width:640px){.road li{grid-template-columns:1fr;gap:4px}}
-.road .when{font-weight:600} .road .when small{display:block;font-weight:400;color:var(--ink-2);font-size:14px}
-.road h3{margin:0 0 4px;font-size:18px} .road p{margin:0;color:var(--ink-2);font-size:15.5px}
-.tag{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid currentColor;margin-right:6px}
-.grid2{display:grid;gap:22px 36px;grid-template-columns:1fr} @media (min-width:820px){.grid2{grid-template-columns:1fr 1fr}}
-.grid2 h3{margin:0 0 4px;font-size:18px} .grid2 p{margin:0;color:var(--ink-2);font-size:15.5px}
-.star{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:10px;padding:16px 18px;margin:0 0 26px}
-.star strong{font-size:18px}
-form.signup{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:12px;max-width:560px}
-form.signup label{display:grid;gap:4px;font-size:14.5px;font-weight:500}
-form.signup input,form.signup select,form.signup textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
-.status{font-size:15px;margin:0} .formnote{font-size:13.5px;color:var(--ink-2);margin:0}
-footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--ink-2);font-size:14px}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+:root{--bg:#f7f7fb;--card:#fff;--ink:#16161d;--ink-2:#55556a;--line:#e3e2ec;--accent:#5a3fc0;--accent-2:#ece8fb;--ok:#2e7d32;--ok-bg:#e7f4e8;--bad:#c62828;--bad-bg:#fdecec;--warn:#b7791f;--warn-bg:#fff6e0;--soft:#f1f0f7;
+--mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0f15;--card:#18181f;--ink:#ededf5;--ink-2:#a6a6ba;--line:#2b2b38;--accent:#9a86ef;--accent-2:#252038;--ok:#7fd287;--ok-bg:#16301a;--bad:#ef8f8f;--bad-bg:#371818;--warn:#f0c46b;--warn-bg:#34290f;--soft:#20202a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f0f15;--card:#18181f;--ink:#ededf5;--ink-2:#a6a6ba;--line:#2b2b38;--accent:#9a86ef;--accent-2:#252038;--ok:#7fd287;--ok-bg:#16301a;--bad:#ef8f8f;--bad-bg:#371818;--warn:#f0c46b;--warn-bg:#34290f;--soft:#20202a;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav .wrap{display:flex;align-items:center;gap:18px;height:58px}.logo{font-weight:700;font-size:19px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.nav .links{display:flex;gap:16px;overflow-x:auto;white-space:nowrap;flex:1}.nav .links a{color:var(--ink-2);text-decoration:none;font-size:14.5px}.nav .links a:hover{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.small{padding:7px 12px;font-size:14px}
+section{padding:64px 0}section.tight{padding:40px 0}.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.07em;text-transform:uppercase;font-size:12.5px}
+h1{font-size:clamp(34px,5.2vw,56px);line-height:1.06;letter-spacing:-.02em;margin:10px 0 14px}h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15;letter-spacing:-.01em;margin:8px 0 10px}h3{margin:0 0 6px;font-size:18px}
+.lede{font-size:clamp(17px,1.8vw,20px);color:var(--ink-2);max-width:620px}.sub{color:var(--ink-2);max-width:720px;margin:0 0 28px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:56px 0 40px}.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.mono{font-family:var(--mono)}.pill{display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:14px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}.muted{color:var(--ink-2)}small{color:var(--ink-2)}
+/* asset illustrations */
+.seal{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:20px;flex:none}
+.row{display:flex;gap:12px;align-items:center}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12.5px;border-radius:999px;padding:3px 9px;border:1px solid var(--line);background:var(--soft)}.chip.ok{background:var(--ok-bg);color:var(--ok);border-color:transparent}.chip.bad{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.levels{display:flex;gap:4px;margin-top:12px}.lv{flex:1;text-align:center;font-size:12px;font-weight:700;padding:5px 0;border-radius:6px;background:var(--soft);color:var(--ink-2)}.lv.on{background:var(--accent);color:#fff}
+.tools{margin-top:12px;font-size:13px}.tools div{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:6px 0}.tools code{font-family:var(--mono);font-size:12.5px}
+.tag{font-size:11.5px;border-radius:6px;padding:1px 7px}.tag.r{background:var(--ok-bg);color:var(--ok)}.tag.w{background:var(--warn-bg);color:var(--warn)}.tag.d{background:var(--bad-bg);color:var(--bad)}
+.assets{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.asset{display:flex;flex-direction:column;gap:12px}.asset .vis{background:var(--soft);border-radius:14px;padding:14px;min-height:168px}
+.asset p{margin:0;color:var(--ink-2);font-size:14.5px}.asset a{font-size:14px;font-weight:600;text-decoration:none}
+.chain{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.block{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px;font-size:12px;min-width:68px}.block b{display:block;font-size:13px}
+.arrow{color:var(--ink-2)}.verified{margin-top:10px;font-size:13px;color:var(--ok);font-weight:600}
+.tl{display:flex;flex-wrap:wrap;gap:5px}.step{font-size:12px;border-radius:8px;padding:4px 7px;background:var(--ok-bg);color:var(--ok)}.step.deny{background:var(--bad-bg);color:var(--bad)}.step.rep{outline:2px solid var(--warn)}
+/* gates */
+.gates{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.gate .num{font-family:var(--mono);color:var(--accent);font-weight:600;font-size:13px}.gate code{display:block;margin-top:10px;font-family:var(--mono);font-size:13px;background:var(--soft);border-radius:8px;padding:8px;overflow-x:auto;white-space:nowrap}
+/* personas */
+.personas{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.persona{display:flex;flex-direction:column;gap:8px}.avatar{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--accent-2)}
+.persona .who{font-weight:700}.persona .role{font-size:13px;color:var(--ink-2);margin-top:-6px}.persona p{margin:0;font-size:14px}.persona .gets{color:var(--ink-2)}.persona a{margin-top:auto;font-size:14px;font-weight:600;text-decoration:none}
+/* proof */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat b{display:block;font-size:34px;letter-spacing:-.02em}.stat span{color:var(--ink-2);font-size:14px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.diff{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.diff .q{color:var(--ink-2);font-size:14px;text-decoration:line-through;text-decoration-color:var(--line)}.diff .a{font-weight:600}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;counter-reset:s}.steps3 .card{position:relative;padding-top:30px}.steps3 .card::before{counter-increment:s;content:counter(s);position:absolute;top:-14px;left:20px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.install{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}.copybox{display:flex;gap:8px;align-items:center;font-family:var(--mono);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 8px 8px 14px}
+.signup{display:grid;gap:12px;max-width:560px}.signup label{display:grid;gap:6px;font-weight:500;font-size:14.5px}.signup input,.signup select,.signup textarea{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.status{min-height:1.2em;margin:0;font-weight:600}.formnote{margin:0;color:var(--ink-2);font-size:13.5px}
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);font-size:14px}footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}footer a{color:var(--ink-2)}
+@media (max-width:980px){.hero{grid-template-columns:1fr}.assets{grid-template-columns:repeat(2,1fr)}.personas{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.assets,.gates,.personas,.diff,.steps3{grid-template-columns:1fr}section{padding:44px 0}.nav .hide-s{display:none}}
+
+/* Story flow, demo previews and roadmap (visual, minimal text) */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;position:relative}
+.fstep{position:relative;text-align:center}.fstep .vis{height:92px;display:grid;place-items:center;background:var(--soft);border:1px solid var(--line);border-radius:16px;margin-bottom:12px}
+.fstep h3{margin:0 0 4px;font-size:17px}.fstep p{margin:0;font-size:14px;color:var(--ink-2)}
+.fstep:not(:last-child)::after{content:"\2192";position:absolute;right:-22px;top:34px;font-size:22px;color:var(--accent)}
+.fstep .tag{display:inline-block;font:600 11px var(--mono);letter-spacing:.06em;color:var(--accent);margin-bottom:6px}
+.mini-grade{display:flex;gap:6px}.mini-grade span{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;background:var(--ok)}
+.mini-code{font:12px var(--mono);text-align:left;line-height:1.5;color:var(--ink)}.mini-code b{color:var(--ok)}
+.mini-chain{display:flex;align-items:center;gap:4px;font:600 11px var(--mono)}.mini-chain span{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:4px 6px}
+.mini-steps{display:flex;gap:4px;font:600 11px var(--mono)}.mini-steps span{border-radius:6px;padding:4px 6px;background:var(--ok-bg);color:var(--ok)}.mini-steps .x{background:var(--bad-bg);color:var(--bad)}
+.gatelabel{text-align:center;margin-top:16px;font:600 12px var(--mono);letter-spacing:.08em;color:var(--ink-2)}
+.persona .demo{font-size:13px;background:var(--soft);border-radius:10px;padding:8px 10px;color:var(--ink)}.persona .demo b{display:block;font-size:11px;letter-spacing:.06em;color:var(--accent)}
+.persona .links2{display:flex;flex-direction:column;gap:4px;margin-top:auto}.persona .links2 a{margin-top:0}
+.road{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:8px}
+.road::before{content:"";position:absolute;left:4%;right:4%;top:15px;height:3px;background:var(--line)}
+.ms{position:relative;padding:0 10px;text-align:center}.ms .dot{width:32px;height:32px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px;position:relative;z-index:1;border:3px solid var(--bg)}
+.ms.done .dot{background:var(--ok);color:#fff}.ms.now .dot{background:var(--accent);color:#fff;box-shadow:0 0 0 6px var(--accent-2)}.ms.next .dot{background:var(--card);color:var(--accent);border-color:var(--accent)}.ms.later .dot{background:var(--card);color:var(--ink-2);border-color:var(--line)}
+.ms .when{font:600 12px var(--mono);color:var(--accent)}.ms h3{margin:2px 0 4px;font-size:15px}.ms p{margin:0;font-size:13px;color:var(--ink-2)}
+@media (max-width:900px){.flow{grid-template-columns:1fr 1fr}.fstep:nth-child(2)::after{display:none}.road{grid-template-columns:1fr;gap:14px}.road::before{left:15px;right:auto;top:8px;bottom:8px;width:3px;height:auto}.ms{display:grid;grid-template-columns:32px 1fr;gap:12px;text-align:left;padding:0}.ms .dot{margin:0}}
+@media (max-width:560px){.flow{grid-template-columns:1fr}.fstep::after{display:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav class="top" aria-label="Main">
-    <a class="logo" href="#top">Saktum<small>sakshi + factum: a witnessed deed</small></a>
-    <div class="links"><a href="#seats">Who it's for</a><a href="#how">How it works</a><a href="#connect">Integrations</a><a href="#download">Download</a><a href="#plans">Plans</a><a href="#roadmap">Roadmap</a><a href="#trust">Trust</a><a href="/story">Story</a><a href="/demo">Demo</a></div>
-  </nav>
-  <header class="hero" id="top">
-    <h1>Know what your AI did, and stop it if you need to.</h1>
-    <p>AI assistants now pay bills, send emails and refund customers. Saktum checks the tools they use, asks you before big decisions, stops an assistant everywhere in seconds, and keeps a receipt both sides can prove. Trust you can check. Start free with Saktum Check.</p>
-    <div class="ctas"><a class="btn primary" href="/story">Watch the 2-minute story</a><a class="btn" href="/demo">Explore the full demo</a><a class="btn" href="/guide">Developer guide</a><a class="btn" href="#join">Get early access</a></div>
-  </header>
+<header class="nav"><div class="wrap"><a class="logo" href="#top">Saktum</a>
+<nav class="links" aria-label="Main"><a href="#see">See it</a><a href="#how">How it works</a><a href="#who">Who it's for</a><a href="#proof">Proof</a><a href="#roadmap">Roadmap</a><a href="/guide">Developers</a><a href="#enterprise">Enterprises</a><a href="/demo">Demo</a></nav>
+<a class="btn primary small hide-s" href="#start">Get started</a></div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <div class="eyebrow">The trust layer for AI agents</div>
+    <h1>Trust you can verify, for AI agents and the tools they use.</h1>
+    <p class="lede">Test any MCP server, give every agent an identity and a mandate, and keep signed proof of every call. Open source. Free to start.</p>
+    <div class="ctas"><a class="btn primary" href="#start">Try it in 60 seconds</a><a class="btn" href="/demo">See the demo</a><a class="btn" href="#enterprise">For enterprises</a></div>
+    <p class="muted" style="margin-top:14px;font-size:14px">Listed on the official MCP Registry · 2 public ecosystem censuses · Apache-2.0</p>
+  </div>
+  <div class="card" aria-label="Example MCP Server Passport">
+    <div class="row"><div class="seal" style="background:#2e7d32">A</div><div><small class="mono">MCP SERVER PASSPORT</small><div style="font-weight:700;font-size:18px">billing-mcp 2.4.0</div><small>9 tools · protocol 2025-11-25 · ledger entry #12</small></div></div>
+    <div class="chips"><span class="chip ok">Trust A</span><span class="chip ok">Agent readiness A</span><span class="chip">2,140 tokens/turn</span><span class="chip">Signed</span></div>
+    <div class="levels"><div class="lv on">L1</div><div class="lv on">L2</div><div class="lv on">L3</div><div class="lv on">L4</div><div class="lv on">L5</div></div>
+    <div class="tools"><div><code>get_invoice</code><span class="tag r">reads</span></div><div><code>update_contact</code><span class="tag w">changes data</span></div><div><code>refund_payment</code><span class="tag d">can destroy</span></div></div>
+    <small style="display:block;margin-top:10px">Illustrative example. Real passports: <a href="https://soodhere.github.io/saktum-index/passports/">gallery</a>.</small>
+  </div>
 </div>
 
-<section class="block" id="live" style="padding-top:8px">
-  <div class="wrap">
-    <div style="border:1px solid var(--line,#ddd);border-radius:14px;padding:18px 20px;display:grid;gap:10px">
-      <div style="font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.8">Live now</div>
-      <div><strong>Saktum Check is public and free.</strong> Test any MCP server in a minute: trust (conformance, sign-in, security mapped to the OWASP MCP Top 10), functional behaviour and your own test cases, performance under load, and agent readiness, with a trust card that says exactly what was tested.
-      <br><code style="font-family:var(--mono);font-size:14px">npx saktum check -- npx -y your-mcp-server</code> &middot; <a href="/guide"><strong>Developer guide</strong></a> &middot; <a href="https://github.com/soodhere/saktum-check">GitHub</a> &middot; <a href="https://www.npmjs.com/package/saktum">npm</a></div>
-      <div><strong>For providers:</strong> <code style="font-family:var(--mono);font-size:14px">saktum fix</code> writes the annotation code your tools are missing, <code style="font-family:var(--mono);font-size:14px">saktum diff</code> blocks breaking and silent tool changes in CI, <code style="font-family:var(--mono);font-size:14px">saktum docs</code> writes your tools table and client set-up, <code style="font-family:var(--mono);font-size:14px">saktum packet</code> turns a signed result into a security packet for your customers&rsquo; reviews, and <code style="font-family:var(--mono);font-size:14px">saktum allowlist</code> gives MCP firewalls and gateways an evidence-based list of servers to trust, pinned to the exact tools that were checked. <strong>New in v0.4:</strong> Saktum is itself an MCP server, so your coding agent can test and fix MCP servers (<code style="font-family:var(--mono);font-size:14px">npx -y saktum mcp</code>); <code style="font-family:var(--mono);font-size:14px">saktum scan-config</code> shows what your whole agent set-up costs every turn and which tools overlap; and CI reports go straight to GitHub code scanning. <strong>Shift left:</strong> <code style="font-family:var(--mono);font-size:14px">saktum init</code> starts a new server that earns top grades from the first commit, <code style="font-family:var(--mono);font-size:14px">saktum lint</code> checks tool definitions in your editor, and <code style="font-family:var(--mono);font-size:14px">saktum call --save-test</code> turns any call into a test.</div>
-      <div><strong>New: passports</strong> &mdash; a visual card for every MCP server (identity, tools, grades, maturity, how to verify) and for every agent (its mandate and the path of its calls). Servers in the trust ledger get a public passport in the <a href="https://soodhere.github.io/saktum-index/passports/">gallery</a>.</div>
-      <div><strong>New: govern what agents do (preview)</strong> &mdash; give an agent its own identity and a mandate you sign; <code style="font-family:var(--mono);font-size:14px">saktum proxy</code> sits between the agent and an MCP server, blocks what the mandate does not allow, and writes a signed, chained receipt for every call, so you can check the path, not just the answer.</div>
-      <div><strong>New: the Saktum trust ledger</strong> &mdash; Certificate Transparency for the tools AI agents use. Providers publish signed attestations to a public, append-only, hash-chained ledger; anyone can verify it (<code style="font-family:var(--mono);font-size:14px">npx saktum ledger verify</code>); firewalls and gateways build allowlists from it, trusting only the signers they choose.</div>
-      <div><strong>Add Saktum to your coding agent</strong> (it can then test and fix MCP servers for you):
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><a class="btn" href="cursor://anysphere.cursor-deeplink/mcp/install?name=saktum&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInNha3R1bSIsIm1jcCJdfQ%3D%3D">Add to Cursor</a><a class="btn" href="vscode:mcp/install?%7B%22name%22%3A%22saktum%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22saktum%22%2C%22mcp%22%5D%7D">Add to VS Code</a></div>
-        <div style="margin-top:8px">Claude Code: <code style="font-family:var(--mono);font-size:14px">claude mcp add saktum -- npx -y saktum mcp</code> &middot; Claude Desktop and others: add <code style="font-family:var(--mono);font-size:14px">{"command": "npx", "args": ["-y", "saktum", "mcp"]}</code> to your MCP servers.</div></div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="#join" data-interest="Verified certification (early access)">Request Verified certification (early access)</a><a class="btn" href="#join" data-interest="Gateway design partner">Apply to be a gateway design partner</a><a class="btn" href="/maturity">The maturity model</a></div>
-      <div><strong>Why now:</strong> enterprise platforms are adding MCP firewalls that allow only trusted servers. Enforcement is arriving; deciding which servers deserve trust needs independent evidence. Saktum provides it, neutrally, across every platform.</div>
-      <div><strong>State of MCP Trust, December 2026.</strong> Our second census: 2,404 MCP server packages, 540 servers assessed in depth (including Python) and 381 remote servers checked. 52% of assessed servers are agent-ready, 35% still declare no danger annotations, and 84% of remote servers that require sign-in implement the sign-in discovery the MCP specification requires. <a href="/report"><strong>Read the full report</strong></a> (levels defined in the open <a href="/maturity">Saktum MCP Maturity Model</a>), or <a href="https://github.com/soodhere/saktum-index">get your server&rsquo;s report</a>.</div>
-    </div>
+<section id="see" class="tight"><div class="wrap">
+  <div class="eyebrow">See it, don't just read it</div><h2>Four things Saktum gives you</h2><p class="sub">Every claim is backed by something you can open, check and share.</p>
+  <div class="assets">
+    <div class="card asset"><div class="vis"><div class="row"><div class="seal" style="background:var(--accent);width:40px;height:40px;font-size:14px">AI</div><div><b>Billing assistant</b><br><small>acts for Finance · until 31 Mar</small></div></div>
+      <div class="chips"><span class="chip ok">✓ get_invoice</span><span class="chip ok">✓ list_invoices</span><span class="chip bad">✕ refund_payment</span></div><small style="display:block;margin-top:8px">Mandate signed by its owner</small></div>
+      <h3>An identity for every agent</h3><p>Each agent gets its own key and a mandate its owner signs: which tools, whether it may change data, until when.</p><a href="/guide#govern">Create one →</a></div>
+    <div class="card asset"><div class="vis"><div class="row"><div class="seal" style="background:#2e7d32;width:40px;height:40px;font-size:16px">A</div><div><b>Server passport</b><br><small>grades · tools · maturity</small></div></div>
+      <div class="levels"><div class="lv on">L1</div><div class="lv on">L2</div><div class="lv on">L3</div><div class="lv on">L4</div><div class="lv">L5</div></div><div class="tools"><div><code>search_docs</code><span class="tag r">reads</span></div><div><code>delete_page</code><span class="tag d">can destroy</span></div></div></div>
+      <h3>A passport for every server</h3><p>A one-page profile built from signed evidence: identity, every tool and its effect, grades and maturity level.</p><a href="https://soodhere.github.io/saktum-index/passports/">See passports →</a></div>
+    <div class="card asset"><div class="vis"><div class="chain"><div class="block"><b>#1</b><span class="mono">a3f9…</span></div><span class="arrow">→</span><div class="block"><b>#2</b><span class="mono">7c21…</span></div><span class="arrow">→</span><div class="block"><b>#3</b><span class="mono">e08b…</span></div></div><div class="verified">✓ every signature valid · chain intact</div><small>Edit any entry and verification fails.</small></div>
+      <h3>A public trust ledger</h3><p>Certificate Transparency for AI agent tools: signed attestations anyone can verify, and firewalls can build allowlists from.</p><a href="https://github.com/soodhere/saktum-index/tree/main/docs/ledger">Verify it →</a></div>
+    <div class="card asset"><div class="vis"><div class="tl"><span class="step rep">✓ read_graph</span><span class="step rep">✓ read_graph</span><span class="step rep">✓ read_graph</span><span class="step deny">⛔ create_entities</span></div><div class="verified" style="color:var(--warn)">Retry storm: read_graph ×3</div><small>Blocked: not in the mandate. Every step is a signed receipt.</small></div>
+      <h3>A receipt for every call</h3><p>See the path an agent took, not just its final answer: which tools, in what order, what was blocked.</p><a href="/guide#govern">See the path →</a></div>
   </div>
-</section>
+</div></section>
 
-<section class="block" id="enterprise" style="padding-top:8px">
-  <div class="wrap">
-    <div style="border:1px solid var(--line,#ddd);border-radius:14px;padding:18px 20px;display:grid;gap:10px">
-      <div style="font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.8">For enterprises</div>
-      <div><strong>Know which MCP servers your agents use, enforce your own rules, and keep the evidence.</strong> Saktum runs entirely in your environment: nothing is sent to us, no telemetry, signed results, an SBOM with every release.</div>
-      <div><strong>Inventory</strong> every MCP server across your teams (<code style="font-family:var(--mono);font-size:14px">saktum fleet</code>) &middot; <strong>policy as code</strong> enforced in CI, with approved exceptions that expire &middot; <strong>evidence</strong> for AI governance, procurement and your MCP firewall (allowlists pinned to the exact tools checked, security packets).</div>
-      <div><strong>The MCP Trust Pilot</strong> (4 to 6 weeks): inventory a group of teams, agree a first policy with your security team and enforce it in CI, deliver an allowlist, security packets and a remediation report, then continue as a design partner for the Saktum gateway.</div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="#join" data-interest="Gateway design partner">Discuss a pilot</a><a class="btn" href="https://github.com/soodhere/saktum-check/blob/main/docs/ENTERPRISE.md">Enterprise guide</a></div>
-    </div>
+<section id="how"><div class="wrap">
+  <div class="eyebrow">How it works</div><h2>Test it. Fix it. Prove it. Govern it.</h2><p class="sub">Four steps, one open toolkit.</p>
+  <div class="flow">
+    <div class="fstep"><div class="vis"><div class="mini-grade"><span>A</span><span style="background:var(--warn)">C</span></div></div><span class="tag">01 · TEST</span><h3>Grade any MCP server</h3><p>Trust and agent readiness in one command.</p></div>
+    <div class="fstep"><div class="vis"><div class="mini-code">annotations: {<br>&nbsp;&nbsp;<b>readOnlyHint: true</b><br>}</div></div><span class="tag">02 · FIX</span><h3>Fix it in minutes</h3><p>The missing code, written for you.</p></div>
+    <div class="fstep"><div class="vis"><div class="mini-chain"><span>#1</span>→<span>#2</span>→<span>#3 ✓</span></div></div><span class="tag">03 · PROVE</span><h3>Publish your passport</h3><p>Signed, on a ledger anyone can verify.</p></div>
+    <div class="fstep"><div class="vis"><div class="mini-steps"><span>✓ read</span><span>✓ read</span><span class="x">⛔ write</span></div></div><span class="tag">04 · GOVERN</span><h3>Govern every agent call</h3><p>Identity, mandate, a receipt for each call.</p></div>
   </div>
-</section>
+  <div class="gatelabel">BUILD · BUY · RUN — <a href="/guide">every command in the developer guide →</a></div>
+</div></section>
 
-<section class="block" id="seats">
-  <div class="wrap">
-    <h2>One trust layer, five kinds of organisation</h2>
-    <p class="sub">Five kinds of organisations (providers, invokers, research institutes, audit organisations and the platform), each with fine-grained roles. The demo lets you sign in as each one.</p>
-    <div class="seats">
-      <div class="seat" style="--c:var(--p-dev)"><h3>Developers</h3><p>Free, open-source Saktum Check, live now: test any MCP server for conformance, sign-in, security, functional behaviour, load and agent readiness. Get two grades, a trust card, fixes and a badge.</p><a href="/demo#provider">See Saktum Check</a></div>
-      <div class="seat" style="--c:var(--p-provider)"><h3>Providers</h3><p>Publish a server with one manifest. Secure defaults, sign-in, limits, analytics and receipts in minutes. Get found, get paid, get certified.</p><a href="/demo#provider">Sign in as a provider</a></div>
-      <div class="seat" style="--c:var(--p-invoker)"><h3>Invokers</h3><p>Give agents a verifiable identity. Find tools by intent, set what agents may do, get consent, and show security reviewers proof of every action.</p><a href="/demo#invoker">Sign in as an invoker</a></div>
-      <div class="seat" style="--c:var(--p-tester)"><h3>Testers</h3><p>Find real flaws in agents and tools, prove them with test packs, and get paid fairly through commit-reveal priority and independent review panels.</p><a href="/demo#tester">Sign in as a tester</a></div>
-      <div class="seat" style="--c:#5B6B7F"><h3>Auditors</h3><p>Get time-bound, read-only access from the organisations you audit, and verify receipts, ledgers, contracts and governance evidence yourself, without trusting anyone.</p><a href="/demo#auditor">Sign in as an auditor</a></div>
-    </div>
+<section id="who" class="tight"><div class="wrap">
+  <div class="eyebrow">Who it's for</div><h2>Find yourself in ten seconds</h2><p class="sub">Five people, five problems. Then walk through it in the <a href="/demo">interactive demo</a>.</p>
+  <div class="personas">
+    <div class="card persona"><div class="avatar">🛠️</div><div class="who">Maya</div><div class="role">builds an MCP server</div><p>“I want agents, and the companies behind them, to choose my server.”</p><p class="gets">Grades, fixes and a public passport that proves it.</p><div class="demo"><b>IN THE DEMO</b>You’ll see her server graded, the fix written for her, and her passport going public.</div><div class="links2"><a href="/guide#build">Start building →</a><a href="/demo">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">🤖</div><div class="who">Arjun</div><div class="role">builds AI agents</div><p>“My agent uses twelve servers. Which ones can I trust, and what do they cost?”</p><p class="gets">Set-up scan, mandates and receipts for every call.</p><div class="demo"><b>IN THE DEMO</b>You’ll see his agent blocked from a write it was never allowed, with the receipt to prove it.</div><div class="links2"><a href="/guide#govern">Govern your agent →</a><a href="/demo">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">🛡️</div><div class="who">Dana</div><div class="role">CISO</div><p>“Which MCP servers are people using right now, and are they safe?”</p><p class="gets">Organisation-wide inventory, policy as code, firewall allowlists.</p><div class="demo"><b>IN THE DEMO</b>You’ll see every MCP server across her company on one page, checked against her policy.</div><div class="links2"><a href="#enterprise">Run a pilot →</a><a href="/demo">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">📋</div><div class="who">Leo</div><div class="role">AI governance and risk</div><p>“Auditors ask what our agents did. I need evidence, not screenshots.”</p><p class="gets">Signed receipts, executive assessments, security packets.</p><div class="demo"><b>IN THE DEMO</b>You’ll see the path an agent took, as signed receipts an auditor can verify.</div><div class="links2"><a href="#enterprise">See the evidence →</a><a href="/demo">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">🤝</div><div class="who">Priya</div><div class="role">platform and procurement</div><p>“Vendor reviews for every AI tool take weeks.”</p><p class="gets">Verifiable attestations and passports instead of questionnaires.</p><div class="demo"><b>IN THE DEMO</b>You’ll see a vendor’s passport replacing a two-week questionnaire.</div><div class="links2"><a href="https://soodhere.github.io/saktum-index/passports/">Browse passports →</a><a href="/demo">See it in the demo →</a></div></div>
   </div>
-</section>
+</div></section>
 
-<section class="block" id="how">
-  <div class="wrap">
-    <h2>How it works</h2>
-    <p class="sub">The whole cycle runs on verifiable identities, signed agreements and receipts, with every configuration change on an immutable trail.</p>
-    <ol class="flow">
-      <li><strong>Verify</strong><span>Organisations, servers, agents and testers get decentralised identities with an accountability chain.</span></li>
-      <li><strong>Test and certify</strong><span>Saktum Check scores servers and agents; hosted runs and independent certifiers issue Tested and Certified.</span></li>
-      <li><strong>Publish with defaults</strong><span>Standard metadata (MCP Registry server.json, A2A Agent Cards); risk classes and ready-made policy profiles; change only what you need.</span></li>
-      <li><strong>Find by intent</strong><span>Agents state what they need; eligibility rules first, then ranking; every choice recorded.</span></li>
-      <li><strong>Agree and consent</strong><span>Both sides sign the terms; the person behind the agent sets a mandate and can revoke it anytime.</span></li>
-      <li><strong>Call through the gateway</strong><span>Identity, consent and both sides' rules checked on every call; data masked; receipts signed by both sides.</span></li>
-      <li><strong>Settle in tokens</strong><span>Usage settles from receipts, in tokens. Organisations redeem tokens outside the platform through token partners. Saktum does no billing and never handles fiat.</span></li>
-      <li><strong>Prove and improve</strong><span>Disputes settled by evidence; bounties find flaws; everything sealed on a shared, tamper-evident record.</span></li>
-    </ol>
+<section id="proof"><div class="wrap">
+  <div class="eyebrow">Proof, not promises</div><h2>We tested the MCP ecosystem</h2><p class="sub">State of MCP Trust, December 2026: an open census run with Saktum.</p>
+  <div class="stats">
+    <div class="card stat"><b>2,404</b><span>MCP server packages examined</span></div>
+    <div class="card stat"><b>921</b><span>servers assessed in depth (540) or remotely (381)</span></div>
+    <div class="card stat"><b>52%</b><span>agent-ready; 35% declare no danger annotations</span></div>
+    <div class="card stat"><b>84%</b><span>of remote servers needing sign-in implement it as the spec requires</span></div>
   </div>
-</section>
+  <div class="badges"><a class="btn small" href="/report">Read the report</a><a class="btn small" href="/maturity">Open maturity model</a><a class="btn small" href="https://github.com/soodhere/saktum-check">Open source on GitHub</a><span class="pill">Listed on the official MCP Registry</span></div>
+</div></section>
 
-<section class="block" id="connect">
-  <div class="wrap">
-    <h2>Works with what you already have</h2>
-    <p class="sub">No rewrites, no re-describing. Bring your servers, APIs and agents as they are.</p>
-    <div class="grid2">
-      <div><h3>Bulk import for providers</h3><p>Import every server at once from the official MCP Registry, a GitHub organisation, OpenAPI files or a bulk manifest upload. Already listed as unclaimed? Prove ownership and claim it in minutes.</p></div>
-      <div><h3>Two lines for agent builders</h3><p>SDK middleware for LangGraph, the OpenAI Agents SDK, the Claude Agent SDK and CrewAI gives your existing agent a verifiable identity and receipts without changing its code.</p></div>
-      <div><h3>Your gateway and your host</h3><p>Plugins for API gateways like Kong and Zuplo, and deploy hooks for hosts like Cloudflare and Vercel, bring existing APIs and new servers in automatically.</p></div>
-      <div><h3>Your tools for the rest</h3><p>GitHub Actions for Saktum Check, OpenTelemetry and SIEM exports for evidence, OAuth and SSO for sign-in, token partners for settlement outside the platform.</p></div>
-    </div>
+<section class="tight"><div class="wrap">
+  <div class="eyebrow">Why Saktum is different</div><h2>What people ask for, and what actually works</h2>
+  <div class="diff">
+    <div class="card"><div class="q">Private scans of our servers</div><div class="a">Trust that travels: evidence on a public, verifiable ledger</div></div>
+    <div class="card"><div class="q">Block bad agents immediately</div><div class="a">Record every call first, then enforce with real paths in hand</div></div>
+    <div class="card"><div class="q">AI judging AI</div><div class="a">Deterministic, signed checks that auditors can reproduce</div></div>
+    <div class="card"><div class="q">Check the agent's final answer</div><div class="a">Check the path: which tools, how often, in what order</div></div>
   </div>
-</section>
+</div></section>
 
-<section class="block" id="download">
-  <div class="wrap">
-    <h2>Download Saktum Check (free, open source)</h2>
-    <p class="sub">Test any MCP server or agent in a minute. Runs on your laptop, in CI, or fully offline.</p>
-    <div class="grid2">
-      <div><h3>Install</h3><p><code style="font-family:var(--mono);font-size:14px">npx saktum check -- npx -y your-mcp-server</code><br><code style="font-family:var(--mono);font-size:14px">npx saktum check https://your-server/mcp</code><br>Needs Node.js 20 or later on Windows, macOS or Linux. Also available as a single file from <a href="https://github.com/soodhere/saktum-check/releases">GitHub Releases</a>, published to npm with provenance.</p></div>
-      <div><h3>What it checks</h3><p>Protocol conformance, sign-in, security, prompt-injection resistance, agent experience and performance. You get a score, fixes, a badge and a signed report.</p></div>
-      <div><h3>Fits your workflow</h3><p>VS Code extension, GitHub Action and CI templates, SARIF and JUnit output, pull-request comments, and an interactive inspector to browse and call tools.</p></div>
-      <div><h3>Write your own tests</h3><p>A pack SDK for team and community test packs, private packs for your organisation, and red-team mode with adversarial servers for agents.</p></div>
-    </div>
+<section id="enterprise"><div class="wrap">
+  <div class="eyebrow">For enterprises</div><h2>The MCP Trust Pilot</h2><p class="sub">Four to six weeks, entirely in your environment. Nothing is sent to us.</p>
+  <div class="steps3">
+    <div class="card"><h3>See</h3><p class="muted">Every MCP server across your teams, with grades, capabilities and cost.</p></div>
+    <div class="card"><h3>Control</h3><p class="muted">Your policy enforced in CI, an allowlist for your MCP firewall, mandates for agents.</p></div>
+    <div class="card"><h3>Prove</h3><p class="muted">Signed receipts and an executive assessment for security and governance.</p></div>
   </div>
-</section>
+  <div class="ctas"><a class="btn primary" href="#start" data-interest="Gateway design partner">Discuss a pilot</a><a class="btn" href="#start" data-interest="Verified certification (early access)">Verified certification (early access)</a><a class="btn" href="https://github.com/soodhere/saktum-check/blob/main/docs/ENTERPRISE.md">Enterprise guide</a></div>
+</div></section>
 
-<section class="block" id="deploy">
-  <div class="wrap">
-    <h2>Deploy your way, see it in your tools</h2>
-    <p class="sub">From a free account to your own data centre, on one codebase with the same guarantees.</p>
-    <div class="grid2">
-      <div><h3>Cloud, dedicated or hybrid</h3><p>Start in the multi-tenant cloud; choose a dedicated cell in your region; or run the gateway in your own network so payloads never leave it.</p></div>
-      <div><h3>Self-managed for regulated organisations</h3><p>An add-on edition (2028) runs everything on-premises or air-gapped, with FIPS cryptography, your own HSM, and optional federation with the public trust network.</p></div>
-      <div><h3>Your observability stack</h3><p>Logs, metrics and traces in OpenTelemetry; dashboards for Grafana and templates for Zabbix; Splunk and OCSF events for your SIEM; exports to your own storage, all isolated per tenant.</p></div>
-      <div><h3>Made for your people</h3><p>A personal home for each role, English and French at launch, WCAG 2.2 AA accessibility, your branding on consent screens, and approvals from your phone.</p></div>
-    </div>
+<section id="roadmap" class="tight"><div class="wrap">
+  <div class="eyebrow">Roadmap</div><h2>Where Saktum is going</h2>
+  <div class="road">
+    <div class="ms done"><div class="dot">✓</div><div><div class="when">LIVE</div><h3>The open toolkit</h3><p>Test, fix, passports, trust ledger, agent receipts.</p></div></div>
+    <div class="ms now"><div class="dot">●</div><div><div class="when">EVERY MONTH</div><h3>The census</h3><p>An open State of MCP Trust report.</p></div></div>
+    <div class="ms next"><div class="dot">3</div><div><div class="when">Q1 2027</div><h3>Enterprise pilots</h3><p>Inventory, policy, evidence, in your environment.</p></div></div>
+    <div class="ms later"><div class="dot">4</div><div><div class="when">MID-2027</div><h3>The Saktum gateway</h3><p>Decisions and receipts on every agent call.</p></div></div>
+    <div class="ms later"><div class="dot">5</div><div><div class="when">2028</div><h3>Trust between companies</h3><p>Agents of different firms, verified both ways.</p></div></div>
   </div>
-</section>
+</div></section>
 
-<section class="block" id="plans">
-  <div class="wrap">
-    <h2>Free to start. Pay as you grow.</h2>
-    <p class="sub">What builds the community is free forever: Saktum Check, agent identities, receipts and listings. You pay when your team, your traffic or your compliance needs grow.</p>
-    <div class="seats">
-      <div class="seat" style="--c:var(--p-dev)"><h3>Free</h3><p>One server behind the gateway, a generous monthly allowance of verified calls, Agent ID, Saktum Check, and Tested certification free in the first year.</p></div>
-      <div class="seat" style="--c:var(--p-provider)"><h3>Team</h3><p>More servers and calls, longer history, teammates and private test packs.</p></div>
-      <div class="seat" style="--c:var(--p-invoker)"><h3>Business</h3><p>SSO and SCIM, evidence exports for your customers' security reviews, regional data planes, governance basics, an SLA, and exports to your own tools.</p></div>
-      <div class="seat" style="--c:var(--p-platform)"><h3>Enterprise and self-managed</h3><p>Dedicated or hybrid deployment, the governance workspace, your own keys, premium support, and an on-premises edition (2028).</p></div>
-    </div>
-    <p class="sub" style="margin-top:16px">Prices will be published at launch; early-access teams get founding terms.</p>
-  </div>
-</section>
-
-<section class="block" id="roadmap">
-  <div class="wrap">
-    <h2>Roadmap</h2>
-    <p class="sub">We start where adoption is easiest (developers) and add each seat on the same foundations.</p>
-    <div class="star"><strong>North star: verified agent calls per week.</strong> Calls where the agent's identity was verified, the provider is certified, and both sides signed the receipt. It grows only when every seat adopts.</div>
-    <ol class="road">
-      <li><div class="when">1. Developers<small>Live since November 2026; CI Action December 2026; 1.0 in May 2027</small></div><div><h3><span class="tag" style="color:var(--p-dev)">Free</span>Saktum Check</h3><p>Open-source tool and GitHub Action: conformance, sign-in, security, functional tests and your own test cases, load, and agent readiness for MCP servers; grades, fixes, badges and signed reports. Adversarial and supply-chain depth follow before 1.0.</p></div></li>
-      <li><div class="when">2. Providers<small>Mid-2027, design partners</small></div><div><h3><span class="tag" style="color:var(--p-provider)">Gateway</span>Publish safely</h3><p>Gateway with OAuth for MCP, keys, limits, risk-class defaults and policy profiles, Agent ID verification, signed receipts, standard manifest.</p></div></li>
-      <li><div class="when">3. Invokers<small>Mid-2027 design partners, public early 2028</small></div><div><h3><span class="tag" style="color:var(--p-invoker)">Controls</span>Agents you can trust</h3><p>Agent-side rules, approvals, consent and mandates, token vault, self-serve sign-up, credits and billing, audit trail, self-hosted gateway.</p></div></li>
-      <li><div class="when">4. Trust at scale<small>Late 2027</small></div><div><h3><span class="tag" style="color:var(--p-platform)">Evidence</span>Measured and certified</h3><p>Metrics and reports, hosted Saktum Check issuing the Tested credential, alarms and SLOs, SOC 2 Type I report.</p></div></li>
-      <li><div class="when">5. Testers and marketplace<small>2028</small></div><div><h3><span class="tag" style="color:var(--p-tester)">Marketplace</span>The trusted agent economy</h3><p>Bounties with fair consensus and reputation, independent Certified levels, intent-based discovery and routing, token wallets with settlement outside the platform, disputes from evidence.</p></div></li>
-      <li><div class="when">6. Beyond<small>2028 onward</small></div><div><h3>Global and regulated</h3><p>SOC 2 Type II and ISO/IEC 27001, regional control planes, federation between platforms, regulated sectors, and agents acting in the physical world.</p></div></li>
-    </ol>
-  </div>
-</section>
-
-<section class="block" id="trust">
-  <div class="wrap">
-    <h2>Why you can trust the trust layer</h2>
-    <p class="sub">Trust is the product, so the rules for earning it are public.</p>
-    <div class="grid2">
-      <div><h3>Public criteria, independent certifiers</h3><p>Certification requirements and test packs are published and versioned. Higher levels need an independent accredited certifier, and we publish transparency reports.</p></div>
-      <div><h3>Fair bounty decisions</h3><p>Commit-reveal priority, objective reruns, random reviewer panels with commit-reveal votes, one independent appeal, and reputation with rewards, suspension and removal.</p></div>
-      <div><h3>Your data stays where you choose</h3><p>Gateways run in regional points of presence, your cloud or on-premises. Payloads stay in-region and aren't stored. Personal data is minimised, encrypted and deletable.</p></div>
-      <div><h3>Tokens only, no fiat</h3><p>Everything on the platform runs in tokens held in wallets. Saktum does no billing and never handles money; organisations settle outside the platform through token partners or their own finance systems, using our signed ledger statements.</p></div>
-      <div><h3>Audited, step by step</h3><p>Hardware-protected keys from day one, external penetration testing before launch, SOC 2 Type I then Type II, then ISO/IEC 27001.</p></div>
-      <div><h3>Built on open standards</h3><p>MCP and the MCP Registry format, A2A Agent Cards, OAuth and OpenID, W3C decentralised identifiers and credentials, ODRL agreements, Cedar policies, SCITT-style receipts, CVSS for findings, CloudEvents and OpenTelemetry. No lock-in: export everything.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="join">
-  <div class="wrap">
-    <h2>Get early access</h2>
-    <p class="sub">Try Saktum Check today, request your server&rsquo;s census report, or join the first gateway design partners.</p>
+<section id="start" class="tight"><div class="wrap">
+  <div class="card install"><div><div class="eyebrow">Try it in 60 seconds</div><h3 style="margin-top:6px">Needs Node.js 20 or later. Runs on your machine.</h3></div>
+    <div class="copybox"><span>npx saktum</span><button class="btn small" type="button" id="copyCmd">Copy</button></div></div>
+  <p class="muted" style="margin:12px 0 0">Coding agent? <span class="mono">claude mcp add saktum -- npx -y saktum mcp</span> · Everything step by step: <a href="/guide">developer guide</a></p>
+  <div style="margin-top:40px"><h2>Get early access</h2><p class="sub">Request your server's census report, Verified certification, or a gateway design partnership.</p>
     <form class="signup" id="signup" novalidate>
       <label>Name<input name="name" autocomplete="name" required></label>
       <label>Work email<input name="email" type="email" autocomplete="email" required></label>
@@ -235,17 +196,11 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <p class="formnote" id="formnote"></p>
     </form>
   </div>
-</section>
+</div></section>
+</main>
 
-<section class="block">
-  <div class="wrap" style="max-width:820px">
-    <h2>Why we're building this</h2>
-    <p style="color:var(--ink-2)">Nitin Sood, co-founder and CTO, has spent 20 years building systems that decide who may do what and prove it afterwards: identity at national scale, consent, and large API platforms. AI agents are a new kind of actor calling services, and they need the same foundations, open and neutral, from day one.</p>
-    <p style="color:var(--ink-2)"><strong style="color:var(--ink)">We're looking for a CEO co-founder</strong> with go-to-market and fundraising experience in developer tools, APIs or security. If that's you, <a href="#join">get in touch</a>.</p>
-  </div>
-</section>
-
-<footer><div class="wrap"><span>Saktum. Saktum Check is public; the gateway is in design with partners.</span><span><a id="mailLink" href="#">Contact</a></span></div></footer>
+<footer><div class="wrap"><span>Saktum · trust you can verify. Saktum Check is open source; the gateway is in design with partners.</span>
+<span><a href="/guide">Guide</a> · <a href="/report">Report</a> · <a href="/maturity">Maturity model</a> · <a href="https://soodhere.github.io/saktum-index/passports/">Passports</a> · <a href="/demo">Demo</a> · <a href="/story">Story</a> · <a href="https://github.com/soodhere/saktum-check">GitHub</a> · <a id="mailLink" href="#">Contact</a></span></div></footer>
 
 <script>
 (() => {
@@ -273,6 +228,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     }
   });
 })();
+</script>
+<script>
+document.getElementById("copyCmd").addEventListener("click", function(){ var b=this; try { navigator.clipboard.writeText("npx saktum").then(function(){ b.textContent="Copied"; setTimeout(function(){ b.textContent="Copy"; },1500); }, function(){ b.textContent="Select and copy"; }); } catch(e){ b.textContent="Select and copy"; } });
 </script>
 </body>
 </html>

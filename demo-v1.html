@@ -1623,12 +1623,12 @@ footer{padding:0 24px 28px;color:var(--ink-2);font-size:13px;max-width:880px}
       $("bShadow").addEventListener("click", () => { sync(); $("studioOut").innerHTML = "<p class=\"msg\">Draft running in <strong>shadow</strong>: live calls are still decided by bundle v" + st.bundle + ", while the draft's decisions are recorded as \"would have\" on every receipt for review.</p>"; slog("Draft rules running in shadow mode."); });
       $("bSubmit").addEventListener("click", () => {
         sync();
-        $("studioOut").innerHTML = "<div class=\"consent\"><p><strong>Who approves this change?</strong></p><p class=\"hint\">Author: Nitin (policy author). Separation of duties: authors can't approve their own changes.</p>" +
-          "<div class=\"actions\"><button type=\"button\" class=\"btn\" id=\"bSelf\">Nitin approves</button><button type=\"button\" class=\"btn primary\" id=\"bPriya\">Priya (policy approver) approves</button></div><div id=\"apprOut\"></div></div>";
+        $("studioOut").innerHTML = "<div class=\"consent\"><p><strong>Who approves this change?</strong></p><p class=\"hint\">Author: Alex (policy author). Separation of duties: authors can't approve their own changes.</p>" +
+          "<div class=\"actions\"><button type=\"button\" class=\"btn\" id=\"bSelf\">Alex approves</button><button type=\"button\" class=\"btn primary\" id=\"bPriya\">Priya (policy approver) approves</button></div><div id=\"apprOut\"></div></div>";
         $("bSelf").addEventListener("click", () => { $("apprOut").innerHTML = "<p class=\"msg\" style=\"color:var(--deny)\">Refused: the author can't approve their own change.</p>"; });
         $("bPriya").addEventListener("click", async () => {
           st.rules = Object.assign({}, draft); st.bundle += 1;
-          const manifest = { bundle: st.bundle, rulesHash: await sha256Hex(cedarFor(st.rules)), approvedBy: "priya@acme.example", author: "nitin@acme.example", at: new Date().toISOString() };
+          const manifest = { bundle: st.bundle, rulesHash: await sha256Hex(cedarFor(st.rules)), approvedBy: "priya@acme.example", author: "alex@acme.example", at: new Date().toISOString() };
           const sig = await signObj(state.key, manifest);
           $("apprOut").innerHTML = "<ul class=\"chainv\"><li class=\"ok\">✓ Approved by Priya</li><li class=\"ok\">✓ Bundle v" + st.bundle + " compiled and signed (<code>" + esc(sig.slice(0, 20)) + "…</code>)</li><li class=\"ok\">✓ Pushed to every gateway within seconds; v" + (st.bundle - 1) + " kept for instant rollback</li></ul>";
           slog("Rule change approved by Priya and enforced as policy bundle v" + st.bundle + ".");

@@ -1,0 +1,510 @@
+{
+  "resultFormat": "0.1",
+  "tool": {
+    "name": "saktum-trust-check",
+    "version": "0.5.0"
+  },
+  "target": {
+    "transport": "stdio",
+    "description": "npx -y @modelcontextprotocol/server-memory",
+    "protocolVersion": "2025-11-25",
+    "serverInfo": {
+      "name": "memory-server",
+      "version": "2.2.1"
+    },
+    "toolsFingerprint": "sha256:c2ad5ee076135ea33d8da5f638a9d895906376a0f773a0fe87649cf53e907d6a",
+    "toolCount": 9
+  },
+  "packs": [
+    {
+      "id": "agent-experience",
+      "version": "0.1.0",
+      "hash": "sha256:74e60331039c6ea4dea08121da65f1a3c0a3fdae7a52d91d614a4a52ed5df633"
+    },
+    {
+      "id": "auth",
+      "version": "0.1.0",
+      "hash": "sha256:6ff74f662daa0dd630a5b5e57adfe527efe639a8327e7d89f79cfa573bd9f5db"
+    },
+    {
+      "id": "conformance",
+      "version": "0.1.0",
+      "hash": "sha256:3d1a9a150c9526c54bba0eb6c3626bad268aebcbba1e3806b22b3a299c379cc9"
+    },
+    {
+      "id": "functional",
+      "version": "0.1.0",
+      "hash": "sha256:1dbc91f8841c9263ad04efaa54257ad8576693a02506e5b4b118b5fbd2e96c2c"
+    },
+    {
+      "id": "performance",
+      "version": "0.1.0",
+      "hash": "sha256:2f6ae54072902849183c1059bd187e64800e3aa788353a44a646b10a8b6ba228"
+    },
+    {
+      "id": "security",
+      "version": "0.1.0",
+      "hash": "sha256:63c0374046189b7fcb60a8a0e772ff515c2e8587f0897740990adb35c7a86a13"
+    }
+  ],
+  "findings": [
+    {
+      "check": "ax.context-cost",
+      "pack": "agent-experience",
+      "severity": "info",
+      "scored": false,
+      "title": "Context cost of tool definitions",
+      "status": "info",
+      "message": "Tool definitions cost about 3,732 tokens of agent context per turn when loaded upfront (about $11.20 per 1,000 agent turns at $3 per million input tokens). Largest: search_nodes (653), read_graph (583), open_nodes (583)."
+    },
+    {
+      "check": "ax.annotations",
+      "pack": "agent-experience",
+      "severity": "low",
+      "scored": true,
+      "title": "Tools declare annotations",
+      "references": [
+        "MCP specification: tool annotations",
+        "OWASP MCP Top 10: MCP02 Privilege Escalation via Scope Creep (undeclared write and destructive tools)"
+      ],
+      "status": "pass",
+      "message": "Every tool declares annotations."
+    },
+    {
+      "check": "ax.short-descriptions",
+      "pack": "agent-experience",
+      "severity": "low",
+      "scored": true,
+      "title": "Tools have usable descriptions",
+      "status": "pass",
+      "message": "Every tool has a usable description."
+    },
+    {
+      "check": "ax.client-compat",
+      "pack": "agent-experience",
+      "severity": "info",
+      "scored": false,
+      "title": "Fits common client and model-provider constraints",
+      "status": "pass",
+      "message": "Tool names and count fit the constraints common to model providers and clients."
+    },
+    {
+      "check": "auth.https",
+      "pack": "auth",
+      "severity": "critical",
+      "scored": true,
+      "title": "Served over HTTPS",
+      "references": [
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization",
+        "CWE-319"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    },
+    {
+      "check": "auth.unauthenticated",
+      "pack": "auth",
+      "severity": "info",
+      "scored": false,
+      "title": "Whether sign-in is required",
+      "references": [
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    },
+    {
+      "check": "auth.www-authenticate",
+      "pack": "auth",
+      "severity": "high",
+      "scored": true,
+      "title": "Refusals point clients to the resource metadata",
+      "references": [
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    },
+    {
+      "check": "auth.resource-metadata",
+      "pack": "auth",
+      "severity": "high",
+      "scored": true,
+      "title": "Protected resource metadata is published and correct",
+      "references": [
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    },
+    {
+      "check": "auth.server-metadata",
+      "pack": "auth",
+      "severity": "high",
+      "scored": true,
+      "title": "Authorization server metadata is complete, with PKCE",
+      "references": [
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    },
+    {
+      "check": "auth.invalid-token",
+      "pack": "auth",
+      "severity": "critical",
+      "scored": true,
+      "title": "Invalid tokens are rejected",
+      "references": [
+        "OWASP MCP Top 10: MCP01 Token Mismanagement and Secret Exposure",
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization",
+        "CWE-287"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    },
+    {
+      "check": "conf.init.handshake",
+      "pack": "conformance",
+      "severity": "high",
+      "scored": true,
+      "title": "Initialize returns server info and capabilities",
+      "references": [
+        "MCP specification: lifecycle"
+      ],
+      "status": "pass",
+      "message": "Initialized memory-server 2.2.1 in 5677 ms."
+    },
+    {
+      "check": "conf.tools.list",
+      "pack": "conformance",
+      "severity": "high",
+      "scored": true,
+      "title": "Tool list is returned",
+      "references": [
+        "MCP specification: tools"
+      ],
+      "status": "pass",
+      "message": "All steps passed."
+    },
+    {
+      "check": "conf.tools.schema-valid",
+      "pack": "conformance",
+      "severity": "high",
+      "scored": true,
+      "title": "Every input schema is a valid JSON Schema object",
+      "references": [
+        "MCP specification: tools",
+        "JSON Schema 2020-12",
+        "OWASP MCP Top 10: MCP05 Command Injection and Execution (input validation)"
+      ],
+      "status": "pass",
+      "message": "All 9 input schemas are valid JSON Schema objects."
+    },
+    {
+      "check": "conf.tools.names",
+      "pack": "conformance",
+      "severity": "medium",
+      "scored": true,
+      "title": "Tool names are unique and use allowed characters",
+      "references": [
+        "MCP specification: tools"
+      ],
+      "status": "pass",
+      "message": "Tool names are unique and use allowed characters."
+    },
+    {
+      "check": "conf.tools.unknown-not-success",
+      "pack": "conformance",
+      "severity": "high",
+      "scored": true,
+      "title": "Calling an unknown tool does not succeed",
+      "references": [
+        "MCP specification: tools, error handling",
+        "OWASP MCP Top 10: MCP08 Lack of Audit and Telemetry (false success hides actions)"
+      ],
+      "status": "pass",
+      "message": "All steps passed."
+    },
+    {
+      "check": "conf.tools.unknown-error-code",
+      "pack": "conformance",
+      "severity": "info",
+      "scored": false,
+      "title": "Error code for unknown tools",
+      "references": [
+        "MCP specification: tools, error handling",
+        "JSON-RPC 2.0"
+      ],
+      "status": "pass",
+      "message": "Unknown tools get JSON-RPC error -32602 (invalid params, as in the specification's example)."
+    },
+    {
+      "check": "func.tools.respond",
+      "pack": "functional",
+      "severity": "high",
+      "scored": true,
+      "title": "Tools respond to valid arguments",
+      "references": [
+        "MCP specification: tools, calling tools"
+      ],
+      "status": "skipped",
+      "message": "Active check: runs only with --active against a server you own."
+    },
+    {
+      "check": "func.output.valid",
+      "pack": "functional",
+      "severity": "high",
+      "scored": true,
+      "title": "Results are well-formed and match the declared output schema",
+      "references": [
+        "MCP specification: tools, structured content and output schema"
+      ],
+      "status": "skipped",
+      "message": "Active check: runs only with --active against a server you own."
+    },
+    {
+      "check": "func.errors.graceful",
+      "pack": "functional",
+      "severity": "medium",
+      "scored": true,
+      "title": "Invalid arguments are rejected gracefully",
+      "references": [
+        "MCP specification: tools, error handling",
+        "CWE-20",
+        "CWE-209",
+        "OWASP MCP Top 10: MCP05 Command Injection and Execution (input validation)"
+      ],
+      "status": "skipped",
+      "message": "Active check: runs only with --active against a server you own."
+    },
+    {
+      "check": "func.server.survives",
+      "pack": "functional",
+      "severity": "high",
+      "scored": true,
+      "title": "The server keeps working after the functional calls",
+      "status": "skipped",
+      "message": "Active check: runs only with --active against a server you own."
+    },
+    {
+      "check": "perf.startup",
+      "pack": "performance",
+      "severity": "info",
+      "scored": false,
+      "title": "Start-up and handshake time",
+      "status": "info",
+      "message": "Started and completed the handshake in 5677 ms, including the time npx takes to resolve or download the package. Run again, or start the server directly, to measure its own start-up."
+    },
+    {
+      "check": "perf.latency",
+      "pack": "performance",
+      "severity": "info",
+      "scored": false,
+      "title": "Tool-list latency and size",
+      "status": "info",
+      "message": "Listed tools in 15 ms (15 KB)."
+    },
+    {
+      "check": "perf.memory",
+      "pack": "performance",
+      "severity": "info",
+      "scored": false,
+      "title": "Memory and CPU of a local server",
+      "status": "skipped",
+      "message": "Memory and CPU are not measured on Windows yet."
+    },
+    {
+      "check": "perf.concurrency",
+      "pack": "performance",
+      "severity": "info",
+      "scored": false,
+      "title": "Latency percentiles and behaviour at 1, 5 and 20 concurrent callers",
+      "references": [
+        "OWASP MCP Top 10: MCP02 Privilege Escalation via Scope Creep (resource abuse)",
+        "CWE-770"
+      ],
+      "status": "skipped",
+      "message": "Active check: runs only with --active against a server you own."
+    },
+    {
+      "check": "sec.description.hidden-instructions",
+      "pack": "security",
+      "severity": "critical",
+      "scored": true,
+      "title": "No instructions to the agent in tool descriptions or schemas",
+      "references": [
+        "MCP security best practices",
+        "CWE-1427",
+        "OWASP MCP Top 10: MCP03 Tool Poisoning",
+        "OWASP MCP Top 10: MCP06 Intent Flow Subversion"
+      ],
+      "status": "pass",
+      "message": "No instructions to the agent found in tool descriptions or schemas."
+    },
+    {
+      "check": "sec.description.invisible-text",
+      "pack": "security",
+      "severity": "high",
+      "scored": true,
+      "title": "No invisible or bidirectional control characters",
+      "references": [
+        "CWE-1007",
+        "OWASP MCP Top 10: MCP03 Tool Poisoning"
+      ],
+      "status": "pass",
+      "message": "No invisible or bidirectional control characters."
+    },
+    {
+      "check": "sec.description.control-characters",
+      "pack": "security",
+      "severity": "high",
+      "scored": true,
+      "title": "No escape sequences or control characters",
+      "references": [
+        "CWE-150",
+        "OWASP MCP Top 10: MCP03 Tool Poisoning"
+      ],
+      "status": "pass",
+      "message": "No escape sequences or control characters."
+    },
+    {
+      "check": "sec.secrets.exposed",
+      "pack": "security",
+      "severity": "critical",
+      "scored": true,
+      "title": "No secrets in tool definitions or responses",
+      "references": [
+        "OWASP MCP Top 10: MCP01 Token Mismanagement and Secret Exposure",
+        "CWE-798",
+        "CWE-200"
+      ],
+      "status": "pass",
+      "message": "No secrets found in tool definitions or probe responses."
+    },
+    {
+      "check": "sec.errors.leakage",
+      "pack": "security",
+      "severity": "medium",
+      "scored": true,
+      "title": "Errors do not expose internals",
+      "references": [
+        "OWASP MCP Top 10: MCP08 Lack of Audit and Telemetry (errors leak internals)",
+        "CWE-209"
+      ],
+      "status": "pass",
+      "message": "Error responses do not expose stack traces, internal paths or database errors."
+    },
+    {
+      "check": "sec.http.origin",
+      "pack": "security",
+      "severity": "high",
+      "scored": true,
+      "title": "Local HTTP servers refuse requests from foreign web origins",
+      "references": [
+        "MCP specification: transports, security warning (DNS rebinding)",
+        "CWE-346",
+        "OWASP MCP Top 10: MCP07 Insufficient Authentication and Authorization"
+      ],
+      "status": "skipped",
+      "message": "Applies only to streamable-http servers."
+    }
+  ],
+  "scores": {
+    "overall": 100,
+    "capped": false,
+    "categories": {
+      "agent-experience": 100,
+      "conformance": 100,
+      "security": 100
+    }
+  },
+  "grade": "A",
+  "assuranceLevel": "L1",
+  "metrics": {
+    "contextCostTokens": 3732,
+    "largestTools": [
+      {
+        "tool": "search_nodes",
+        "tokens": 653
+      },
+      {
+        "tool": "read_graph",
+        "tokens": 583
+      },
+      {
+        "tool": "open_nodes",
+        "tokens": 583
+      },
+      {
+        "tool": "create_entities",
+        "tokens": 421
+      },
+      {
+        "tool": "create_relations",
+        "tokens": 363
+      }
+    ],
+    "contextCostPer1kTurnsUsd": 11.2,
+    "pricePerMTokUsd": 3,
+    "performance": {
+      "initMs": 5677,
+      "listMs": 15,
+      "listBytes": 14934
+    }
+  },
+  "readiness": {
+    "score": 100,
+    "grade": "A",
+    "toolsAnnotated": 9,
+    "toolsDescribed": 9,
+    "toolCount": 9,
+    "contextTokens": 3732
+  },
+  "coverage": {
+    "trustChecksRun": 10
+  },
+  "capabilities": {
+    "capabilities": [
+      {
+        "capability": "writes-or-deletes",
+        "label": "changes or deletes data",
+        "tools": [
+          "create_entities",
+          "create_relations",
+          "add_observations",
+          "delete_entities",
+          "delete_observations",
+          "delete_relations"
+        ],
+        "basis": "declared"
+      }
+    ],
+    "lethalTrifecta": false,
+    "note": "Inferred from annotations, tool names, descriptions and argument names; it describes what the tools appear able to do, not a finding."
+  },
+  "functional": {
+    "ran": false,
+    "reason": "Tools are called only with --active, against servers you own.",
+    "calledTools": [],
+    "notCalled": [],
+    "calls": []
+  },
+  "run": {
+    "startedAt": "2026-11-24T17:08:18.773Z",
+    "durationMs": 6118,
+    "mode": "passive",
+    "runner": "self",
+    "sandbox": "none"
+  },
+  "summary": [
+    "Trust grade A: all 10 checks that apply passed.",
+    "Nothing to fix in this run; keep running it in CI to catch regressions.",
+    "Agents spend about 3,732 tokens reading these tools on every turn, about $11.20 per 1,000 turns."
+  ],
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "did:key:z6MkhjZbdxrJYBMJczLx1WUXXuSTbFifUpHD3n3Qfv5DVBnX",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImRpZDprZXk6ejZNa2hqWmJkeHJKWUJNSmN6THgxV1VYWHVTVGJGaWZVcEhEM24zUWZ2NURWQm5YIn0..hNkgvYWKMB86ka3WfxkLjf-oa3rsis3hQITH-MQNowAIHNCHFgbeaE-GpdAa10qFxo-oESlpSdpPDz9BzFYBBg"
+  }
+}
