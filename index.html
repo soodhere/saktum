@@ -80,9 +80,27 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <div style="font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.8">Live now</div>
       <div><strong>Saktum Check is public and free.</strong> Test any MCP server in a minute: trust (conformance, sign-in, security mapped to the OWASP MCP Top 10), functional behaviour and your own test cases, performance under load, and agent readiness, with a trust card that says exactly what was tested.
       <br><code style="font-family:var(--mono);font-size:14px">npx saktum check -- npx -y your-mcp-server</code> &middot; <a href="https://github.com/soodhere/saktum-check">GitHub</a> &middot; <a href="https://www.npmjs.com/package/saktum">npm</a></div>
-      <div><strong>For providers:</strong> <code style="font-family:var(--mono);font-size:14px">saktum fix</code> writes the annotation code your tools are missing, <code style="font-family:var(--mono);font-size:14px">saktum diff</code> blocks breaking and silent tool changes in CI, <code style="font-family:var(--mono);font-size:14px">saktum docs</code> writes your tools table and client set-up, <code style="font-family:var(--mono);font-size:14px">saktum packet</code> turns a signed result into a security packet for your customers&rsquo; reviews, and <code style="font-family:var(--mono);font-size:14px">saktum allowlist</code> gives MCP firewalls and gateways an evidence-based list of servers to trust, pinned to the exact tools that were checked.</div>
+      <div><strong>For providers:</strong> <code style="font-family:var(--mono);font-size:14px">saktum fix</code> writes the annotation code your tools are missing, <code style="font-family:var(--mono);font-size:14px">saktum diff</code> blocks breaking and silent tool changes in CI, <code style="font-family:var(--mono);font-size:14px">saktum docs</code> writes your tools table and client set-up, <code style="font-family:var(--mono);font-size:14px">saktum packet</code> turns a signed result into a security packet for your customers&rsquo; reviews, and <code style="font-family:var(--mono);font-size:14px">saktum allowlist</code> gives MCP firewalls and gateways an evidence-based list of servers to trust, pinned to the exact tools that were checked. <strong>New in v0.4:</strong> Saktum is itself an MCP server, so your coding agent can test and fix MCP servers (<code style="font-family:var(--mono);font-size:14px">npx -y saktum mcp</code>); <code style="font-family:var(--mono);font-size:14px">saktum scan-config</code> shows what your whole agent set-up costs every turn and which tools overlap; and CI reports go straight to GitHub code scanning. <strong>Shift left:</strong> <code style="font-family:var(--mono);font-size:14px">saktum init</code> starts a new server that earns top grades from the first commit, <code style="font-family:var(--mono);font-size:14px">saktum lint</code> checks tool definitions in your editor, and <code style="font-family:var(--mono);font-size:14px">saktum call --save-test</code> turns any call into a test.</div>
+      <div><strong>New: govern what agents do (preview)</strong> &mdash; give an agent its own identity and a mandate you sign; <code style="font-family:var(--mono);font-size:14px">saktum proxy</code> sits between the agent and an MCP server, blocks what the mandate does not allow, and writes a signed, chained receipt for every call, so you can check the path, not just the answer.</div>
+      <div><strong>New: the Saktum trust ledger</strong> &mdash; Certificate Transparency for the tools AI agents use. Providers publish signed attestations to a public, append-only, hash-chained ledger; anyone can verify it (<code style="font-family:var(--mono);font-size:14px">npx saktum ledger verify</code>); firewalls and gateways build allowlists from it, trusting only the signers they choose.</div>
+      <div><strong>Add Saktum to your coding agent</strong> (it can then test and fix MCP servers for you):
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><a class="btn" href="cursor://anysphere.cursor-deeplink/mcp/install?name=saktum&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsInNha3R1bSIsIm1jcCJdfQ%3D%3D">Add to Cursor</a><a class="btn" href="vscode:mcp/install?%7B%22name%22%3A%22saktum%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22saktum%22%2C%22mcp%22%5D%7D">Add to VS Code</a></div>
+        <div style="margin-top:8px">Claude Code: <code style="font-family:var(--mono);font-size:14px">claude mcp add saktum -- npx -y saktum mcp</code> &middot; Claude Desktop and others: add <code style="font-family:var(--mono);font-size:14px">{"command": "npx", "args": ["-y", "saktum", "mcp"]}</code> to your MCP servers.</div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="#join" data-interest="Verified certification (early access)">Request Verified certification (early access)</a><a class="btn" href="#join" data-interest="Gateway design partner">Apply to be a gateway design partner</a><a class="btn" href="/maturity">The maturity model</a></div>
       <div><strong>Why now:</strong> enterprise platforms are adding MCP firewalls that allow only trusted servers. Enforcement is arriving; deciding which servers deserve trust needs independent evidence. Saktum provides it, neutrally, across every platform.</div>
-      <div><strong>State of MCP Trust, November 2026.</strong> We ran Saktum Check across the ecosystem: 2,808 MCP server packages (about 60 million weekly downloads) and the 103 most-used servers assessed on a five-level maturity model. Only 42 are agent-ready, 48% declare no danger annotations, and 40% of packages can&rsquo;t prove where their code came from. <a href="/report"><strong>Read the full report</strong></a>, or <a href="https://github.com/soodhere/saktum-index">get your server&rsquo;s report</a>.</div>
+      <div><strong>State of MCP Trust, November 2026.</strong> We ran Saktum Check across the ecosystem: 2,808 MCP server packages (about 60 million weekly downloads) and the 103 most-used servers assessed on a five-level maturity model. Only 42 are agent-ready, 48% declare no danger annotations, and 40% of packages can&rsquo;t prove where their code came from. <a href="/report"><strong>Read the full report</strong></a> (levels defined in the open <a href="/maturity">Saktum MCP Maturity Model</a>), or <a href="https://github.com/soodhere/saktum-index">get your server&rsquo;s report</a>.</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="enterprise" style="padding-top:8px">
+  <div class="wrap">
+    <div style="border:1px solid var(--line,#ddd);border-radius:14px;padding:18px 20px;display:grid;gap:10px">
+      <div style="font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.8">For enterprises</div>
+      <div><strong>Know which MCP servers your agents use, enforce your own rules, and keep the evidence.</strong> Saktum runs entirely in your environment: nothing is sent to us, no telemetry, signed results, an SBOM with every release.</div>
+      <div><strong>Inventory</strong> every MCP server across your teams (<code style="font-family:var(--mono);font-size:14px">saktum fleet</code>) &middot; <strong>policy as code</strong> enforced in CI, with approved exceptions that expire &middot; <strong>evidence</strong> for AI governance, procurement and your MCP firewall (allowlists pinned to the exact tools checked, security packets).</div>
+      <div><strong>The MCP Trust Pilot</strong> (4 to 6 weeks): inventory a group of teams, agree a first policy with your security team and enforce it in CI, deliver an allowlist, security packets and a remediation report, then continue as a design partner for the Saktum gateway.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="#join" data-interest="Gateway design partner">Discuss a pilot</a><a class="btn" href="https://github.com/soodhere/saktum-check/blob/main/docs/ENTERPRISE.md">Enterprise guide</a></div>
     </div>
   </div>
 </section>
@@ -209,7 +227,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     <form class="signup" id="signup" novalidate>
       <label>Name<input name="name" autocomplete="name" required></label>
       <label>Work email<input name="email" type="email" autocomplete="email" required></label>
-      <label>I'm interested as a<select name="role"><option>Developer (Saktum Check)</option><option>Provider (MCP server publisher)</option><option>Invoker (team running agents)</option><option>Tester or security researcher</option></select></label>
+      <label>I'm interested as a<select name="role"><option>Developer (Saktum Check)</option><option>Provider (MCP server publisher)</option><option>Invoker (team running agents)</option><option>Tester or security researcher</option><option>Verified certification (early access)</option><option>Gateway design partner</option></select></label>
       <label>Anything we should know?<textarea name="note" rows="3" placeholder="For example: we publish a CRM MCP server used by 40 customers"></textarea></label>
       <button class="btn primary" type="submit">Request access</button>
       <p class="status" id="status" role="status"></p>
@@ -232,15 +250,20 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 (() => {
   const CONTACT_EMAIL = "jigyasacanada@gmail.com";
   const FORM_ENDPOINT = ""; // paste a form service URL (for example a Formspree endpoint) when self-hosting
+  const WEB3FORMS_KEY = ""; // optional: paste a free Web3Forms access key to receive requests by email without opening an email app
   const $ = (id) => document.getElementById(id);
   $("mailLink").href = "mailto:" + CONTACT_EMAIL; $("mailLink").textContent = CONTACT_EMAIL;
-  $("formnote").textContent = FORM_ENDPOINT ? "We'll reply within two working days." : "This opens an email to " + CONTACT_EMAIL + " with your details filled in.";
+  $("formnote").textContent = (FORM_ENDPOINT || WEB3FORMS_KEY) ? "We'll reply within two working days." : "This opens an email to " + CONTACT_EMAIL + " with your details filled in.";
+  // Demand buttons elsewhere on the page preselect the interest and scroll to the form.
+  document.querySelectorAll("[data-interest]").forEach((b) => b.addEventListener("click", () => { const sel = document.querySelector('#signup select[name="role"]'); if (sel) sel.value = b.getAttribute("data-interest"); }));
   $("signup").addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = e.target, st = $("status"), data = Object.fromEntries(new FormData(f).entries());
     if (!data.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email || "")){ st.textContent = "Add your name and a valid work email."; return; }
-    if (FORM_ENDPOINT){
-      try { const r = await fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(data) }); if (!r.ok) throw new Error(); st.textContent = "Request sent. We'll be in touch soon."; f.reset(); }
+    if (FORM_ENDPOINT || WEB3FORMS_KEY){
+      const url = FORM_ENDPOINT || "https://api.web3forms.com/submit";
+      const payload = WEB3FORMS_KEY ? { ...data, access_key: WEB3FORMS_KEY, subject: "Saktum: " + data.role } : data;
+      try { const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(payload) }); if (!r.ok) throw new Error(); st.textContent = "Request sent. We'll be in touch soon."; f.reset(); }
       catch (err) { st.textContent = "Couldn't send. Email " + CONTACT_EMAIL + " instead."; }
     } else {
       const body = "Name: " + data.name + "\nEmail: " + data.email + "\nRole: " + data.role + "\nNote: " + (data.note || "");

@@ -1,0 +1,33 @@
+{
+  "attestationFormat": "0.1",
+  "subject": {
+    "server": "saktum-check",
+    "version": "0.4.0",
+    "transport": "stdio",
+    "target": "npx -y saktum@0.4.0 mcp",
+    "toolsFingerprint": "sha256:65eee9929cabdf5a00c361e4780c8b72ab129e7288e002f8264154a57d218291",
+    "toolCount": 6
+  },
+  "claims": {
+    "trustGrade": "A",
+    "readinessGrade": "A",
+    "trustScore": 100,
+    "readinessScore": 100,
+    "evidence": {
+      "responds": true,
+      "conformant": true,
+      "safeByDefault": true,
+      "agentReady": true
+    },
+    "assuranceLevel": "L1"
+  },
+  "checkedAt": "2026-11-24T00:13:50.519Z",
+  "checkedWith": "Saktum Check 0.4.0",
+  "resultDigest": "sha256:cb72e51200099cae8dae6b6766665b65953a14da77e9d6a15821e8a6fe9afd05",
+  "note": "Self-tested (L1) unless stated otherwise: the signature proves the attestation was not changed, not that the run was independent. Valid for the tools matching toolsFingerprint.",
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "did:key:z6MkhjZbdxrJYBMJczLx1WUXXuSTbFifUpHD3n3Qfv5DVBnX",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImRpZDprZXk6ejZNa2hqWmJkeHJKWUJNSmN6THgxV1VYWHVTVGJGaWZVcEhEM24zUWZ2NURWQm5YIn0..TOREEjLdksxWY0jnGLR3zKQyHLxciueo9uGkWEMthpUCG-Hf-fLiFaSKN5s_oARTIQToW3hMhReUGPUc3KIQDQ"
+  }
+}
