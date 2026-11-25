@@ -2,15 +2,15 @@
   "resultFormat": "0.1",
   "tool": {
     "name": "saktum-trust-check",
-    "version": "0.4.0"
+    "version": "0.7.0"
   },
   "target": {
     "transport": "stdio",
-    "description": "npx -y saktum@0.4.0 mcp",
+    "description": "npx -y saktum@0.7.0 mcp",
     "protocolVersion": "2025-11-25",
     "serverInfo": {
       "name": "saktum-check",
-      "version": "0.4.0"
+      "version": "0.7.0"
     },
     "toolsFingerprint": "sha256:65eee9929cabdf5a00c361e4780c8b72ab129e7288e002f8264154a57d218291",
     "toolCount": 6
@@ -19,7 +19,7 @@
     {
       "id": "agent-experience",
       "version": "0.1.0",
-      "hash": "sha256:74e60331039c6ea4dea08121da65f1a3c0a3fdae7a52d91d614a4a52ed5df633"
+      "hash": "sha256:2e2532e312b36cc31ab8de3f62eac1eaf9dde785c89f5b8a895272e6920caf93"
     },
     {
       "id": "auth",
@@ -87,6 +87,15 @@
       "title": "Fits common client and model-provider constraints",
       "status": "pass",
       "message": "Tool names and count fit the constraints common to model providers and clients."
+    },
+    {
+      "check": "ax.payments-idempotent",
+      "pack": "agent-experience",
+      "severity": "info",
+      "scored": false,
+      "title": "Tools that move money are idempotent",
+      "status": "pass",
+      "message": "No tools that move money were found."
     },
     {
       "check": "auth.https",
@@ -173,7 +182,7 @@
         "MCP specification: lifecycle"
       ],
       "status": "pass",
-      "message": "Initialized saktum-check 0.4.0 in 4113 ms."
+      "message": "Initialized saktum-check 0.7.0 in 4760 ms."
     },
     {
       "check": "conf.tools.list",
@@ -294,7 +303,7 @@
       "scored": false,
       "title": "Start-up and handshake time",
       "status": "info",
-      "message": "Started and completed the handshake in 4113 ms, including the time npx takes to resolve or download the package. Run again, or start the server directly, to measure its own start-up."
+      "message": "Started and completed the handshake in 4760 ms, including the time npx takes to resolve or download the package. Run again, or start the server directly, to measure its own start-up."
     },
     {
       "check": "perf.latency",
@@ -303,7 +312,7 @@
       "scored": false,
       "title": "Tool-list latency and size",
       "status": "info",
-      "message": "Listed tools in 8 ms (5 KB)."
+      "message": "Listed tools in 6 ms (5 KB)."
     },
     {
       "check": "perf.memory",
@@ -448,8 +457,8 @@
     "contextCostPer1kTurnsUsd": 3.95,
     "pricePerMTokUsd": 3,
     "performance": {
-      "initMs": 4113,
-      "listMs": 8,
+      "initMs": 4760,
+      "listMs": 6,
       "listBytes": 5266
     }
   },
@@ -481,6 +490,14 @@
     "lethalTrifecta": false,
     "note": "Inferred from annotations, tool names, descriptions and argument names; it describes what the tools appear able to do, not a finding."
   },
+  "riskTier": {
+    "tier": "R0",
+    "label": "reads public information",
+    "reasons": [
+      "only reads; no capability that changes data, moves money or runs code was found"
+    ],
+    "requirement": "L2 (conformant)"
+  },
   "functional": {
     "ran": false,
     "reason": "Tools are called only with --active, against servers you own.",
@@ -489,8 +506,8 @@
     "calls": []
   },
   "run": {
-    "startedAt": "2026-11-24T00:13:50.519Z",
-    "durationMs": 4402,
+    "startedAt": "2026-11-25T20:58:48.630Z",
+    "durationMs": 5071,
     "mode": "passive",
     "runner": "self",
     "sandbox": "none"
@@ -503,6 +520,6 @@
   "signature": {
     "alg": "EdDSA",
     "kid": "did:key:z6MkhjZbdxrJYBMJczLx1WUXXuSTbFifUpHD3n3Qfv5DVBnX",
-    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImRpZDprZXk6ejZNa2hqWmJkeHJKWUJNSmN6THgxV1VYWHVTVGJGaWZVcEhEM24zUWZ2NURWQm5YIn0..3GH68uq_T8sagtAsxyJ6tRPdJeQIHqvjsVn-bTBvhbPmuDSapXqlDa19mEjXXFjjdK2u11SGFQ6qEAmmiDKgBQ"
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImRpZDprZXk6ejZNa2hqWmJkeHJKWUJNSmN6THgxV1VYWHVTVGJGaWZVcEhEM24zUWZ2NURWQm5YIn0..Tb-GPwsdrP3zbLliwEj49SbVbZ6Gn37PxbWUSDqoJIQs8cnNuoa-v0KTAIDAGzkTZUJZ6dDhVHAofhNCcVZrAA"
   }
 }
