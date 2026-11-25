@@ -86,11 +86,31 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
 .persona .outcome{font-size:13px;font-weight:600;color:var(--ok)}
 @media (max-width:900px){.hub{grid-template-columns:1fr}.hub .core{margin:0 auto}.calc{grid-template-columns:1fr}.tiers{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.tiers{grid-template-columns:1fr}}
+
+/* v0.6.1: permissions and risk */
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.rung{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:4px}
+.rung .t{font:700 18px var(--mono)}.rung b{font-size:14px}.rung small{font-size:12.5px;color:var(--ink-2)}
+.rung.r0 .t{color:var(--ok)}.rung.r1 .t{color:var(--ok)}.rung.r2 .t{color:var(--accent)}.rung.r3 .t{color:var(--warn)}.rung.r4{border-color:var(--warn)}.rung.r4 .t{color:var(--bad)}
+.dial{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.dial div{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--soft)}.dial b{display:block}.dial small{color:var(--ink-2);font-size:13px}
+.term{background:#14121c;color:#e9e7f5;border-radius:14px;padding:14px 16px;font:12.5px/1.65 var(--mono);overflow-x:auto;margin-top:14px;white-space:pre}
+.term .ok{color:#8ee39a}.term .no{color:#ff9a8f}.term .h{color:#b6a8ff}
+.democta{display:inline-flex;gap:10px;align-items:center;margin-top:14px;padding:8px 12px;border:1px dashed var(--accent);border-radius:12px;font-size:14px}.democta code{font:600 14px var(--mono)}
+@media (max-width:900px){.ladder{grid-template-columns:1fr 1fr}.dial{grid-template-columns:1fr}}
+
+.econ{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.phase{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card);display:flex;flex-direction:column;gap:6px}
+.phase .yr{font:600 12px var(--mono);color:var(--accent)}.phase b{font-size:15px}.phase small{color:var(--ink-2);font-size:13px}.phase .role{margin-top:auto;font-size:13px;font-weight:600;color:var(--ok)}
+.phase.now{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-2)}
+@media (max-width:900px){.econ{grid-template-columns:1fr 1fr}}@media (max-width:560px){.econ{grid-template-columns:1fr}}
+
+.qs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.q{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card)}
+.q b{display:block;font-size:15px}.q .yes{font:700 12px var(--mono);color:var(--ok);letter-spacing:.06em}.q small{color:var(--ink-2);font-size:13px}.q code{font-size:12px}
+.lifecycle{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.lifecycle span{border:1px solid var(--accent);border-radius:999px;padding:6px 12px;font-size:14px}
+@media (max-width:760px){.qs{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header class="nav"><div class="wrap"><a class="logo" href="#top">Saktum</a>
-<nav class="links" aria-label="Main"><a href="#see">See it</a><a href="#how">How it works</a><a href="#who">Who it's for</a><a href="#proof">Proof</a><a href="#roi">Business case</a><a href="#pricing">Pricing</a><a href="#roadmap">Roadmap</a><a href="/guide">Developers</a><a href="#enterprise">Enterprises</a><a href="/demo">Demo</a></nav>
+<nav class="links" aria-label="Main"><a href="#see">See it</a><a href="#how">How it works</a><a href="#who">Who it's for</a><a href="#proof">Proof</a><a href="#permissions">Instructions</a><a href="#questions">Seven questions</a><a href="#roi">Business case</a><a href="#pricing">Pricing</a><a href="#roadmap">Roadmap</a><a href="/guide">Developers</a><a href="#enterprise">Enterprises</a><a href="/demo">Demo</a></nav>
 <a class="btn primary small hide-s" href="#start">Get started</a></div></header>
 
 <main id="top">
@@ -98,8 +118,8 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   <div>
     <div class="eyebrow">The trust layer for AI agents</div>
     <h1>Trust you can verify, for AI agents and the tools they use.</h1>
-    <p class="lede">Test any MCP server, give every agent an identity and a mandate, and keep signed proof of every call. Open source. Free to start.</p>
-    <div class="ctas"><a class="btn primary" href="#start">Try it in 60 seconds</a><a class="btn" href="/demo">See the demo</a><a class="btn" href="#enterprise">For enterprises</a></div>
+    <p class="lede">Govern what agents are allowed to do, and prove what they did: identity, instructions, data, and a signed receipt for every action, even when an agent is tricked. Open source. Free to start.</p>
+    <div class="ctas"><a class="btn primary" href="#start">Try it in 60 seconds</a><a class="btn" href="/demo">See the demo</a><a class="btn" href="#enterprise">For enterprises</a></div><div class="democta">See it in 60 seconds: <code>npx saktum demo</code></div>
     <p class="muted" style="margin-top:14px;font-size:14px">Listed on the official MCP Registry · 2 public ecosystem censuses · Apache-2.0</p>
   </div>
   <div class="card" aria-label="Example MCP Server Passport">
@@ -149,6 +169,42 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   </div>
 </div></section>
 
+<section id="permissions" class="tight"><div class="wrap">
+  <div class="eyebrow">Permissions and risk</div><h2>Agents that follow your instructions</h2><p class="sub">Not just limits: preferences, substitutions, upsells, fees, and risk. Every decision explained and signed.</p>
+  <div class="ladder">
+    <div class="rung r0"><span class="t">R0</span><b>Reads public data</b><small>Needs: conformant (L2)</small></div>
+    <div class="rung r1"><span class="t">R1</span><b>Reads private data</b><small>Needs: safe by default (L3)</small></div>
+    <div class="rung r2"><span class="t">R2</span><b>Changes data</b><small>Needs: agent-ready (L4) and a mandate</small></div>
+    <div class="rung r3"><span class="t">R3</span><b>Irreversible or external</b><small>Needs: L5, approvals, receipts</small></div>
+    <div class="rung r4"><span class="t">R4</span><b>Moves money or runs code</b><small>Needs: L5, enforced caps, approvals, receipts, monitoring</small></div>
+  </div>
+  <div class="dial">
+    <div><b>Notify</b><small>“Only alert me to great deals.” It finds, it never acts.</small></div>
+    <div><b>Propose</b><small>“Suggest, and I’ll approve.” Every action waits for you.</small></div>
+    <div><b>Act, within limits</b><small>“Up to $50, ask me above $25.” Caps enforced before the call.</small></div>
+  </div>
+  <div class="term" role="img" aria-label="Output of npx saktum demo"><span class="h">── Grocery: weekly groceries, my usual brands, at most 2 of each, never alcohol</span>
+   <span class="ok">✓</span> adds oat milk                          · matches preference: the usual brand
+   <span class="no">⛔</span> adds 5 bags of apples                 at most 2 of each item
+   <span class="ok">✓</span> substitutes rye for sourdough (+6%)   ! substitution, within policy
+   <span class="no">⛔</span> substitutes another baby food brand   never substitute baby food
+   <span class="no">⛔</span> upgrades to premium coffee            an upgrade: asks you first
+   <span class="ok">✓</span> adds a snack bar                      ! sponsored option chosen
+   <span class="no">⛔</span> tricked by a hidden instruction: 10 gift cards, pay QuickCash   both stopped
+   <span class="no">⛔</span> after you press stop                  revoked
+<span class="h">── Travel: Montreal, refundable, at most one stop, aisle seat</span>
+   <span class="no">⛔</span> cheapest fare, 2 stops                at most one connection
+   <span class="ok">✓</span> books Maple Air, 1 stop, refundable   · matches preference: loyalty
+   <span class="no">⛔</span> shares your passport with a hotel     data not permitted
+   <span class="no">⛔</span> $45 extra-legroom seat                a fee: asks you first
+<span class="h">── Finance: confidential data only to the auditor; I approve invoices above $10,000</span>
+   <span class="no">⛔</span> confidential forecast to a partner    data not permitted
+   <span class="no">⛔</span> $12,000 invoice                       approval needed → you approve exactly that one
+   <span class="ok">✓</span> retries the same invoice              approved by you, once
+   27 signed receipts · verified · countersigned by each operator</div>
+  <p class="muted" style="margin-top:8px">Real output of <code>npx saktum demo</code>. Blocked steps never reach the store or airline. Each agent’s passport shows its instructions in plain words, its track record, and why for every step.</p>
+</div></section>
+
 <section id="proof"><div class="wrap">
   <div class="eyebrow">Proof, not promises</div><h2>We tested the MCP ecosystem</h2><p class="sub">State of MCP Trust, December 2026: an open census run with Saktum.</p>
   <div class="stats">
@@ -168,6 +224,12 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
     <div class="card"><div class="q">AI judging AI</div><div class="a">Deterministic, signed checks that auditors can reproduce</div></div>
     <div class="card"><div class="q">Check the agent's final answer</div><div class="a">Check the path: which tools, how often, in what order</div></div>
   </div>
+</div></section>
+
+<section id="questions" class="tight"><div class="wrap">
+  <div class="eyebrow">For boards and security teams</div><h2>The seven questions boards ask about agents</h2><p class="sub">Saktum answers each one with evidence, not promises.</p>
+  <div class="qs"><div class="q"><span class="yes">YES</span><b>Can we tell agent actions from human ones?</b><small>Every call carries the agent’s own identity, its principal and its operator, in a signed receipt. <code>receipts</code></small></div><div class="q"><span class="yes">YES</span><b>Can agents be limited to only the tools and data they need?</b><small>Mandates grant tools, action classes, rules and counterparties. Everything else is refused. <code>--intent</code></small></div><div class="q"><span class="yes">YES</span><b>Can we stop sensitive data leaving approved boundaries?</b><small>Personal and classified data go only to the recipients the mandate names. <code>data-not-permitted</code></small></div><div class="q"><span class="yes">YES</span><b>Can we defend against prompt injection?</b><small>Even when an agent is tricked, the mandate holds: every call is checked before it reaches the tool. <code>demo: gift cards stopped</code></small></div><div class="q"><span class="yes">YES</span><b>Can high-risk actions require human approval?</b><small>The owner signs approval of exactly that action, once. The receipt records who approved it. <code>agent approve</code></small></div><div class="q"><span class="yes">YES</span><b>Can we audit what happened afterwards?</b><small>Signed, hash-chained receipts, verifiable by anyone, exportable to your security tools. <code>receipts verify · --otel</code></small></div><div class="q"><span class="yes">YES</span><b>Can we show what agents did, and why?</b><small>Each receipt records the rules checked, preferences applied and anything flagged; passports add a track record. <code>passport --agent</code></small></div></div>
+  <div class="lifecycle"><span>Onboard: <code>agent create</code> + operator countersignature</span><span>Review: the track record</span><span>Offboard: <code>agent revoke</code>, effective at once</span></div>
 </div></section>
 
 <section id="interop" class="tight"><div class="wrap">
@@ -215,6 +277,16 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
     <div class="card"><h3>Prove</h3><p class="muted">Signed receipts and an executive assessment for security and governance.</p></div>
   </div>
   <div class="ctas"><a class="btn primary" href="#start" data-interest="Gateway design partner">Discuss a pilot</a><a class="btn" href="#start" data-interest="Verified certification (early access)">Verified certification (early access)</a><a class="btn" href="https://github.com/soodhere/saktum-check/blob/main/docs/ENTERPRISE.md">Enterprise guide</a></div>
+</div></section>
+
+<section id="economy" class="tight"><div class="wrap">
+  <div class="eyebrow">Why now</div><h2>Built for the agent economy</h2><p class="sub">As agents move from helping to transacting, trust has to travel with them.</p>
+  <div class="econ">
+    <div class="phase"><span class="yr">2025–26</span><b>Assistive</b><small>Copilots and tools inside companies.</small><span class="role">Saktum: test and fix</span></div>
+    <div class="phase now"><span class="yr">2026–27</span><b>Delegated</b><small>Agents act in workflows. Governance becomes mandatory.</small><span class="role">Saktum: policy and evidence</span></div>
+    <div class="phase"><span class="yr">2027–29</span><b>Transacting</b><small>Agents buy, book and procure for people and firms. Disputes and loyalty questions grow.</small><span class="role">Saktum: mandates and receipts between parties</span></div>
+    <div class="phase"><span class="yr">2029+</span><b>Regulated</b><small>Rules on agent loyalty, disclosure and liability.</small><span class="role">Saktum: the neutral trust layer</span></div>
+  </div>
 </div></section>
 
 <section id="pricing" class="tight"><div class="wrap">
