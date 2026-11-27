@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Verify it yourself · Saktum</title>
+<style>:root{--bg:#f7f7fb;--card:#fff;--ink:#16161d;--ink-2:#55556a;--line:#e3e2ec;--accent:#5a3fc0;--accent-2:#ece8fb;--ok:#2e7d32;--warn:#b7791f;--soft:#f1f0f7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f0f15;--card:#18181f;--ink:#ededf5;--ink-2:#a6a6ba;--line:#2b2b38;--accent:#9a86ef;--accent-2:#252038;--ok:#7fd287;--warn:#f0c060;--soft:#1e1e28;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f0f15;--card:#18181f;--ink:#ededf5;--ink-2:#a6a6ba;--line:#2b2b38;--accent:#9a86ef;--accent-2:#252038;--ok:#7fd287;--warn:#f0c060;--soft:#1e1e28;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}a{color:var(--accent)}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar::-webkit-scrollbar{display:none}.bar{scrollbar-width:none;max-width:980px;margin:0 auto;padding:10px 18px;display:flex;gap:16px;align-items:center;overflow-x:auto;white-space:nowrap}.bar b a{color:var(--ink);text-decoration:none}.bar a{color:var(--ink-2);text-decoration:none;font-size:14px}
+main{max-width:980px;margin:0 auto;padding:24px 18px 60px}h1{font-size:clamp(28px,5vw,40px);margin:8px 0}h2{margin:32px 0 10px;font-size:22px}.k{color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:13px}.muted{color:var(--ink-2)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0}.wrap{overflow-x:auto}table{border-collapse:collapse;width:100%}td,th{border-top:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:top}
+.tag{display:inline-block;font:600 12px ui-monospace,Menlo,Consolas,monospace;padding:2px 8px;border-radius:999px;border:1px solid var(--line)}.live{color:var(--ok);border-color:var(--ok)}.next{color:var(--accent);border-color:var(--accent)}.later{color:var(--warn);border-color:var(--warn)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:10px 16px;font-weight:600}code{font:14px ui-monospace,Menlo,Consolas,monospace}</style></head><body>
+<header><nav class="bar"><b><a href="/">Saktum</a></b><a href="/demo">Demo</a><a href="/enterprise">Enterprise</a><a href="/security">Security</a><a href="/guide">Developer guide</a><a href="/report">Report</a></nav></header><main><div class="k">Don't trust us: verify</div><h1>Verify it yourself</h1>
+<p class="muted">Paste a passport result, attestation, mandate, credential, agreement, approval, checkpoint, or a receipt log (one entry per line). Your browser checks every signature and hash chain locally with WebCrypto. Nothing is uploaded.</p>
+<div class="card"><textarea id="in" spellcheck="false" style="width:100%;min-height:220px;font:13px ui-monospace,Menlo,Consolas,monospace;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink)" placeholder='{"...": "...", "signature": {"alg": "EdDSA", "kid": "did:key:z6Mk...", "jws": "..."}}'></textarea>
+<p><button id="go" class="btn" style="border:0;cursor:pointer">Verify</button> <label class="muted" style="margin-left:10px">or open a file <input id="file" type="file" accept=".json,.jsonl,.txt"></label></p><div id="out"></div></div>
+<div class="card"><b>How it works</b><p class="muted">Saktum signs documents with Ed25519 keys identified by did:key. The signed content is the document without its signature, in canonical JSON (compatible with RFC 8785). Receipt logs are also hash-chained: each entry includes the previous entry's hash, so any edit breaks the chain from that point. Checkpoints, verified on the command line, also detect deletions.</p></div>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+function canon(v){if(v===null||typeof v==="boolean"||typeof v==="string")return JSON.stringify(v);if(typeof v==="number"){if(!isFinite(v))throw new Error("non-finite number");return JSON.stringify(v);}
+ if(Array.isArray(v))return "["+v.map(x=>x===undefined?"null":canon(x)).join(",")+"]";const k=Object.keys(v).filter(x=>v[x]!==undefined).sort();return "{"+k.map(x=>JSON.stringify(x)+":"+canon(v[x])).join(",")+"}";}
+const A="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+function b58(s){let n=[0];for(const c of s){const i=A.indexOf(c);if(i<0)throw new Error("bad base58");let carry=i;for(let j=0;j<n.length;j++){carry+=n[j]*58;n[j]=carry&255;carry>>=8;}while(carry){n.push(carry&255);carry>>=8;}}for(const c of s){if(c==="1")n.push(0);else break;}return new Uint8Array(n.reverse());}
+const ub=s=>Uint8Array.from(atob(s.replace(/-/g,"+").replace(/_/g,"/")+"===".slice((s.length+3)%4)),c=>c.charCodeAt(0));
+const enc=new TextEncoder();
+const b64u=bytes=>{let s="";for(const b of bytes)s+=String.fromCharCode(b);return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");};
+async function verifyReceipt(r){const sigs=(r&&r.signatures)||[];if(!sigs.length)return{ok:false,why:"no signature"};const rest=Object.assign({},r);delete rest.signatures;for(const sg of sigs){const v=await verifyDoc(Object.assign({},rest,{signature:sg}));if(!v.ok)return v;}return{ok:true,why:"",kid:sigs[0].kid};}
+async function sha256tag(s){const h=await crypto.subtle.digest("SHA-256",enc.encode(s));return "sha256:"+[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("");}
+async function verifyDoc(doc){const s=doc&&doc.signature;if(!s||!s.jws)return{ok:false,why:"no signature"};const p=s.jws.split(".");if(p.length!==3||p[1]!=="")return{ok:false,why:"malformed signature"};
+ const h=JSON.parse(new TextDecoder().decode(ub(p[0])));if(h.alg!=="EdDSA"||h.kid!==s.kid)return{ok:false,why:"header does not match"};
+ const raw=b58(String(s.kid).replace(/^did:key:z/,""));if(raw[0]!==0xed||raw[1]!==0x01||raw.length!==34)return{ok:false,why:"not an Ed25519 did:key"};
+ const body=Object.assign({},doc);delete body.signature;["operatorCountersign","chain","countersignature","witnesses"].forEach(k=>delete body[k]);const payload=b64u(enc.encode(canon(body)));
+ let key;try{key=await crypto.subtle.importKey("raw",raw.slice(2),{name:"Ed25519"},false,["verify"]);}catch(e){return{ok:false,why:"this browser cannot verify Ed25519 yet (try a current Chrome, Edge, Firefox or Safari)"};}
+ const ok=await crypto.subtle.verify({name:"Ed25519"},key,ub(p[2]),enc.encode(p[0]+"."+payload));return{ok,why:ok?"":"signature does not match the content",kid:s.kid};}
+const line=(ok,t)=>'<p style="margin:6px 0">'+(ok?'<b style="color:var(--ok)">\u2713</b> ':'<b style="color:#c62828">\u2717</b> ')+String(t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))+'</p>';
+async function run(){const text=$("in").value.trim();const out=$("out");out.innerHTML="";if(!text)return;let html="";
+ try{const lines=text.split("\n").filter(l=>l.trim());
+  if(lines.length>1&&lines.every(l=>l.trim().startsWith("{")&&l.includes('"entryHash"'))){
+   const entries=lines.map(l=>JSON.parse(l));let prev="sha256:genesis",bad=0,rows="";
+   for(const e of entries){const base=Object.assign({},e);delete base.entryHash;const h=await sha256tag(canon(base));const v=await verifyReceipt(e.receipt);
+     const okChain=e.prevHash===prev&&h===e.entryHash;if(!okChain||!v.ok)bad++;rows+=line(okChain&&v.ok,"entry "+e.seq+" ("+(e.receipt&&e.receipt.envelope?e.receipt.envelope.tool:"?")+"): "+(okChain&&v.ok?"signed and chained":(okChain?"":"chain broken here ")+(v.ok?"":"signature: "+v.why)));prev=e.entryHash;}
+   html=line(bad===0,entries.length+" receipts: "+(bad===0?"every signature valid and the chain unbroken":bad+" problem(s) found"))+rows;
+  }else{const doc=JSON.parse(text);const v=await verifyDoc(doc);html+=line(v.ok,v.ok?"Valid signature by "+v.kid:"Not valid: "+v.why);
+   if(Array.isArray(doc.chain)){for(const c of doc.chain){const x=Object.assign({},c);delete x.chain;const r=await verifyDoc(x);html+=line(r.ok,"chain link: "+(c.subject&&c.subject.name)+(r.ok?"":" ("+r.why+")"));}}
+   if(doc.operatorCountersign){const r=await verifyDoc(doc.operatorCountersign);html+=line(r.ok,"operator countersignature "+(r.ok?"valid":"not valid"));}
+   if(doc.countersignature){const r=await verifyDoc(doc.countersignature);html+=line(r.ok,"invoker countersignature "+(r.ok?"valid":"not valid"));}}
+ }catch(e){html=line(false,"Could not read that: "+e.message);}
+ out.innerHTML=html;}
+$("go").onclick=run;$("file").onchange=async e=>{const f=e.target.files[0];if(f){$("in").value=await f.text();run();}};
+</script>
+<p class="muted" style="margin-top:40px"><a href="/">Home</a> · <a href="/security">Security</a> · <a href="/enterprise">Enterprise</a> · <a href="/privacy">Privacy</a></p></main></body></html>
