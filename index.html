@@ -18,7 +18,7 @@ a{color:var(--accent)}.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 .nav .wrap{display:flex;align-items:center;gap:18px;height:58px}.logo{font-weight:700;font-size:19px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
-.nav .links{display:flex;gap:16px;overflow-x:auto;white-space:nowrap;flex:1}.nav .links a{color:var(--ink-2);text-decoration:none;font-size:14.5px}.nav .links a:hover{color:var(--accent)}
+.nav .links{display:flex;gap:18px;overflow-x:auto;white-space:nowrap;flex:1;scrollbar-width:none;-ms-overflow-style:none}.nav .links::-webkit-scrollbar{display:none}.nav .links a{color:var(--ink-2);text-decoration:none;font-size:14.5px}.nav .links a:hover{color:var(--accent)}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;cursor:pointer}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.small{padding:7px 12px;font-size:14px}
 section{padding:64px 0}section.tight{padding:40px 0}.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.07em;text-transform:uppercase;font-size:12.5px}
@@ -113,11 +113,14 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
 .gov{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}.fw{width:100%;border-collapse:collapse;font-size:14px}.fw td,.fw th{border-top:1px solid var(--line);padding:7px 6px;text-align:left}.fw td:nth-child(n+2),.fw th:nth-child(n+2){text-align:center}
 .alad{display:flex;flex-direction:column;gap:6px}.alad div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);font-size:14px}.alad b{font:700 13px var(--mono);color:var(--accent);margin-right:8px}
 @media (max-width:900px){.gov{grid-template-columns:1fr}}
+
+.resgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.res{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card);text-decoration:none;color:var(--ink)}.res:hover{border-color:var(--accent)}.res span{font-size:13px;color:var(--ink-2)}
+@media (max-width:900px){.resgrid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <header class="nav"><div class="wrap"><a class="logo" href="#top">Saktum</a>
-<nav class="links" aria-label="Main"><a href="#see">See it</a><a href="#how">How it works</a><a href="#who">Who it's for</a><a href="#proof">Proof</a><a href="#permissions">Instructions</a><a href="#questions">Seven questions</a><a href="#marketplace">Marketplace</a><a href="#governance">Governance</a><a href="#roi">Business case</a><a href="#pricing">Pricing</a><a href="/enterprise">Enterprise</a><a href="#roadmap">Roadmap</a><a href="/guide">Developers</a><a href="#enterprise">Enterprises</a><a href="/demo">Demo</a></nav>
+<nav class="links" aria-label="Main"><a href="/demo">Demo</a><a href="#how">How it works</a><a href="/enterprise">Enterprise</a><a href="#pricing">Pricing</a><a href="/guide">Developers</a></nav>
 <a class="btn primary small hide-s" href="#start">Get started</a></div></header>
 
 <main id="top">
@@ -165,17 +168,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   <div class="gatelabel">BUILD · BUY · RUN — <a href="/guide">every command in the developer guide →</a></div>
 </div></section>
 
-<section id="who" class="tight"><div class="wrap">
-  <div class="eyebrow">Who it's for</div><h2>Find yourself in ten seconds</h2><p class="sub">Five people, five problems. Then walk through it in the <a href="/demo">interactive demo</a>. Outcomes are illustrative.</p>
-  <div class="personas">
-    <div class="card persona"><div class="avatar">🛠️</div><div class="who">Maya</div><div class="role">builds an MCP server</div><p>“I want agents, and the companies behind them, to choose my server.”</p><p class="gets">Grades, fixes and a public passport that proves it.</p><div class="demo"><b>IN THE DEMO</b>You’ll see her server graded, the fix written for her, and her passport going public.</div><div class="outcome">→ An A grade and a public passport in an afternoon.</div><div class="links2"><a href="/guide#build">Start building →</a><a href="/demo#maya">See it in the demo →</a></div></div>
-    <div class="card persona"><div class="avatar">🤖</div><div class="who">Arjun</div><div class="role">builds AI agents</div><p>“My agent uses twelve servers. Which ones can I trust, and what do they cost?”</p><p class="gets">Set-up scan, mandates and receipts for every call.</p><div class="demo"><b>IN THE DEMO</b>You’ll see his agent blocked from a write it was never allowed, with the receipt to prove it.</div><div class="outcome">→ Tool costs cut by a third; every call on record.</div><div class="links2"><a href="/guide#govern">Govern your agent →</a><a href="/demo#arjun">See it in the demo →</a></div></div>
-    <div class="card persona"><div class="avatar">🛡️</div><div class="who">Dana</div><div class="role">CISO</div><p>“Which MCP servers are people using right now, and are they safe?”</p><p class="gets">Organisation-wide inventory, policy as code, firewall allowlists.</p><div class="demo"><b>IN THE DEMO</b>You’ll see every MCP server across her company on one page, checked against her policy.</div><div class="outcome">→ Every unvetted server found in a morning.</div><div class="links2"><a href="#enterprise">Run a pilot →</a><a href="/demo#dana">See it in the demo →</a></div></div>
-    <div class="card persona"><div class="avatar">📋</div><div class="who">Leo</div><div class="role">AI governance and risk</div><p>“Auditors ask what our agents did. I need evidence, not screenshots.”</p><p class="gets">Signed receipts, executive assessments, security packets.</p><div class="demo"><b>IN THE DEMO</b>You’ll see the path an agent took, as signed receipts an auditor can verify.</div><div class="outcome">→ Audit evidence in hours, not weeks.</div><div class="links2"><a href="#enterprise">See the evidence →</a><a href="/demo#leo">See it in the demo →</a></div></div>
-    <div class="card persona"><div class="avatar">🤝</div><div class="who">Priya</div><div class="role">platform and procurement</div><p>“Vendor reviews for every AI tool take weeks.”</p><p class="gets">Verifiable attestations and passports instead of questionnaires.</p><div class="demo"><b>IN THE DEMO</b>You’ll see a vendor’s passport replacing a two-week questionnaire.</div><div class="outcome">→ Vendor approved in a day instead of three weeks.</div><div class="links2"><a href="https://soodhere.github.io/saktum-index/passports/">Browse passports →</a><a href="/demo#priya">See it in the demo →</a></div></div>
-  </div>
-</div></section>
-
 <section id="permissions" class="tight"><div class="wrap">
   <div class="eyebrow">Permissions and risk</div><h2>Agents that follow your instructions</h2><p class="sub">Not just limits: preferences, substitutions, upsells, fees, and risk. Every decision explained and signed.</p>
   <div class="ladder">
@@ -212,6 +204,17 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   <p class="muted" style="margin-top:8px">Real output of <code>npx saktum demo</code>. Blocked steps never reach the store or airline. Each agent’s passport shows its instructions in plain words, its track record, and why for every step: <a href="https://soodhere.github.io/saktum-index/demo/grocery-passport.html">grocery</a> · <a href="https://soodhere.github.io/saktum-index/demo/travel-passport.html">travel</a> · <a href="https://soodhere.github.io/saktum-index/demo/finance-passport.html">finance</a>.</p>
 </div></section>
 
+<section id="who" class="tight"><div class="wrap">
+  <div class="eyebrow">Who it's for</div><h2>Find yourself in ten seconds</h2><p class="sub">Five people, five problems. Then walk through it in the <a href="/demo">interactive demo</a>. Outcomes are illustrative.</p>
+  <div class="personas">
+    <div class="card persona"><div class="avatar">🛠️</div><div class="who">Maya</div><div class="role">builds an MCP server</div><p>“I want agents, and the companies behind them, to choose my server.”</p><p class="gets">Grades, fixes and a public passport that proves it.</p><div class="demo"><b>IN THE DEMO</b>You’ll see her server graded, the fix written for her, and her passport going public.</div><div class="outcome">→ An A grade and a public passport in an afternoon.</div><div class="links2"><a href="/guide#build">Start building →</a><a href="/demo#maya">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">🤖</div><div class="who">Arjun</div><div class="role">builds AI agents</div><p>“My agent uses twelve servers. Which ones can I trust, and what do they cost?”</p><p class="gets">Set-up scan, mandates and receipts for every call.</p><div class="demo"><b>IN THE DEMO</b>You’ll see his agent blocked from a write it was never allowed, with the receipt to prove it.</div><div class="outcome">→ Tool costs cut by a third; every call on record.</div><div class="links2"><a href="/guide#govern">Govern your agent →</a><a href="/demo#arjun">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">🛡️</div><div class="who">Dana</div><div class="role">CISO</div><p>“Which MCP servers are people using right now, and are they safe?”</p><p class="gets">Organisation-wide inventory, policy as code, firewall allowlists.</p><div class="demo"><b>IN THE DEMO</b>You’ll see every MCP server across her company on one page, checked against her policy.</div><div class="outcome">→ Every unvetted server found in a morning.</div><div class="links2"><a href="#enterprise">Run a pilot →</a><a href="/demo#dana">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">📋</div><div class="who">Leo</div><div class="role">AI governance and risk</div><p>“Auditors ask what our agents did. I need evidence, not screenshots.”</p><p class="gets">Signed receipts, executive assessments, security packets.</p><div class="demo"><b>IN THE DEMO</b>You’ll see the path an agent took, as signed receipts an auditor can verify.</div><div class="outcome">→ Audit evidence in hours, not weeks.</div><div class="links2"><a href="#enterprise">See the evidence →</a><a href="/demo#leo">See it in the demo →</a></div></div>
+    <div class="card persona"><div class="avatar">🤝</div><div class="who">Priya</div><div class="role">platform and procurement</div><p>“Vendor reviews for every AI tool take weeks.”</p><p class="gets">Verifiable attestations and passports instead of questionnaires.</p><div class="demo"><b>IN THE DEMO</b>You’ll see a vendor’s passport replacing a two-week questionnaire.</div><div class="outcome">→ Vendor approved in a day instead of three weeks.</div><div class="links2"><a href="https://soodhere.github.io/saktum-index/passports/">Browse passports →</a><a href="/demo#priya">See it in the demo →</a></div></div>
+  </div>
+</div></section>
+
 <section id="proof"><div class="wrap">
   <div class="eyebrow">Proof, not promises</div><h2>We tested the MCP ecosystem</h2><p class="sub">State of MCP Trust, December 2026: an open census run with Saktum.</p>
   <div class="stats">
@@ -223,15 +226,15 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   <div class="badges"><a class="btn small" href="/report">Read the report</a><a class="btn small" href="/maturity">Open maturity model</a><a class="btn small" href="https://github.com/soodhere/saktum-check">Open source on GitHub</a><span class="pill">Listed on the official MCP Registry</span></div>
 </div></section>
 
-<section class="tight"><div class="wrap">
-  <div class="eyebrow">Why Saktum is different</div><h2>What people ask for, and what actually works</h2>
-  <div class="diff">
-    <div class="card"><div class="q">Private scans of our servers</div><div class="a">Trust that travels: evidence on a public, verifiable ledger</div></div>
-    <div class="card"><div class="q">Block bad agents immediately</div><div class="a">Record every call first, then enforce with real paths in hand</div></div>
-    <div class="card"><div class="q">AI judging AI</div><div class="a">Deterministic, signed checks that auditors can reproduce</div></div>
-    <div class="card"><div class="q">Check the agent's final answer</div><div class="a">Check the path: which tools, how often, in what order</div></div>
+<section id="questions" class="tight"><div class="wrap">
+  <div class="eyebrow">For boards and security teams</div><h2>The seven questions boards ask about agents</h2><p class="sub">Saktum answers each one with evidence, not promises.</p>
+  <div class="qs"><div class="q"><span class="yes">YES</span><b>Can we tell agent actions from human ones?</b><small>Every call carries the agent’s own identity, its principal and its operator, in a signed receipt. <code>receipts</code></small></div><div class="q"><span class="yes">YES</span><b>Can agents be limited to only the tools and data they need?</b><small>Mandates grant tools, action classes, rules and counterparties. Everything else is refused. <code>--intent</code></small></div><div class="q"><span class="yes">YES</span><b>Can we stop sensitive data leaving approved boundaries?</b><small>Personal and classified data go only to the recipients the mandate names. <code>data-not-permitted</code></small></div><div class="q"><span class="yes">YES</span><b>Can we defend against prompt injection?</b><small>Even when an agent is tricked, the mandate holds: every call is checked before it reaches the tool. <code>demo: gift cards stopped</code></small></div><div class="q"><span class="yes">YES</span><b>Can high-risk actions require human approval?</b><small>The owner signs approval of exactly that action, once. The receipt records who approved it. <code>agent approve</code></small></div><div class="q"><span class="yes">YES</span><b>Can we audit what happened afterwards?</b><small>Signed, hash-chained receipts, verifiable by anyone, exportable to your security tools. <code>receipts verify · --otel</code></small></div><div class="q"><span class="yes">YES</span><b>Can we show what agents did, and why?</b><small>Each receipt records the rules checked, preferences applied and anything flagged; passports add a track record. <code>passport --agent</code></small></div></div>
+  <div class="lifecycle"><span>Onboard: <code>agent create</code> + operator countersignature</span><span>Review: the track record</span><span>Offboard: <code>agent revoke</code>, effective at once</span></div>
+<h3 style="margin:26px 0 10px;font-size:18px">Evidence mapped to the frameworks you are held to</h3><div class="gov">
+    <div class="card"><table class="fw"><tr><th>Framework</th><th>Covered</th><th>Partly</th><th>Not covered</th></tr><tr><td>EU AI Act</td><td>3</td><td>3</td><td>1</td></tr><tr><td>NIST AI RMF</td><td>2</td><td>2</td><td>0</td></tr><tr><td>ISO/IEC 42001</td><td>3</td><td>2</td><td>0</td></tr><tr><td>OWASP LLM Top 10</td><td>3</td><td>2</td><td>0</td></tr><tr><td>DORA and NIS2</td><td>0</td><td>2</td><td>0</td></tr><tr><td>GDPR and DPDP Act</td><td>0</td><td>3</td><td>0</td></tr></table><p class="muted" style="font-size:13px;margin:8px 0 0">Saktum supports evidence; it never claims compliance. Details: <code>npx saktum evidence --framework all</code>.</p></div>
+    <div><div class="alad"><div><b>A1</b>Identified: <span class="muted">its own identity and a signed mandate</span></div><div><b>A2</b>Accountable: <span class="muted">traceable to a person and an organisation</span></div><div><b>A3</b>Bounded: <span class="muted">least privilege, approvals for risky actions</span></div><div><b>A4</b>Explained: <span class="muted">a signed receipt and reason for every decision</span></div><div><b>A5</b>Proven: <span class="muted">a clean track record over real actions</span></div></div><p class="muted" style="font-size:13px;margin:8px 0 0">Agent maturity, earned from evidence like the server levels L1–L5. Never a score.</p></div>
   </div>
-</div></section>
+</div></div></section>
 
 <section id="marketplace" class="tight"><div class="wrap">
   <div class="eyebrow">From trust to a marketplace</div><h2>Agents that find tools, agree terms and pay per call</h2><p class="sub">Every party accountable, every call metered and on record. No money handled: prepaid tokens, settled outside Saktum.</p>
@@ -247,18 +250,10 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   <p class="muted" style="margin-top:8px">Real output of <code>npx saktum demo --story marketplace</code> · <a href="https://soodhere.github.io/saktum-index/demo/marketplace-passport.html">the agent’s passport</a>.</p>
 </div></section>
 
-<section id="questions" class="tight"><div class="wrap">
-  <div class="eyebrow">For boards and security teams</div><h2>The seven questions boards ask about agents</h2><p class="sub">Saktum answers each one with evidence, not promises.</p>
-  <div class="qs"><div class="q"><span class="yes">YES</span><b>Can we tell agent actions from human ones?</b><small>Every call carries the agent’s own identity, its principal and its operator, in a signed receipt. <code>receipts</code></small></div><div class="q"><span class="yes">YES</span><b>Can agents be limited to only the tools and data they need?</b><small>Mandates grant tools, action classes, rules and counterparties. Everything else is refused. <code>--intent</code></small></div><div class="q"><span class="yes">YES</span><b>Can we stop sensitive data leaving approved boundaries?</b><small>Personal and classified data go only to the recipients the mandate names. <code>data-not-permitted</code></small></div><div class="q"><span class="yes">YES</span><b>Can we defend against prompt injection?</b><small>Even when an agent is tricked, the mandate holds: every call is checked before it reaches the tool. <code>demo: gift cards stopped</code></small></div><div class="q"><span class="yes">YES</span><b>Can high-risk actions require human approval?</b><small>The owner signs approval of exactly that action, once. The receipt records who approved it. <code>agent approve</code></small></div><div class="q"><span class="yes">YES</span><b>Can we audit what happened afterwards?</b><small>Signed, hash-chained receipts, verifiable by anyone, exportable to your security tools. <code>receipts verify · --otel</code></small></div><div class="q"><span class="yes">YES</span><b>Can we show what agents did, and why?</b><small>Each receipt records the rules checked, preferences applied and anything flagged; passports add a track record. <code>passport --agent</code></small></div></div>
-  <div class="lifecycle"><span>Onboard: <code>agent create</code> + operator countersignature</span><span>Review: the track record</span><span>Offboard: <code>agent revoke</code>, effective at once</span></div>
-</div></section>
-
-<section id="governance" class="tight"><div class="wrap">
-  <div class="eyebrow">AI governance</div><h2>The agent-controls layer of AI governance</h2><p class="sub">Identity, least privilege, tool permissions, human oversight and audit, with evidence mapped to the frameworks you are held to.</p>
-  <div class="gov">
-    <div class="card"><table class="fw"><tr><th>Framework</th><th>Covered</th><th>Partly</th><th>Not covered</th></tr><tr><td>EU AI Act</td><td>3</td><td>3</td><td>1</td></tr><tr><td>NIST AI RMF</td><td>2</td><td>2</td><td>0</td></tr><tr><td>ISO/IEC 42001</td><td>3</td><td>2</td><td>0</td></tr><tr><td>OWASP LLM Top 10</td><td>3</td><td>2</td><td>0</td></tr><tr><td>DORA and NIS2</td><td>0</td><td>2</td><td>0</td></tr><tr><td>GDPR and DPDP Act</td><td>0</td><td>3</td><td>0</td></tr></table><p class="muted" style="font-size:13px;margin:8px 0 0">Saktum supports evidence; it never claims compliance. Details: <code>npx saktum evidence --framework all</code>.</p></div>
-    <div><div class="alad"><div><b>A1</b>Identified: <span class="muted">its own identity and a signed mandate</span></div><div><b>A2</b>Accountable: <span class="muted">traceable to a person and an organisation</span></div><div><b>A3</b>Bounded: <span class="muted">least privilege, approvals for risky actions</span></div><div><b>A4</b>Explained: <span class="muted">a signed receipt and reason for every decision</span></div><div><b>A5</b>Proven: <span class="muted">a clean track record over real actions</span></div></div><p class="muted" style="font-size:13px;margin:8px 0 0">Agent maturity, earned from evidence like the server levels L1–L5. Never a score.</p></div>
-  </div>
+<section id="enterprise" class="tight"><div class="wrap">
+  <div class="eyebrow">For enterprises</div><h2>The MCP Trust Assessment</h2><p class="sub">Four weeks, in your environment, with nothing sent to Saktum. See every MCP server your people use, enforce your policy, govern one agent workflow, and leave with a board-ready report.</p>
+  <div class="ctas"><a class="btn primary" href="/demo#pilot">See the pilot as a journey</a><a class="btn" href="/enterprise">What a pilot delivers</a><a class="btn" href="/security">Security of Saktum</a></div>
+  <p class="muted" style="margin-top:12px">First pilots are free design partnerships. Paid pilots follow from Q2 2027.</p>
 </div></section>
 
 <section id="interop" class="tight"><div class="wrap">
@@ -298,26 +293,6 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
   </div>
 </div></section>
 
-<section id="enterprise"><div class="wrap">
-  <div class="eyebrow">For enterprises</div><h2>The MCP Trust Pilot</h2><p class="sub">Four to six weeks, entirely in your environment. Nothing is sent to us.</p>
-  <div class="steps3">
-    <div class="card"><h3>See</h3><p class="muted">Every MCP server across your teams, with grades, capabilities and cost.</p></div>
-    <div class="card"><h3>Control</h3><p class="muted">Your policy enforced in CI, an allowlist for your MCP firewall, mandates for agents.</p></div>
-    <div class="card"><h3>Prove</h3><p class="muted">Signed receipts and an executive assessment for security and governance.</p></div>
-  </div>
-  <div class="ctas"><a class="btn primary" href="#start" data-interest="Gateway design partner">Discuss a pilot</a><a class="btn" href="#start" data-interest="Verified certification (early access)">Verified certification (early access)</a><a class="btn" href="https://github.com/soodhere/saktum-check/blob/main/docs/ENTERPRISE.md">Enterprise guide</a></div>
-</div></section>
-
-<section id="economy" class="tight"><div class="wrap">
-  <div class="eyebrow">Why now</div><h2>Built for the agent economy</h2><p class="sub">As agents move from helping to transacting, trust has to travel with them.</p>
-  <div class="econ">
-    <div class="phase"><span class="yr">2025–26</span><b>Assistive</b><small>Copilots and tools inside companies.</small><span class="role">Saktum: test and fix</span></div>
-    <div class="phase now"><span class="yr">2026–27</span><b>Delegated</b><small>Agents act in workflows. Governance becomes mandatory.</small><span class="role">Saktum: policy and evidence</span></div>
-    <div class="phase"><span class="yr">2027–29</span><b>Transacting</b><small>Agents buy, book and procure for people and firms. Disputes and loyalty questions grow.</small><span class="role">Saktum: mandates and receipts between parties</span></div>
-    <div class="phase"><span class="yr">2029+</span><b>Regulated</b><small>Rules on agent loyalty, disclosure and liability.</small><span class="role">Saktum: the neutral trust layer</span></div>
-  </div>
-</div></section>
-
 <section id="pricing" class="tight"><div class="wrap">
   <div class="eyebrow">Pricing</div><h2>Free to start. Paid when it protects the business.</h2>
   <div class="tiers">
@@ -339,6 +314,8 @@ footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--ink-2);f
     <div class="ms later"><div class="dot">5</div><div><div class="when">2028</div><h3>Trust between companies</h3><p>Agents of different firms, verified both ways.</p></div></div>
   </div>
 </div></section>
+
+<section id="resources" class="tight"><div class="wrap"><div class="eyebrow">Open by default</div><h2>Resources</h2><div class="resgrid"><a class="res" href="https://soodhere.github.io/saktum-index/passports/"><b>Passport gallery</b><span>Verified servers in the public ledger</span></a><a class="res" href="https://github.com/soodhere/saktum-index/tree/main/docs/ledger"><b>Trust ledger</b><span>Append-only; anyone can verify</span></a><a class="res" href="/report"><b>State of MCP Trust</b><span>The monthly census</span></a><a class="res" href="/maturity"><b>Maturity model</b><span>L1–L5 for servers, A1–A5 for agents</span></a><a class="res" href="https://github.com/soodhere/saktum-check/blob/main/docs/EVIDENCE.md"><b>Evidence crosswalk</b><span>EU AI Act, NIST AI RMF, ISO 42001 and more</span></a><a class="res" href="https://github.com/soodhere/saktum-check/tree/main/contracts"><b>Open contracts</b><span>Schemas and test vectors</span></a><a class="res" href="https://github.com/soodhere/saktum-check"><b>Source code</b><span>Apache-2.0 on GitHub</span></a><a class="res" href="https://registry.modelcontextprotocol.io/v0/servers?search=io.github.soodhere/saktum-check"><b>MCP Registry</b><span>io.github.soodhere/saktum-check</span></a></div></div></section>
 
 <section id="start" class="tight"><div class="wrap">
   <div class="card install"><div><div class="eyebrow">Try it in 60 seconds</div><h3 style="margin-top:6px">Needs Node.js 20 or later. Runs on your machine.</h3></div>
